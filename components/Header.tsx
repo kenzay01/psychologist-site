@@ -2,15 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  MapPin,
-  Phone,
-  Menu,
-  X,
-  Facebook,
-  Instagram,
-  Mail,
-} from "lucide-react";
+import { MapPin, Phone, Menu, X, Send, Instagram, Mail } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +16,7 @@ const Header = () => {
     { href: "/aboutMe", label: "ПРО МЕНЕ" },
     { href: "/dyplomy", label: "ДИПЛОМИ" },
     { href: "/blog", label: "БЛОГ" },
-    { href: "/contact", label: "КОНТАКТИ" },
+    // { href: "/contact", label: "КОНТАКТИ" },
   ];
 
   const servicesLinks = [
@@ -35,16 +27,16 @@ const Header = () => {
   ];
 
   const socialLinks = [
-    { href: "#", icon: Facebook, label: "Facebook" },
+    { href: "#", icon: Send, label: "Telegram" },
     { href: "#", icon: Instagram, label: "Instagram" },
     { href: "#", icon: Mail, label: "Email" },
   ];
 
   return (
-    <header className="relative">
+    <header className="relative z-50">
       <div className="relative z-10">
         {/* Top bar with contact info */}
-        <div className="bg-emerald-700 backdrop-blur-sm hidden sm:block">
+        <div className="bg-teal-600 backdrop-blur-sm hidden sm:block">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="flex justify-between items-center py-3  text-white text-sm">
               <div className="flex items-center space-x-6 ">
@@ -76,37 +68,40 @@ const Header = () => {
         </div>
 
         {/* Main navigation */}
-        <nav className="bg-white/95 backdrop-blur-sm shadow-lg">
+        <nav className="bg-black/95 backdrop-blur-sm shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <div className="flex md:justify-between justify-end items-center py-4">
+            <div className="flex md:justify-between justify-end items-center py-3">
               {/* Desktop navigation */}
               <div className="hidden md:flex items-center space-x-8">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-emerald-700 hover:text-emerald-600 font-medium transition-colors"
+                    className="text-white hover:text-teal-600 font-bold transition-colors"
                   >
                     {link.label}
                   </Link>
                 ))}
 
-                {/* Services dropdown */}
+                {/* Services dropdown - ВИПРАВЛЕНО з невидимим містом */}
                 <div className="relative group">
-                  <button className="text-emerald-700 hover:text-emerald-600 font-medium transition-colors">
+                  <button className="text-white hover:text-teal-600 font-bold transition-colors">
                     ПОСЛУГИ
                   </button>
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <div className="py-2">
-                      {servicesLinks.map((service) => (
-                        <Link
-                          key={service.href}
-                          href={service.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50"
-                        >
-                          {service.label}
-                        </Link>
-                      ))}
+                  {/* Невидимий міст - розширює hover область */}
+                  <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <div className="bg-black/95 rounded-lg px-2 shadow-lg z-[9999]">
+                      <div className="py-2">
+                        {servicesLinks.map((service) => (
+                          <Link
+                            key={service.href}
+                            href={service.href}
+                            className="block px-4 py-2 text-sm text-white hover:bg-teal-600 hover:text-black transition-colors rounded-md"
+                          >
+                            {service.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -114,7 +109,7 @@ const Header = () => {
 
               {/* CTA Button */}
               <div className="hidden md:block">
-                <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md">
+                <button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
                   ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
                 </button>
               </div>
@@ -122,7 +117,7 @@ const Header = () => {
               {/* Mobile menu button */}
               <button
                 onClick={toggleMenu}
-                className="md:hidden p-2 rounded-md text-emerald-700 hover:text-emerald-600 hover:bg-emerald-50"
+                className="md:hidden p-2 rounded-md text-teal-600 hover:text-teal-700 hover:bg-emerald-50"
               >
                 {isMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -141,7 +136,7 @@ const Header = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block px-3 py-2 text-emerald-700 hover:bg-emerald-50 rounded-md"
+                    className="block px-3 py-2 text-teal-600 hover:bg-emerald-50 rounded-md"
                   >
                     {link.label}
                   </Link>
@@ -149,15 +144,13 @@ const Header = () => {
 
                 {/* Mobile services menu */}
                 <div className="px-3 py-2">
-                  <div className="text-emerald-700 font-medium mb-2">
-                    ПОСЛУГИ
-                  </div>
+                  <div className="text-teal-600 font-medium mb-2">ПОСЛУГИ</div>
                   <div className="pl-4 space-y-1">
                     {servicesLinks.map((service) => (
                       <Link
                         key={service.href}
                         href={service.href}
-                        className="block py-1 text-sm text-gray-600 hover:text-emerald-600"
+                        className="block py-1 text-sm text-gray-600 hover:text-teal-600"
                       >
                         {service.label}
                       </Link>
@@ -166,14 +159,14 @@ const Header = () => {
                 </div>
 
                 <div className="px-3 py-2">
-                  <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors">
+                  <button className="w-full bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors">
                     ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
                   </button>
                 </div>
               </div>
 
               {/* Mobile contact info */}
-              <div className="bg-emerald-700 backdrop-blur-sm">
+              <div className="bg-teal-700 backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                   <div className="flex justify-between items-center py-3 text-white text-sm flex-col space-y-2">
                     <div className="flex items-center space-x-6 ">
