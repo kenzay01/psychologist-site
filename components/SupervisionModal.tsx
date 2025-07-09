@@ -45,14 +45,14 @@ export default function SupervisionModal({
 
     try {
       const message = `
-      Нова заявка на ${
+      🔔 Нова заявка на ${
         supervisionType === "individual" ? "індивідуальну" : "групову"
       } супервізію
-      Ім'я: ${formData.name}
-      Телефон: ${formData.phone}
-      Соц.мережі: ${formData.socialMedia || "Не вказано"}
-      Досвід: ${formData.experience || "Не вказано"}
-      Цілі супервізії: ${formData.supervisionGoals}
+      🙎‍♂️ Ім'я: ${formData.name}
+      📞 Телефон: ${formData.phone}
+      📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
+      📝 Досвід: ${formData.experience || "Не вказано"}
+      🎯 Цілі супервізії: ${formData.supervisionGoals}
             `;
 
       await fetch(

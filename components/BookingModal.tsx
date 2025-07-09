@@ -21,7 +21,6 @@ export default function BookingModal({
     partnerName: "",
     childName: "",
     childAge: "",
-    parentName: "",
   });
 
   const [currentStep, setCurrentStep] = useState("form"); // 'form', 'calendar', 'confirmation'
@@ -46,6 +45,7 @@ export default function BookingModal({
 
   const handleSubmit = async () => {
     // Валідація форми
+    console.log("Form Data:", formData);
     if (!formData.name || !formData.phone || !formData.problem) {
       alert("Будь ласка, заповніть всі обов'язкові поля");
       return;
@@ -58,53 +58,56 @@ export default function BookingModal({
 
     if (
       consultationType === "child" &&
-      (!formData.childName || !formData.childAge || !formData.parentName)
+      (!formData.childName || !formData.childAge || !formData.name)
     ) {
       alert("Будь ласка, заповніть всі поля для дитячого консультування");
       return;
     }
 
+    setCurrentStep("calendar");
     // Відправка в Telegram
-    try {
-      //       const message = `
-      // Нова заявка на ${
-      //         consultationType === "individual"
-      //           ? "індивідуальне"
-      //           : consultationType === "couple"
-      //           ? "парне"
-      //           : "дитяче"
-      //       } консультування
-      // Ім'я: ${formData.name}
-      // ${
-      //   consultationType === "couple"
-      //     ? `Другий партнер: ${formData.partnerName}\n`
-      //     : ""
-      // }
-      // ${
-      //   consultationType === "child"
-      //     ? `Батько/мати: ${formData.parentName}\nІм'я дитини: ${formData.childName}\nВік дитини: ${formData.childAge}\n`
-      //     : ""
-      // }
-      // Телефон: ${formData.phone}
-      // Соц.мережі: ${formData.socialMedia || "Не вказано"}
-      // Проблема: ${formData.problem}
-      //       `;
+    // try {
+    //   const message = `
+    //     Нова заявка на ${
+    //       consultationType === "individual"
+    //         ? "індивідуальне"
+    //         : consultationType === "couple"
+    //         ? "парне"
+    //         : "дитяче"
+    //     } консультування
+    //     Ім'я: ${formData.name}
+    //     ${
+    //       consultationType === "couple"
+    //         ? `Другий партнер: ${formData.partnerName}\n`
+    //         : ""
+    //     }
+    //     ${
+    //       consultationType === "child"
+    //         ? `Батько/мати: ${formData.name}\nІм'я дитини: ${formData.childName}\nВік дитини: ${formData.childAge}\n`
+    //         : ""
+    //     }
+    //     Телефон: ${formData.phone}
+    //     Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    //     Проблема: ${formData.problem}
+    //           `;
 
-      //       await fetch(`https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage`, {
-      //         method: "POST",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //         body: JSON.stringify({
-      //           chat_id: "YOUR_CHAT_ID",
-      //           text: message,
-      //         }),
-      //       });
+    //   await fetch(
+    //     `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
+    //         text: message,
+    //       }),
+    //     }
+    //   );
 
-      setCurrentStep("calendar");
-    } catch (error) {
-      alert("Помилка при відправці заявки. Спробуйте ще раз." + error);
-    }
+    // } catch (error) {
+    //   alert("Помилка при відправці заявки. Спробуйте ще раз." + error);
+    // }
   };
 
   const handleDateSelect = (date: string, time: string) => {
@@ -115,19 +118,44 @@ export default function BookingModal({
 
   const handleBookingConfirmation = async () => {
     try {
-      const bookingMessage = `
-      Нове бронювання
-      Тип: ${
-        consultationType === "individual"
-          ? "Індивідуальне"
-          : consultationType === "couple"
-          ? "Парне"
-          : "Дитяче"
-      } консультування
-      Дата: ${selectedDate}
-      Час: ${selectedTime}
-      Ім'я: ${formData.name}
+      let bookingMessage = ``;
+      if (consultationType === "individual") {
+        bookingMessage = `
+    🔔 Нове бронювання
+    😊 Тип: Індивідуальне консультування
+    📅 Дата: ${selectedDate}
+    ⏰ Час: ${selectedTime}
+    🙎‍♂️ Ім'я: ${formData.name}
+    📞 Телефон: ${formData.phone}
+    📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    📝 Опис проблеми: ${formData.problem}
             `;
+      } else if (consultationType === "couple") {
+        bookingMessage = `
+    🔔 Нове бронювання
+    😊 Тип: Парне консультування
+    📅 Дата: ${selectedDate}
+    ⏰ Час: ${selectedTime}
+    🙎‍♂️ Ім'я першого партнера: ${formData.name}
+    🙎‍♂️ Ім'я другого партнера: ${formData.partnerName}
+    📞 Телефон: ${formData.phone}
+    📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    📝 Опис проблеми: ${formData.problem}
+            `;
+      } else if (consultationType === "child") {
+        bookingMessage = `
+    🔔 Нове бронювання
+    😊 Тип: Дитяче консультування
+    📅 Дата: ${selectedDate}
+    ⏰ Час: ${selectedTime}
+    🙎‍♂️ Ім'я батька/матері: ${formData.name}
+    🙎‍♀️ Ім'я дитини: ${formData.childName}
+    👶 Вік дитини: ${formData.childAge}
+    📞 Телефон: ${formData.phone}
+    📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    📝 Опис проблеми: ${formData.problem}
+            `;
+      }
 
       await fetch(
         `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -265,8 +293,8 @@ export default function BookingModal({
                     </label>
                     <input
                       type="text"
-                      name="parentName"
-                      value={formData.parentName}
+                      name="name"
+                      value={formData.name}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
                       required
