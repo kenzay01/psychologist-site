@@ -30,6 +30,10 @@ export default function HomeBanner() {
             src={homePhoto}
             alt="HomePhoto"
             className="h-72 w-auto md:h-120 rounded-3xl"
+            placeholder="blur"
+            quality={60}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            loading="lazy"
           />
           <blockquote className="text-lg font-medium italic text-white leading-relaxed">
             «Коли ви маєте безпечне місце для себе — ви нарешті починаєте жити,
