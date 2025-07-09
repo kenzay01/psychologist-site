@@ -44,27 +44,30 @@ export default function SupervisionModal({
     }
 
     try {
-      //       const message = `
-      // Нова заявка на ${
-      //         supervisionType === "individual" ? "індивідуальну" : "групову"
-      //       } супервізію
-      // Ім'я: ${formData.name}
-      // Телефон: ${formData.phone}
-      // Соц.мережі: ${formData.socialMedia || "Не вказано"}
-      // Досвід: ${formData.experience || "Не вказано"}
-      // Цілі супервізії: ${formData.supervisionGoals}
-      //       `;
+      const message = `
+      Нова заявка на ${
+        supervisionType === "individual" ? "індивідуальну" : "групову"
+      } супервізію
+      Ім'я: ${formData.name}
+      Телефон: ${formData.phone}
+      Соц.мережі: ${formData.socialMedia || "Не вказано"}
+      Досвід: ${formData.experience || "Не вказано"}
+      Цілі супервізії: ${formData.supervisionGoals}
+            `;
 
-      //       await fetch(`https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage`, {
-      //         method: "POST",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //         body: JSON.stringify({
-      //           chat_id: "YOUR_CHAT_ID",
-      //           text: message,
-      //         }),
-      //       });
+      await fetch(
+        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
+            text: message,
+          }),
+        }
+      );
 
       alert("Заявку успішно відправлено в Telegram!");
       onClose();
@@ -80,7 +83,7 @@ export default function SupervisionModal({
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      //   onClick={onClose}
     >
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">

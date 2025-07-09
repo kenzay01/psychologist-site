@@ -115,30 +115,33 @@ export default function BookingModal({
 
   const handleBookingConfirmation = async () => {
     try {
-      //       const bookingMessage = `
-      // Нове бронювання
-      // Тип: ${
-      //         consultationType === "individual"
-      //           ? "Індивідуальне"
-      //           : consultationType === "couple"
-      //           ? "Парне"
-      //           : "Дитяче"
-      //       } консультування
-      // Дата: ${selectedDate}
-      // Час: ${selectedTime}
-      // Ім'я: ${formData.name}
-      //       `;
+      const bookingMessage = `
+      Нове бронювання
+      Тип: ${
+        consultationType === "individual"
+          ? "Індивідуальне"
+          : consultationType === "couple"
+          ? "Парне"
+          : "Дитяче"
+      } консультування
+      Дата: ${selectedDate}
+      Час: ${selectedTime}
+      Ім'я: ${formData.name}
+            `;
 
-      //   await fetch(`https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage`, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       chat_id: "YOUR_CHAT_ID",
-      //       text: bookingMessage,
-      //     }),
-      //   });
+      await fetch(
+        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
+            text: bookingMessage,
+          }),
+        }
+      );
 
       alert("Бронювання успішно створено! Деталі відправлені в Telegram.");
       onClose();
@@ -177,7 +180,7 @@ export default function BookingModal({
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      //   onClick={onClose}
     >
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
