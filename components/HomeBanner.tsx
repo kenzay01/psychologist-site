@@ -1,9 +1,11 @@
+"use client";
 import bannerBg from "@/public/home-banner.jpg";
 import homePhoto from "@/public/home-img.jpg";
 import Image from "next/image";
 import { Youtube, Instagram, Send } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 export default function HomeBanner() {
+  const router = useRouter();
   const socialLinks = [
     { href: "#", icon: Youtube, label: "YouTube", color: "bg-red-700" },
     { href: "#", icon: Instagram, label: "Instagram", color: "bg-pink-700" },
@@ -58,7 +60,12 @@ export default function HomeBanner() {
           </div>
 
           <div className="mt-6 md:mt-12">
-            <button className="bg-teal-600 hover:bg-teal-700 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300">
+            <button
+              className="bg-teal-600 hover:bg-teal-700 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+              onClick={() => {
+                router.push("/consultation");
+              }}
+            >
               ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
             </button>
           </div>
