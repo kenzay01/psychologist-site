@@ -25,7 +25,7 @@ export default function GreetingComponent() {
               </h1>
               <p className="text-lg leading-relaxed opacity-95">
                 Я — практикуюча психологиня-сексологиня з багаторічним досвідом
-                роботи з індивідуальними клієнтами, парами та сім'ями, дітьми та
+                роботи з індивідуальними клієнтами, парами та сім`ями, дітьми та
                 підлітками. Моя спеціалізація охоплює теми сексуальності,
                 стосунків, психосоматики, дитячо-батьківської динаміки, а також
                 впливу травматичного досвіду на тілесність і сексуальну
@@ -117,7 +117,7 @@ export default function GreetingComponent() {
               <div className="space-y-2 text-lg">
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                  жінками, які втомились бути "сильними"
+                  жінками, які втомились бути `сильними`
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
@@ -156,8 +156,8 @@ export default function GreetingComponent() {
 
             <div className="max-w-sm text-center">
               <blockquote className="text-lg font-medium italic text-white leading-relaxed">
-                «Найглибша робота починається не з питання "що зі мною не так?",
-                а з питання "чого я насправді потребую?"»
+                «Найглибша робота починається не з питання `що зі мною не так?`,
+                а з питання `чого я насправді потребую?`»
               </blockquote>
             </div>
           </div>

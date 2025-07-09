@@ -20,7 +20,7 @@ export default function HomeBanner() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/70 shadow-2xl"></div>
+        <div className="absolute inset-0 bg-black/60 shadow-2xl"></div>
       </div>
 
       <div className="relative z-10 w-full flex flex-col md:flex-row">
