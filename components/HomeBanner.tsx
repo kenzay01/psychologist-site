@@ -31,7 +31,7 @@ export default function HomeBanner() {
             alt="HomePhoto"
             className="h-72 w-auto md:h-120 rounded-3xl"
             placeholder="blur"
-            quality={60}
+            quality={85}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             loading="lazy"
           />
