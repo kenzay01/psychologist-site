@@ -102,8 +102,8 @@ export default function SupervisionModal({
           </div>
 
           <div className="space-y-4">
-            <div className="bg-teal-50 p-4 rounded-lg mb-4">
-              <p className="text-sm text-teal-800">
+            <div className="bg-red-50 p-4 rounded-lg mb-4">
+              <p className="text-sm text-red-800">
                 Тривалість: {duration} хв | Ціна: {price} грн
               </p>
             </div>
@@ -117,7 +117,7 @@ export default function SupervisionModal({
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 required
               />
             </div>
@@ -131,7 +131,7 @@ export default function SupervisionModal({
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="+380..."
                 required
               />
@@ -146,7 +146,7 @@ export default function SupervisionModal({
                 name="socialMedia"
                 value={formData.socialMedia}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Instagram, Telegram тощо"
               />
             </div>
@@ -160,7 +160,7 @@ export default function SupervisionModal({
                 value={formData.experience}
                 onChange={handleInputChange}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Опишіть ваш професійний досвід"
               />
             </div>
@@ -174,7 +174,7 @@ export default function SupervisionModal({
                 value={formData.supervisionGoals}
                 onChange={handleInputChange}
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 required
                 placeholder="Які питання чи кейси хочете обговорити?"
               />
@@ -183,7 +183,7 @@ export default function SupervisionModal({
             <div className="flex space-x-3 pt-4">
               <button
                 onClick={handleSubmit}
-                className="flex-1 bg-teal-600 text-white py-2 px-4 rounded-md hover:bg-teal-700 transition-colors"
+                className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
               >
                 Відправити заявку
               </button>

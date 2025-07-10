@@ -61,7 +61,7 @@ export default function HomeBanner() {
 
           <div className="mt-6 md:mt-12">
             <button
-              className="bg-teal-600 hover:bg-teal-700 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+              className="bg-red-500 hover:bg-red-600 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               onClick={() => {
                 router.push("/consultation");
               }}

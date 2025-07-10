@@ -2,50 +2,59 @@
 import Image from "next/image";
 import benefitsImg from "@/public/benefits-img.jpg";
 import { useRouter } from "next/navigation";
+import {
+  Shield,
+  Users,
+  Heart,
+  Sparkles,
+  HandHeart,
+  GraduationCap,
+} from "lucide-react";
+
 export default function BenefitsContainer() {
   const router = useRouter();
   const benefits = [
-    // {
-    //   id: "01",
-    //   title: "Безпечний простір без осуду",
-    //   description:
-    //     "Я створюю підтримувальний простір, де можна відкрито говорити про важливе — без осуду, сорому чи табу. Працюю з повагою до ваших кордонів, досвіду та темпу.",
-    // },
     {
       id: "01",
       title: "Інтегративний та гнучкий підхід",
       description:
-        "Не працюю «по шаблону». Поєдную різні підходи: позитивну психотерапію, транзактний аналіз, полімодальний підхід, психосоматику. Терапія вибудовується під вас і ваші реальні потреби.",
+        "Не працюю «по шаблону». Поєдную різні підходи: позитивну психотерапію, транзактний аналіз, полімодальний підхід. Терапія вибудовується під вас і ваші реальні потреби.",
+      icon: Sparkles,
     },
     {
       id: "02",
       title: "Професійна підтримка для пар та родин",
       description:
-        "Працюю з парами у кризах, на межі розриву або тими, хто хоче повернути близькість, сексуальність, взаємоповагу. Допомагаю налагодити спілкування та зупинити руйнівні сценарії.",
+        "Працюю з парами у кризах, на межі розриву або тими, хто хоче повернути близькість та взаємоповагу. Допомагаю налагодити спілкування та зупинити руйнівні сценарії.",
+      icon: Users,
     },
     {
       id: "03",
       title: "Досвід роботи з дітьми та підлітками",
       description:
-        "Працюю з підлітками, які переживають тривогу, сором, самотність або шукають свою ідентичність. Допомагаю батькам краще розуміти своїх дітей і створювати контакт замість конфлікту.",
+        "Працюю з підлітками, які переживають тривогу, сором, самотність або шукають свою ідентичність. Допомагаю батькам краще розуміти дітей і створювати контакт замість конфлікту.",
+      icon: Heart,
     },
     {
       id: "04",
       title: "Глибока спеціалізація у сфері сексуальності",
       description:
-        "Як сертифікована сексологиня, допомагаю працювати з сексуальними дисфункціями, відсутністю бажання, тілесним соромом, болем під час сексу, страхом близькості та відновленням сексуальності після травми.",
+        "Як сертифікована сексологиня, допомагаю працювати з сексуальними дисфункціями, відсутністю бажання, тілесним соромом, болем під час сексу та страхом близькості.",
+      icon: Shield,
     },
     {
       id: "05",
       title: "Підтримка в найважчі моменти життя",
       description:
-        "Психологічна допомога в часи втрат, змін, війни, переїздів, післяпологових станів, вигорання. Усе, що зараз болить — має право бути. І може стати точкою росту.",
+        "Психологічна допомога в часи втрат, змін, війни, переїздів, післяпологових станів та вигорання. Усе, що зараз болить — має право бути і може стати точкою росту.",
+      icon: HandHeart,
     },
     {
       id: "06",
       title: "Супервізія і розвиток для фахівців",
       description:
-        "Працюю як супервізорка для психологів, які прагнуть професійного росту, ясності у роботі, етичної підтримки й натхнення. Допомагаю не лише розібратись у складних випадках, а й не загубити себе в роботі з іншими.",
+        "Працюю як супервізорка для психологів, які прагнуть професійного росту, ясності у роботі та етичної підтримки. Допомагаю розібратись у складних випадках і не загубити себе.",
+      icon: GraduationCap,
     },
   ];
 
@@ -62,7 +71,7 @@ export default function BenefitsContainer() {
         {/* Content Container */}
         <div className="flex flex-col lg:flex-row items-start gap-12">
           {/* Image */}
-          <div className="flex-1 flex flex-col gap-8 justify-center">
+          <div className="flex-1/3 flex flex-col gap-8 justify-center">
             <h1 className="md:text-lg font-semibold text-black mb-4 text-center">
               Я створюю підтримувальний простір, де можна відкрито говорити про
               важливе — без осуду, сорому чи табу. Працюю з повагою до ваших
@@ -79,38 +88,45 @@ export default function BenefitsContainer() {
             />
           </div>
 
-          {/* Benefits List */}
-          <div className="flex-1 space-y-4">
-            {benefits.map((benefit) => (
-              <div key={benefit.id} className="text-black">
-                <div className="flex items-start gap-2">
-                  <span className="text-teal-600 font-bold text-xl min-w-fit">
-                    [{benefit.id}]
-                  </span>
-                  <div>
-                    <h3 className="text-xl md:text-2xl font-semibold mb-1">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-base leading-relaxed font-normal">
-                      {benefit.description}
-                    </p>
+          <div className="flex-1/2 flex flex-col gap-4 justify-center items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {benefits.map((benefit) => {
+                const IconComponent = benefit.icon;
+                return (
+                  <div
+                    key={benefit.id}
+                    className="group bg-white/50 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-2 shadow-md group-hover:shadow-lg transition-all duration-300">
+                        <IconComponent className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg md:text-xl font-semibold mb-2 text-black group-hover:text-red-600 transition-colors duration-300">
+                          {benefit.title}
+                        </h3>
+                        <p className="text-sm md:text-base leading-relaxed font-normal text-gray-700">
+                          {benefit.description}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-
+                );
+              })}
+            </div>
             {/* Button */}
-            <div className="pt-6">
+            <div className="pt-6 md:col-span-2">
               <button
                 onClick={() => {
                   router.push("/aboutMe");
                 }}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+                className="bg-red-500 hover:bg-red-600 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               >
                 ДІЗНАТИСЯ БІЛЬШЕ
               </button>
             </div>
           </div>
+          {/* Benefits List */}
         </div>
       </div>
     </section>

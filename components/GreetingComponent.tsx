@@ -1,9 +1,11 @@
+"use client";
 import Image from "next/image";
 import greetingImg from "@/public/greeting-img.jpg"; // Placeholder image path
-
+import { useRouter } from "next/navigation";
 export default function GreetingComponent() {
+  const router = useRouter();
   return (
-    <section className="bg-teal-600 text-white relative overflow-hidden">
+    <section className="bg-red-500 text-white relative overflow-hidden">
       {/* Top wavy border */}
       {/* <div className="absolute top-0 left-0 w-full">
         <svg
@@ -18,7 +20,7 @@ export default function GreetingComponent() {
       <div className="pt-16 pb-16 px-8 max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left column - text content */}
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8 flex flex-col justify-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
                 Вітаю! Мене звати Олександра Алексюк
@@ -33,7 +35,7 @@ export default function GreetingComponent() {
               </p>
             </div>
 
-            <div className="border-l-4 border-white/30 pl-6">
+            {/* <div className="border-l-4 border-white/30 pl-6">
               <h2 className="text-xl font-semibold mb-4">
                 У своїй роботі я поєдную науковий підхід із глибиною
                 психотерапевтичного процесу:
@@ -60,7 +62,7 @@ export default function GreetingComponent() {
                   сексологія
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <p className="text-lg font-medium leading-relaxed">
@@ -69,50 +71,7 @@ export default function GreetingComponent() {
               </p>
             </div>
 
-            {/* <div className="bg-gradient-to-r from-white/15 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-2xl font-bold mb-4 text-white">
-                Я працюю з:
-              </h3>
-              <div className="space-y-3 text-lg">
-                <div className="flex items-start">
-                  <span className="w-3 h-3 bg-white rounded-full mr-3 mt-1 flex-shrink-0"></span>
-                  <span className="font-medium">
-                    жінками, які втомились бути "сильними"
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-3 h-3 bg-white rounded-full mr-3 mt-1 flex-shrink-0"></span>
-                  <span className="font-medium">
-                        
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-3 h-3 bg-white rounded-full mr-3 mt-1 flex-shrink-0"></span>
-                  <span className="font-medium">
-                    підлітками, які шукають себе
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-3 h-3 bg-white rounded-full mr-3 mt-1 flex-shrink-0"></span>
-                  <span className="font-medium">
-                    фахівцями, які потребують підтримки та супервізії
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-3 h-3 bg-white rounded-full mr-3 mt-1 flex-shrink-0"></span>
-                  <span className="font-medium">
-                    тими, хто не знає «що саме болить», але хоче жити інакше
-                  </span>
-                </div>
-              </div>
-              <div className="mt-6 pt-4 border-t border-white/20">
-                <p className="text-lg font-medium leading-relaxed italic">
-                  Вірю, що з теплом, професіоналізмом і прийняттям можливо
-                  зцілювати навіть дуже глибокі рани.
-                </p>
-              </div>
-            </div> */}
-            <div className="border-l-4 border-white/30 pl-6">
+            {/* <div className="border-l-4 border-white/30 pl-6">
               <h2 className="text-xl font-semibold mb-4">Я працюю з:</h2>
               <div className="space-y-2 text-lg">
                 <div className="flex items-center">
@@ -136,13 +95,24 @@ export default function GreetingComponent() {
                   тими, хто не знає «що саме болить», але хоче жити інакше
                 </div>
               </div>
+            </div> */}
+            {/* Button */}
+            <div className="pt-6 self-center">
+              <button
+                onClick={() => {
+                  router.push("/aboutMe");
+                }}
+                className="bg-white hover:bg-red-200 text-gray-800 px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+              >
+                ДІЗНАТИСЯ БІЛЬШЕ
+              </button>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/20">
+            {/* <div className="mt-6 pt-4 border-t border-white/20">
               <p className="text-lg font-medium leading-relaxed italic">
                 Вірю, що з теплом, професіоналізмом і прийняттям можливо
                 зцілювати навіть дуже глибокі рани.
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Right column - image */}

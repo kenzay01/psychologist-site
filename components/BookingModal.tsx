@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { Clock, MessageCircle, Calendar, CreditCard } from "lucide-react";
+import moment from "moment";
+import GoogleCalendar from "./GoogleCalendar"; // Імпортуємо новий компонент
+
 export default function BookingModal({
   isOpen,
   onClose,
@@ -23,7 +26,9 @@ export default function BookingModal({
     childAge: "",
   });
 
-  const [currentStep, setCurrentStep] = useState("form"); // 'form', 'calendar', 'confirmation'
+  const [currentStep, setCurrentStep] = useState<
+    "form" | "calendar" | "confirmation"
+  >("form");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
@@ -45,7 +50,6 @@ export default function BookingModal({
 
   const handleSubmit = async () => {
     // Валідація форми
-    console.log("Form Data:", formData);
     if (!formData.name || !formData.phone || !formData.problem) {
       alert("Будь ласка, заповніть всі обов'язкові поля");
       return;
@@ -58,56 +62,13 @@ export default function BookingModal({
 
     if (
       consultationType === "child" &&
-      (!formData.childName || !formData.childAge || !formData.name)
+      (!formData.childName || !formData.childAge)
     ) {
       alert("Будь ласка, заповніть всі поля для дитячого консультування");
       return;
     }
 
     setCurrentStep("calendar");
-    // Відправка в Telegram
-    // try {
-    //   const message = `
-    //     Нова заявка на ${
-    //       consultationType === "individual"
-    //         ? "індивідуальне"
-    //         : consultationType === "couple"
-    //         ? "парне"
-    //         : "дитяче"
-    //     } консультування
-    //     Ім'я: ${formData.name}
-    //     ${
-    //       consultationType === "couple"
-    //         ? `Другий партнер: ${formData.partnerName}\n`
-    //         : ""
-    //     }
-    //     ${
-    //       consultationType === "child"
-    //         ? `Батько/мати: ${formData.name}\nІм'я дитини: ${formData.childName}\nВік дитини: ${formData.childAge}\n`
-    //         : ""
-    //     }
-    //     Телефон: ${formData.phone}
-    //     Соц.мережі: ${formData.socialMedia || "Не вказано"}
-    //     Проблема: ${formData.problem}
-    //           `;
-
-    //   await fetch(
-    //     `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
-    //         text: message,
-    //       }),
-    //     }
-    //   );
-
-    // } catch (error) {
-    //   alert("Помилка при відправці заявки. Спробуйте ще раз." + error);
-    // }
   };
 
   const handleDateSelect = (date: string, time: string) => {
@@ -171,45 +132,95 @@ export default function BookingModal({
         }
       );
 
+      // Додавання події в Google Calendar
+      const summary =
+        consultationType === "individual"
+          ? "Індивідуальне консультування"
+          : consultationType === "couple"
+          ? "Парне консультування"
+          : "Дитяче консультування";
+
+      let formattedDescription;
+      if (consultationType === "individual") {
+        formattedDescription = `
+    Тип: ${summary}
+    Ім'я: ${formData.name}
+    Телефон: ${formData.phone}
+    Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    Опис проблеми: ${formData.problem}
+    `;
+      } else if (consultationType === "couple") {
+        formattedDescription = `
+    Тип: ${summary}
+    Ім'я першого партнера: ${formData.name}
+    Ім'я другого партнера: ${formData.partnerName}
+    Телефон: ${formData.phone}
+    Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    Опис проблеми: ${formData.problem}
+    `;
+      } else if (consultationType === "child") {
+        formattedDescription = `
+    Тип: ${summary}
+    Ім'я батька/матері: ${formData.name}
+    Ім'я дитини: ${formData.childName}
+    Вік дитини: ${formData.childAge}
+    Телефон: ${formData.phone}
+    Соц.мережі: ${formData.socialMedia || "Не вказано"}
+    Опис проблеми: ${formData.problem}
+    `;
+      }
+
+      await fetch("/api/create-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          summary,
+          description: formattedDescription,
+          start: `${selectedDate}T${selectedTime}:00`,
+          end: moment(`${selectedDate}T${selectedTime}:00`)
+            .add(duration, "minutes")
+            .toISOString(),
+        }),
+      });
+
       alert("Бронювання успішно створено! Деталі відправлені в Telegram.");
       onClose();
       setCurrentStep("form");
     } catch (error) {
-      alert("Помилка при створенні бронювання. Спробуйте ще раз." + error);
+      alert("Помилка при створенні бронювання: " + error);
     }
   };
 
   const handlePayment = () => {
-    // Інтеграція з MonoBank API
-    // window.location.href = "https://pay.mono.bank/"; // Replace with actual MonoBank payment URL
+    // Перенаправлення на MonoBank для оплати
+    // const paymentData = {
+    //   amount: price * 100, // MonoBank вимагає суму в копійках
+    //   ccy: 980, // UAH
+    //   merchantPaymInfo: {
+    //     reference: `${consultationType}_${Date.now()}`,
+    //     destination: `${consultationType} consultation`,
+    //   },
+    //   redirectUrl: window.location.href,
+    //   webHookUrl: "https://your-backend.com/webhook", // URL для вебхука
+    // };
+    // // Формування URL для оплати через MonoBank
+    // window.location.href = `https://api.monobank.ua/api/merchant/invoice/create?token=${
+    //   process.env.NEXT_PUBLIC_MONOBANK_TOKEN
+    // }&amount=${paymentData.amount}&ccy=${
+    //   paymentData.ccy
+    // }&merchantPaymInfo=${encodeURIComponent(
+    //   JSON.stringify(paymentData.merchantPaymInfo)
+    // )}&redirectUrl=${encodeURIComponent(
+    //   paymentData.redirectUrl
+    // )}&webHookUrl=${encodeURIComponent(paymentData.webHookUrl)}`;
   };
 
   const telegramLink = "https://t.me/admin_username";
 
-  const availableTimes = [
-    "09:00",
-    "10:00",
-    "11:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-  ];
-  const availableDates = [
-    "2025-07-10",
-    "2025-07-11",
-    "2025-07-12",
-    "2025-07-15",
-    "2025-07-16",
-  ];
-
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      //   onClick={onClose}
-    >
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
@@ -229,8 +240,8 @@ export default function BookingModal({
 
           {currentStep === "form" && (
             <div className="space-y-4">
-              <div className="bg-teal-50 p-4 rounded-lg mb-4">
-                <p className="text-sm text-teal-800">
+              <div className="bg-red-50 p-4 rounded-lg mb-4">
+                <p className="text-sm text-red-800">
                   <Clock className="inline w-4 h-4 mr-1" />
                   Тривалість: {duration} хв | Ціна: {price} грн
                 </p>
@@ -247,7 +258,7 @@ export default function BookingModal({
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -265,7 +276,7 @@ export default function BookingModal({
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -278,7 +289,7 @@ export default function BookingModal({
                       name="partnerName"
                       value={formData.partnerName}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -296,7 +307,7 @@ export default function BookingModal({
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -309,7 +320,7 @@ export default function BookingModal({
                       name="childName"
                       value={formData.childName}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -322,7 +333,7 @@ export default function BookingModal({
                       name="childAge"
                       value={formData.childAge}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       min="6"
                       max="17"
                       required
@@ -340,7 +351,7 @@ export default function BookingModal({
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="+380..."
                   required
                 />
@@ -355,7 +366,7 @@ export default function BookingModal({
                   name="socialMedia"
                   value={formData.socialMedia}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="Instagram, Telegram тощо"
                 />
               </div>
@@ -369,7 +380,7 @@ export default function BookingModal({
                   value={formData.problem}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                   required
                 />
               </div>
@@ -377,7 +388,7 @@ export default function BookingModal({
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={handleSubmit}
-                  className="flex-1 bg-teal-600 text-white py-2 px-4 rounded-md hover:bg-teal-700 transition-colors"
+                  className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
                 >
                   Відправити заявку
                 </button>
@@ -396,52 +407,12 @@ export default function BookingModal({
 
           {currentStep === "calendar" && (
             <div>
-              <h3 className="text-lg font-semibold mb-4">
-                Оберіть дату та час
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-medium mb-3">Доступні дати:</h4>
-                  <div className="space-y-2">
-                    {availableDates.map((date) => (
-                      <button
-                        key={date}
-                        onClick={() => setSelectedDate(date)}
-                        className={`w-full p-3 text-left rounded-md border transition-colors ${
-                          selectedDate === date
-                            ? "border-teal-500 bg-teal-50"
-                            : "border-gray-300 hover:border-gray-400"
-                        }`}
-                      >
-                        {new Date(date).toLocaleDateString("uk-UA", {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {selectedDate && (
-                  <div>
-                    <h4 className="font-medium mb-3">Доступний час:</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {availableTimes.map((time) => (
-                        <button
-                          key={time}
-                          onClick={() => handleDateSelect(selectedDate, time)}
-                          className="p-2 border border-gray-300 rounded-md hover:border-teal-500 hover:bg-teal-50 transition-colors"
-                        >
-                          {time}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
+              <GoogleCalendar
+                onDateSelect={handleDateSelect}
+                consultationType={consultationType}
+                duration={duration}
+                minimumBookingHours={4}
+              />
               <div className="flex space-x-3 pt-6">
                 <button
                   onClick={() => setCurrentStep("form")}
@@ -489,7 +460,7 @@ export default function BookingModal({
               <div className="space-y-3">
                 <button
                   onClick={handleBookingConfirmation}
-                  className="w-full bg-teal-600 text-white py-3 px-4 rounded-md hover:bg-teal-700 transition-colors flex items-center justify-center"
+                  className="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors flex items-center justify-center"
                 >
                   <Calendar className="w-5 h-5 mr-2" />
                   Підтвердити бронювання

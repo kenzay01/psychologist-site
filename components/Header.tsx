@@ -44,7 +44,7 @@ const Header = () => {
     <header className="relative z-50">
       <div className="relative z-10">
         {/* Top bar with contact info */}
-        <div className="bg-teal-600 backdrop-blur-sm hidden sm:block">
+        <div className="bg-red-500 backdrop-blur-sm hidden sm:block">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="flex justify-between items-center py-3  text-white text-sm">
               <div className="flex items-center space-x-6 ">
@@ -88,7 +88,7 @@ const Header = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-white hover:text-teal-600 font-bold transition-colors"
+                    className="text-white hover:text-red-500 font-bold transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -96,7 +96,7 @@ const Header = () => {
 
                 {/* Services dropdown - ВИПРАВЛЕНО з невидимим містом */}
                 <div className="relative group">
-                  <button className="text-white hover:text-teal-600 font-bold transition-colors">
+                  <button className="text-white hover:text-red-500 font-bold transition-colors">
                     ПОСЛУГИ
                   </button>
                   {/* Невидимий міст - розширює hover область */}
@@ -107,7 +107,7 @@ const Header = () => {
                           <Link
                             key={service.href}
                             href={service.href}
-                            className="block px-4 py-2 text-sm text-white hover:bg-teal-600 hover:text-black transition-colors rounded-md"
+                            className="block px-4 py-2 text-sm text-white hover:bg-red-500 hover:text-black transition-colors rounded-md"
                             onClick={() => {
                               toggleMenu();
                             }}
@@ -124,7 +124,7 @@ const Header = () => {
               {/* CTA Button */}
               <div className="hidden md:block">
                 <button
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md"
                   onClick={() => {
                     router.push("/consultation");
                   }}
@@ -136,7 +136,7 @@ const Header = () => {
               {/* Mobile menu button */}
               <button
                 onClick={toggleMenu}
-                className="md:hidden p-2 rounded-md text-teal-600 hover:text-teal-700 hover:bg-emerald-50"
+                className="md:hidden p-2 rounded-md text-red-500 hover:text-red-600 hover:bg-emerald-50"
               >
                 {isMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -155,7 +155,7 @@ const Header = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block px-3 py-2 text-teal-600 hover:bg-emerald-50 rounded-md"
+                    className="block px-3 py-2 text-red-500 hover:bg-emerald-50 rounded-md"
                     onClick={() => {
                       toggleMenu();
                     }}
@@ -166,13 +166,13 @@ const Header = () => {
 
                 {/* Mobile services menu */}
                 <div className="px-3 py-2">
-                  <div className="text-teal-600 font-medium mb-2">ПОСЛУГИ</div>
+                  <div className="text-red-500 font-medium mb-2">ПОСЛУГИ</div>
                   <div className="pl-4 space-y-1">
                     {servicesLinks.map((service) => (
                       <Link
                         key={service.href}
                         href={service.href}
-                        className="block py-1 text-sm text-gray-600 hover:text-teal-600"
+                        className="block py-1 text-sm text-gray-600 hover:text-red-500"
                         onClick={() => {
                           toggleMenu();
                         }}
@@ -185,7 +185,7 @@ const Header = () => {
 
                 <div className="px-3 py-2">
                   <button
-                    className="w-full bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                    className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
                     onClick={() => {
                       router.push("/consultation");
                       toggleMenu();
@@ -197,7 +197,7 @@ const Header = () => {
               </div>
 
               {/* Mobile contact info */}
-              <div className="bg-teal-700 backdrop-blur-sm">
+              <div className="bg-red-500 backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                   <div className="flex justify-between items-center py-3 text-white text-sm flex-col space-y-2">
                     <div className="flex items-center space-x-6 ">

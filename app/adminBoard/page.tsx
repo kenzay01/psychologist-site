@@ -32,7 +32,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
           <h2 className="text-2xl sm:text-2xl md:text-3xl font-extrabold text-emerald-900">
             Адмін панель
           </h2>
-          <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-sm text-teal-700">
+          <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-sm text-red-600">
             Введіть свої облікові дані для доступу до адмін панелі
           </p>
         </div>
@@ -84,7 +84,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
               type="button"
               disabled={loading}
               onClick={handleLogin}
-              className="group relative w-full flex justify-center py-1.5 sm:py-2 px-3 sm:px-4 border border-transparent text-xs sm:text-sm md:text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-1.5 sm:py-2 px-3 sm:px-4 border border-transparent text-xs sm:text-sm md:text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
             >
               {loading ? "Вхід..." : "Увійти"}
             </button>

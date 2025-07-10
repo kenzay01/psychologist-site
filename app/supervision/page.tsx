@@ -111,7 +111,7 @@ const SupervisionContent = () => {
                 }}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
                   activeTab === key
-                    ? "bg-white text-teal-600 shadow-sm"
+                    ? "bg-white text-red-500 shadow-sm"
                     : "text-gray-600 hover:text-gray-800"
                 }`}
               >
@@ -181,7 +181,7 @@ const SupervisionContent = () => {
                   "Стикаєтесь з темами сексуальності, насильства, травми",
                 ].map((topic, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     <span className="text-gray-700">{topic}</span>
                   </div>
                 ))}
@@ -194,23 +194,23 @@ const SupervisionContent = () => {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Users className="w-5 h-5 text-teal-500" />
+                  <Users className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     Цільова аудиторія: Психологи, сексологи, студенти
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Star className="w-5 h-5 text-teal-500" />
+                  <Star className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     Теми: Складні кейси, професійне зростання
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Users className="w-5 h-5 text-teal-500" />
+                  <Users className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Star className="w-5 h-5 text-teal-500" />
+                  <Star className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     По завершенню видається сертифікат від Міжнародної спілки
                     супервізорів із зазначенням кількості годин та кредитами
@@ -226,7 +226,7 @@ const SupervisionContent = () => {
               </h2>
               <div className="space-y-4">
                 {currentData.reviews.map((review, index) => (
-                  <div key={index} className="border-l-4 border-teal-500 pl-4">
+                  <div key={index} className="border-l-4 border-red-500 pl-4">
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="font-medium text-gray-800">
                         {review.name}
@@ -276,7 +276,7 @@ const SupervisionContent = () => {
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}
-                  className="w-full bg-teal-600 text-white py-3 px-4 rounded-md hover:bg-teal-700 transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
                 >
                   <Users className="w-5 h-5" />
                   <span>Записатися на супервізію</span>
@@ -294,11 +294,11 @@ const SupervisionContent = () => {
               </div>
             </div>
 
-            {/* <div className="bg-teal-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-teal-800 mb-3">
+            {/* <div className="bg-red-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-red-800 mb-3">
                 Важлива інформація
               </h3>
-              <ul className="text-sm text-teal-700 space-y-2">
+              <ul className="text-sm text-red-600 space-y-2">
                 <li>• Конфіденційність гарантована</li>
                 <li>• Можна скасувати запис за 24 години</li>
                 <li>• Сертифікат із кредитами ECTS</li>

@@ -148,7 +148,7 @@ const ConsultationContent = () => {
                 }}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
                   activeTab === key
-                    ? "bg-white text-teal-600 shadow-sm"
+                    ? "bg-white text-red-500 shadow-sm"
                     : "text-gray-600 hover:text-gray-800"
                 }`}
               >
@@ -182,7 +182,7 @@ const ConsultationContent = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {currentData.topics.map((topic, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     <span className="text-gray-700">{topic}</span>
                   </div>
                 ))}
@@ -195,17 +195,17 @@ const ConsultationContent = () => {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Clock className="w-5 h-5 text-teal-500" />
+                  <Clock className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     Тривалість: {currentData.duration} хвилин
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Calendar className="w-5 h-5 text-teal-500" />
+                  <Calendar className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="w-5 h-5 text-teal-500" />
+                  <CreditCard className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     Ціна: {currentData.price} грн
                   </span>
@@ -219,7 +219,7 @@ const ConsultationContent = () => {
               </h2>
               <div className="space-y-4">
                 {currentData.reviews.map((review, index) => (
-                  <div key={index} className="border-l-4 border-teal-500 pl-4">
+                  <div key={index} className="border-l-4 border-red-500 pl-4">
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="font-medium text-gray-800">
                         {review.name}
@@ -265,7 +265,7 @@ const ConsultationContent = () => {
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}
-                  className="w-full bg-teal-600 text-white py-3 px-4 rounded-md hover:bg-teal-700 transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
                 >
                   <Calendar className="w-5 h-5" />
                   <span>Записатися на консультацію</span>
@@ -283,11 +283,11 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            {/* <div className="bg-teal-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-teal-800 mb-3">
+            {/* <div className="bg-red-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-red-800 mb-3">
                 Важлива інформація
               </h3>
-              <ul className="text-sm text-teal-700 space-y-2">
+              <ul className="text-sm text-red-600 space-y-2">
                 <li>• Можна скасувати запис за 24 години</li>
                 <li>• Конфіденційність гарантована</li>
                 <li>• Перша консультація включає знайомство</li>
