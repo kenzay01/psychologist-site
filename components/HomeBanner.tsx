@@ -3,7 +3,7 @@
 import homeBgMobile from "@/public/home-img.jpg";
 import homeBgDesktop from "@/public/home-bg-desktop.jpg";
 import Image from "next/image";
-import { Youtube, Instagram, Send } from "lucide-react";
+// import { Youtube, Instagram, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function HomeBanner() {
