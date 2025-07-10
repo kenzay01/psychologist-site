@@ -81,9 +81,12 @@ const Header = () => {
 
         {/* Main navigation */}
         <nav
-          className={`${
-            isNotHomePage ? "h-16" : "hidden"
-          } md:block relative md:absolute w-full backdrop-blur-sm shadow-lg`}
+          className={`
+    w-full
+    ${isNotHomePage ? "bg-white/90  relative" : "bg-transparent absolute"}
+    ${isNotHomePage ? "block h-16" : "hidden md:block"}
+    backdrop-blur-sm transition-colors duration-300 top-0
+  `}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="flex md:justify-between justify-end items-center py-3">
@@ -93,7 +96,9 @@ const Header = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-white hover:text-red-500 font-bold transition-colors"
+                    className={`${
+                      isNotHomePage ? "text-black" : "text-white"
+                    } hover:text-red-500 font-bold transition-colors`}
                   >
                     {link.label}
                   </Link>
@@ -101,7 +106,11 @@ const Header = () => {
 
                 {/* Services dropdown - ВИПРАВЛЕНО з невидимим містом */}
                 <div className="relative group">
-                  <button className="text-white hover:text-red-500 font-bold transition-colors">
+                  <button
+                    className={`${
+                      isNotHomePage ? "text-black" : "text-white"
+                    } hover:text-red-500 font-bold transition-colors`}
+                  >
                     ПОСЛУГИ
                   </button>
                   {/* Невидимий міст - розширює hover область */}
@@ -155,7 +164,7 @@ const Header = () => {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="absolute md:hidden bg-white border-t pt-1 w-full">
+          <div className="absolute md:hidden bg-white border-t w-full">
             <div className="px-4 py-2 space-y-1 ">
               {navLinks.map((link) => (
                 <Link
