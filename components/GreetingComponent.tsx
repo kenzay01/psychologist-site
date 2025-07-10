@@ -97,7 +97,7 @@ export default function GreetingComponent() {
               </div>
             </div> */}
             {/* Button */}
-            <div className="pt-6 self-center w-full hidden md:block">
+            <div className="pt-6 self-center w-full">
               <button
                 onClick={() => {
                   router.push("/aboutMe");
