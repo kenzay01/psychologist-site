@@ -26,10 +26,10 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-emerald-50 py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-red-50 py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-md w-full space-y-6 sm:space-y-7 md:space-y-8 bg-white p-6 sm:p-7 md:p-8 rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="text-2xl sm:text-2xl md:text-3xl font-extrabold text-emerald-900">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl font-extrabold text-red-900">
             Адмін панель
           </h2>
           <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-sm text-red-600">
@@ -55,7 +55,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
                 type="text"
                 autoComplete="username"
                 required
-                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-emerald-300 placeholder-emerald-500 text-emerald-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 text-xs sm:text-sm md:text-sm"
+                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-red-300 placeholder-red-500 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 text-xs sm:text-sm md:text-sm"
                 placeholder="Логін"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +71,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-emerald-300 placeholder-emerald-500 text-emerald-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 text-xs sm:text-sm md:text-sm"
+                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-red-300 placeholder-red-500 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 text-xs sm:text-sm md:text-sm"
                 placeholder="Пароль"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -84,7 +84,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
               type="button"
               disabled={loading}
               onClick={handleLogin}
-              className="group relative w-full flex justify-center py-1.5 sm:py-2 px-3 sm:px-4 border border-transparent text-xs sm:text-sm md:text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-1.5 sm:py-2 px-3 sm:px-4 border border-transparent text-xs sm:text-sm md:text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
             >
               {loading ? "Вхід..." : "Увійти"}
             </button>

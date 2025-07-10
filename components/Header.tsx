@@ -64,7 +64,7 @@ const Header = () => {
                   <a
                     key={index}
                     href={social.href}
-                    className="text-white hover:text-emerald-200 transition-colors"
+                    className="text-white hover:text-red-200 transition-colors"
                     aria-label={social.label}
                     onClick={() => {
                       toggleMenu();
@@ -136,7 +136,7 @@ const Header = () => {
               {/* Mobile menu button */}
               <button
                 onClick={toggleMenu}
-                className="md:hidden p-2 rounded-md text-red-500 hover:text-red-600 hover:bg-emerald-50"
+                className="md:hidden p-2 rounded-md text-red-500 hover:text-red-600 hover:bg-red-50"
               >
                 {isMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -155,7 +155,7 @@ const Header = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block px-3 py-2 text-red-500 hover:bg-emerald-50 rounded-md"
+                    className="block px-3 py-2 text-red-500 hover:bg-red-50 rounded-md"
                     onClick={() => {
                       toggleMenu();
                     }}
@@ -217,7 +217,7 @@ const Header = () => {
                         <a
                           key={index}
                           href={social.href}
-                          className="text-white hover:text-emerald-200 transition-colors"
+                          className="text-white hover:text-red-200 transition-colors"
                           aria-label={social.label}
                           onClick={() => {
                             toggleMenu();

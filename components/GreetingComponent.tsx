@@ -97,12 +97,12 @@ export default function GreetingComponent() {
               </div>
             </div> */}
             {/* Button */}
-            <div className="pt-6 self-center">
+            <div className="pt-6 self-center w-full">
               <button
                 onClick={() => {
                   router.push("/aboutMe");
                 }}
-                className="bg-white hover:bg-red-200 text-gray-800 px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+                className="bg-white hover:bg-red-200 text-gray-800 w-full md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               >
                 ДІЗНАТИСЯ БІЛЬШЕ
               </button>
@@ -128,7 +128,7 @@ export default function GreetingComponent() {
             />
 
             <div className="max-w-sm text-center">
-              <blockquote className="text-lg font-medium italic text-white leading-relaxed">
+              <blockquote className="text-sm md:text-lg font-medium italic text-white leading-relaxed">
                 «Найглибша робота починається не з питання `що зі мною не так?`,
                 а з питання `чого я насправді потребую?`»
               </blockquote>

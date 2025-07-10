@@ -60,7 +60,7 @@ export default function BenefitsContainer() {
 
   return (
     <section className="relative py-10 font-semibold">
-      <div className="relative z-10 max-w-6xl mx-auto px-4">
+      <div className="relative z-10 max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-semibold text-black mb-4">
@@ -95,7 +95,7 @@ export default function BenefitsContainer() {
                 return (
                   <div
                     key={benefit.id}
-                    className="group bg-white/50 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100"
+                    className="group bg-white/50 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2 border-red-500"
                   >
                     <div className="flex items-start gap-3">
                       <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-2 shadow-md group-hover:shadow-lg transition-all duration-300">
@@ -115,12 +115,12 @@ export default function BenefitsContainer() {
               })}
             </div>
             {/* Button */}
-            <div className="pt-6 md:col-span-2">
+            <div className="pt-6 md:col-span-2 w-full">
               <button
                 onClick={() => {
                   router.push("/aboutMe");
                 }}
-                className="bg-red-500 hover:bg-red-600 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+                className="bg-red-500 hover:bg-red-600 text-white w-full md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               >
                 ДІЗНАТИСЯ БІЛЬШЕ
               </button>

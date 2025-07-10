@@ -1,67 +1,67 @@
 "use client";
-import bannerBg from "@/public/home-banner.jpg";
-import homePhoto from "@/public/home-img.jpg";
+// import bannerBg from "@/public/home-banner.jpg";
+import homeBgMobile from "@/public/home-img.jpg";
+import homeBgDesktop from "@/public/home-bg-desktop.jpg";
 import Image from "next/image";
 import { Youtube, Instagram, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 export default function HomeBanner() {
   const router = useRouter();
-  const socialLinks = [
-    { href: "#", icon: Youtube, label: "YouTube", color: "bg-red-700" },
-    { href: "#", icon: Instagram, label: "Instagram", color: "bg-pink-700" },
-    { href: "#", icon: Send, label: "Telegram", color: "bg-blue-500" },
-  ];
+  // const socialLinks = [
+  //   { href: "#", icon: Youtube, label: "YouTube", color: "bg-red-700" },
+  //   { href: "#", icon: Instagram, label: "Instagram", color: "bg-pink-700" },
+  //   { href: "#", icon: Send, label: "Telegram", color: "bg-blue-500" },
+  // ];
 
   return (
-    <section className="relative h-auto md:h-150 flex flex-col md:flex-row items-center font-semibold py-10 md:py-0 ">
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${bannerBg.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60 shadow-2xl"></div>
+    <section className="relative min-h-screen flex flex-col items-center justify-center font-semibold">
+      {/* Mobile Background */}
+      <div className="absolute inset-0 md:hidden">
+        <Image
+          src={homeBgMobile}
+          alt="Background Mobile"
+          fill
+          className="object-cover"
+          priority
+          quality={85}
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
-      <div className="relative z-10 w-full flex flex-col md:flex-row">
-        {/* Left side (image + quote) */}
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 text-white text-center px-4 mb-10 md:mb-0">
-          <Image
-            src={homePhoto}
-            alt="HomePhoto"
-            className="h-72 w-auto md:h-120 rounded-3xl"
-            placeholder="blur"
-            quality={85}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            loading="lazy"
-          />
-          <blockquote className="text-lg font-medium italic text-white leading-relaxed">
-            «Коли ви маєте безпечне місце для себе — ви нарешті починаєте жити,
-            а не виживати»
-          </blockquote>
-        </div>
+      {/* Desktop Background */}
+      <div className="hidden md:block absolute inset-0">
+        <Image
+          src={homeBgDesktop}
+          alt="Background Desktop"
+          fill
+          className="object-cover"
+          priority
+          // quality={85}
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
 
-        {/* Right side (text + button + social) */}
-        <div className="flex-1 text-white flex flex-col items-center md:items-start justify-center px-4">
-          <div className="flex flex-col flex-1/2 gap-2 text-center justify-end md:text-left">
-            <h1 className="text-4xl md:text-6xl font-semibold leading-tight">
-              Олександра <br className="hidden md:block" /> Алексюк
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
+        {/* Main Content */}
+        <div className="text-white md:text-start flex flex-col md:items-start md:justify-center items-center justify-end flex-1 md:ml-32 ml-0 mb-8 md:mb-0">
+          <div className="mb-8 md:mb-12">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold  mb-4">
+              Олександра <br /> Алексюк
             </h1>
-            <h2 className="font-semibold text-base md:text-lg mt-2 md:pl-1 max-w-xl">
-              Психологиня-сексологиня, клінічна психологиня, супервізорка та
-              викладачка сексології
+            <h2 className="font-semibold text-lg md:text-2xl lg:text-3xl mb-4">
+              Психолог
             </h2>
-            <h2 className="italic text-base md:text-lg md:pl-1 max-w-xl">
-              Працюю з дорослими, парами, підлітками та дітьми, проводжу групові
-              та індивідуальні супервізії
-            </h2>
+            <p className="text-md md:text-xl lg:text-2xl max-w-2xl mx-auto">
+              Працюю з дорослими, парами, дітьми та підлітками
+            </p>
           </div>
 
-          <div className="mt-6 md:mt-12">
+          {/* Button */}
+          <div className="mb-6 md:mb-12">
             <button
-              className="bg-red-500 hover:bg-red-600 text-white px-8 md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
+              className="bg-red-500 hover:bg-red-600 text-white px-8 md:text-xl md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               onClick={() => {
                 router.push("/consultation");
               }}
@@ -70,18 +70,19 @@ export default function HomeBanner() {
             </button>
           </div>
 
-          <div className="mt-6 md:mt-auto flex space-x-4 self-center md:self-end flex-1/6 items-end">
+          {/* Social Links */}
+          {/* <div className="flex space-x-6">
             {socialLinks.map((social, index) => (
               <a
                 key={index}
                 href={social.href}
-                className={`${social.color} hover:scale-105 transition-all duration-300 p-2 rounded-full flex items-center justify-center`}
+                className={`${social.color} hover:scale-110 transition-all duration-300 p-3 md:p-4 rounded-full flex items-center justify-center shadow-lg`}
                 aria-label={social.label}
               >
-                <social.icon className="w-6 h-6 md:w-8 md:h-8" />
+                <social.icon className="w-4 h-4 md:w-6 md:h-6" />
               </a>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

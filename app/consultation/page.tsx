@@ -131,7 +131,7 @@ const ConsultationContent = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-8 py-4">
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             {Object.entries(consultationData).map(([key, data]) => (
               <button
@@ -160,7 +160,7 @@ const ConsultationContent = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-lg p-6 shadow-sm">
