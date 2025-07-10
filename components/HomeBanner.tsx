@@ -26,7 +26,7 @@ export default function HomeBanner() {
           priority
           quality={85}
         />
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* <div className="absolute inset-0 bg-black/30"></div> */}
       </div>
 
       {/* Desktop Background */}
@@ -39,7 +39,7 @@ export default function HomeBanner() {
           priority
           // quality={85}
         />
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* <div className="absolute inset-0 bg-black/30"></div> */}
       </div>
 
       {/* Content */}
