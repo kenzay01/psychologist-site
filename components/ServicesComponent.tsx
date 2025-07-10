@@ -41,7 +41,7 @@ export default function ServicesBlock() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-8 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -77,7 +77,7 @@ export default function ServicesBlock() {
                 </p>
                 <button
                   onClick={() => router.push(service.link)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 self-start hover:scale-105 transition-all duration-300 shadow-md"
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 w-full py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 justify-between hover:scale-105 transition-all duration-300 shadow-md"
                 >
                   Дізнатися більше
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />

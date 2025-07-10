@@ -45,7 +45,7 @@ export default function HomeBanner() {
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
         {/* Main Content */}
-        <div className="text-white md:text-start flex flex-col md:items-start md:justify-center items-center justify-end flex-1 md:ml-32 ml-0 mb-8 md:mb-0">
+        <div className="text-white md:text-start flex flex-col md:items-start md:justify-center items-center justify-end flex-1 md:ml-36 ml-0 mb-8 md:mb-0">
           <div className="mb-8 md:mb-12">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold  mb-4">
               Олександра <br /> Алексюк

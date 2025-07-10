@@ -64,7 +64,7 @@ export default function GreetingComponent() {
               </div>
             </div> */}
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="hidden md:block bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <p className="text-lg font-medium leading-relaxed">
                 Моя мета — не просто «вирішити проблему», а допомогти людині
                 повернутися до себе, своїх бажань, тіла й почуттів.
@@ -97,7 +97,7 @@ export default function GreetingComponent() {
               </div>
             </div> */}
             {/* Button */}
-            <div className="pt-6 self-center w-full">
+            <div className="pt-6 self-center w-full hidden md:block">
               <button
                 onClick={() => {
                   router.push("/aboutMe");
@@ -116,7 +116,7 @@ export default function GreetingComponent() {
           </div>
 
           {/* Right column - image */}
-          <div className="flex flex-col items-center space-y-6">
+          <div className="flex-col items-center space-y-6 hidden md:flex">
             <Image
               src={greetingImg}
               alt="Greeting Image"
