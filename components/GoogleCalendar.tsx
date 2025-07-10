@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
+import { Clock } from "lucide-react";
 
 interface Props {
   onDateSelect: (date: string, time: string) => void;
@@ -135,7 +136,6 @@ const GoogleCalendar = ({
 
   const handleDateChange = (
     value: Date | [Date | null, Date | null] | null
-    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     let selected: Date | null = null;
 
@@ -162,37 +162,43 @@ const GoogleCalendar = ({
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold mb-2">Оберіть дату:</h3>
+    <div className="space-y-4 p-4 bg-white rounded-lg shadow-sm border-2 border-red-500">
+      <h3 className="text-lg font-semibold text-gray-800 flex items-center space-x-2">
+        <Clock className="w-5 h-5 text-red-500" />
+        <span>Оберіть дату та час:</span>
+      </h3>
       <div className="w-full flex justify-center">
         <Calendar
           onChange={handleDateChange}
           value={selectedDate}
           minDate={getMinDate()}
-          maxDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
+          // maxDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
           locale="uk-UA"
+          className="border-none rounded-lg shadow-sm bg-gray-50 text-gray-800"
         />
       </div>
 
       {selectedDate && (
         <div>
-          <h4 className="font-medium mt-4 mb-2">
+          <h4 className="font-medium text-gray-800 mt-4 mb-2">
             Доступний час на {moment(selectedDate).format("DD.MM.YYYY")}:
           </h4>
           {availableTimes.length > 0 ? (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableTimes.map((time) => (
                 <button
                   key={time}
                   onClick={() => handleSelectTime(time)}
-                  className="p-2 border border-gray-300 rounded-md hover:bg-red-50 hover:border-red-500"
+                  className="p-2 bg-red-50 text-red-500 rounded-md hover:bg-red-100 hover:text-red-600 font-medium transition-colors border border-red-500"
                 >
                   {time}
                 </button>
               ))}
             </div>
           ) : (
-            <p className="text-gray-500">Немає вільного часу на цю дату</p>
+            <p className="text-gray-500 text-sm">
+              Немає вільного часу на цю дату
+            </p>
           )}
         </div>
       )}
