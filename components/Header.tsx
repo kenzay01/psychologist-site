@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MapPin, Phone, Menu, X, Send, Instagram, Mail } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import BookingModal from "./BookingModal";
 
@@ -38,11 +38,11 @@ const Header = () => {
     { href: "/supervision", label: "Супервізія" },
   ];
 
-  const socialLinks = [
-    { href: "#", icon: Send, label: "Telegram" },
-    { href: "#", icon: Instagram, label: "Instagram" },
-    { href: "#", icon: Mail, label: "Email" },
-  ];
+  // const socialLinks = [
+  //   { href: "#", icon: Send, label: "Telegram" },
+  //   { href: "#", icon: Instagram, label: "Instagram" },
+  //   { href: "#", icon: Mail, label: "Email" },
+  // ];
 
   return (
     <>
