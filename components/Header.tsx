@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MapPin, Phone, Menu, X, Send, Instagram, Mail } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const isNotHomePage = pathname !== "/";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -78,7 +80,11 @@ const Header = () => {
         </div> */}
 
         {/* Main navigation */}
-        <nav className="hidden md:block bg-black/95 backdrop-blur-sm shadow-lg">
+        <nav
+          className={`${
+            isNotHomePage ? "h-16" : "hidden"
+          } md:block absolute w-full backdrop-blur-sm shadow-lg`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="flex md:justify-between justify-end items-center py-3">
               {/* Desktop navigation */}
