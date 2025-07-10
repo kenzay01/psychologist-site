@@ -35,7 +35,7 @@ const ConsultationContent = () => {
     individual: {
       title: "Індивідуальна терапія",
       icon: <User className="w-6 h-6" />,
-      duration: "60",
+      duration: "50-60",
       price: "2000",
       blockquote:
         "«Коли всередині щось болить, але словами не описати — це вже запит»",
@@ -105,7 +105,7 @@ const ConsultationContent = () => {
     child: {
       title: "Дитяче та підліткове консультування",
       icon: <Baby className="w-6 h-6" />,
-      duration: "60",
+      duration: "45-60",
       price: "2000",
       blockquote:
         "«Дитина не має проблем — вона має спосіб кричати про те, що її турбує»",

@@ -53,7 +53,7 @@ const Header = () => {
     w-full
     ${isNotHomePage ? "bg-white/90  relative" : "bg-transparent absolute"}
     ${isNotHomePage ? "block h-16" : "hidden md:block"}
-    backdrop-blur-sm transition-colors duration-300 top-0
+    backdrop-blur-sm transition-colors duration-300 top-0 border-b-2 border-white
   `}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -132,7 +132,7 @@ const Header = () => {
 
           {/* Mobile menu */}
           {isMenuOpen && (
-            <div className="absolute md:hidden bg-white border-t w-full">
+            <div className="absolute md:hidden bg-white border-t w-full border-b-4 md:border-b-0 border-red-500">
               <div className="px-4 py-2 space-y-1 ">
                 {navLinks.map((link) => (
                   <Link
@@ -180,7 +180,7 @@ const Header = () => {
               </div>
 
               {/* Mobile contact info */}
-              <div className="bg-red-500 backdrop-blur-sm">
+              {/* <div className="bg-red-500 backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                   <div className="flex justify-between items-center py-3 text-white text-sm flex-col space-y-2">
                     <div className="flex items-center space-x-6 ">
@@ -194,7 +194,6 @@ const Header = () => {
                       </div>
                     </div>
 
-                    {/* Mobile social media icons */}
                     <div className="flex items-center space-x-3">
                       {socialLinks.map((social, index) => (
                         <a
@@ -212,7 +211,7 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
