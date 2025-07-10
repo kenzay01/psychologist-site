@@ -166,9 +166,9 @@ const ConsultationContent = () => {
                 }}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
                   activeTab === key
-                    ? "bg-white text-red-500 shadow-sm"
+                    ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
                     : "text-gray-600 hover:text-gray-800"
-                }`}
+                } `}
               >
                 {data.icon}
                 <span className="hidden sm:inline">{data.title}</span>
@@ -181,7 +181,7 @@ const ConsultationContent = () => {
       <div className="max-w-6xl mx-auto px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <div className="flex items-center space-x-3 mb-2">
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800">
@@ -201,7 +201,7 @@ const ConsultationContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Теми роботи
               </h2>
@@ -215,7 +215,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Формат і умови
               </h2>
@@ -239,7 +239,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Відгуки клієнтів
               </h2>
@@ -267,7 +267,7 @@ const ConsultationContent = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 Швидка інформація
               </h3>
@@ -287,7 +287,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}
@@ -327,10 +327,10 @@ const ConsultationContent = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         consultationType={selectedConsultationType}
-        price={Number(consultationData[selectedConsultationType].price)}
-        duration={Number(
-          consultationData[selectedConsultationType].duration.split("-")[0]
-        )}
+        // price={Number(consultationData[selectedConsultationType].price)}
+        // duration={Number(
+        //   consultationData[selectedConsultationType].duration.split("-")[0]
+        // )}
       />
     </div>
   );

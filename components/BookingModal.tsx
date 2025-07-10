@@ -1,21 +1,50 @@
 import { useEffect, useState } from "react";
-import { Clock, MessageCircle, Calendar, CreditCard } from "lucide-react";
+import {
+  Clock,
+  MessageCircle,
+  Calendar,
+  CreditCard,
+  User,
+  Users,
+  Baby,
+} from "lucide-react";
 import moment from "moment";
-import GoogleCalendar from "./GoogleCalendar"; // Імпортуємо новий компонент
+import GoogleCalendar from "./GoogleCalendar";
 
 export default function BookingModal({
   isOpen,
   onClose,
-  consultationType,
-  price,
-  duration,
-}: {
+  consultationType: initialConsultationType,
+}: // price: initialPrice,
+// duration: initialDuration,
+{
   isOpen: boolean;
   onClose: () => void;
-  consultationType: "individual" | "couple" | "child";
-  price: number;
-  duration: number;
+  consultationType?: "individual" | "couple" | "child";
+  // price?: number;
+  // duration?: number;
 }) {
+  const consultationData = {
+    individual: {
+      title: "Індивідуальна терапія",
+      icon: <User className="w-6 h-6" />,
+      duration: 60,
+      price: 2000,
+    },
+    couple: {
+      title: "Сімейна та парна психотерапія",
+      icon: <Users className="w-6 h-6" />,
+      duration: 80,
+      price: 2600,
+    },
+    child: {
+      title: "Дитяче та підліткове консультування",
+      icon: <Baby className="w-6 h-6" />,
+      duration: 60,
+      price: 2000,
+    },
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -29,8 +58,14 @@ export default function BookingModal({
   const [currentStep, setCurrentStep] = useState<
     "form" | "calendar" | "confirmation"
   >("form");
+  const [selectedConsultationType, setSelectedConsultationType] = useState<
+    "individual" | "couple" | "child"
+  >(initialConsultationType || "individual");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
+  const price = consultationData[selectedConsultationType].price;
+  const duration = consultationData[selectedConsultationType].duration;
 
   useEffect(() => {
     if (isOpen) {
@@ -45,11 +80,16 @@ export default function BookingModal({
         document.body.style.top = "";
         document.body.style.width = "";
         document.body.style.overflow = "";
-
         window.scrollTo(0, scrollY);
       };
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && initialConsultationType) {
+      setSelectedConsultationType(initialConsultationType);
+    }
+  }, [isOpen, initialConsultationType]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,20 +100,32 @@ export default function BookingModal({
     });
   };
 
+  const handleTypeSelect = (type: "individual" | "couple" | "child") => {
+    setSelectedConsultationType(type);
+    setFormData({
+      name: "",
+      phone: "",
+      socialMedia: "",
+      problem: "",
+      partnerName: "",
+      childName: "",
+      childAge: "",
+    }); // Очищаємо форму при зміні типу
+  };
+
   const handleSubmit = async () => {
-    // Валідація форми
     if (!formData.name || !formData.phone || !formData.problem) {
       alert("Будь ласка, заповніть всі обов'язкові поля");
       return;
     }
 
-    if (consultationType === "couple" && !formData.partnerName) {
+    if (selectedConsultationType === "couple" && !formData.partnerName) {
       alert("Будь ласка, вкажіть ім'я другого партнера");
       return;
     }
 
     if (
-      consultationType === "child" &&
+      selectedConsultationType === "child" &&
       (!formData.childName || !formData.childAge)
     ) {
       alert("Будь ласка, заповніть всі поля для дитячого консультування");
@@ -92,7 +144,7 @@ export default function BookingModal({
   const handleBookingConfirmation = async () => {
     try {
       let bookingMessage = ``;
-      if (consultationType === "individual") {
+      if (selectedConsultationType === "individual") {
         bookingMessage = `
     🔔 Нове бронювання
     😊 Тип: Індивідуальне консультування
@@ -103,7 +155,7 @@ export default function BookingModal({
     📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
     📝 Опис проблеми: ${formData.problem}
             `;
-      } else if (consultationType === "couple") {
+      } else if (selectedConsultationType === "couple") {
         bookingMessage = `
     🔔 Нове бронювання
     😊 Тип: Парне консультування
@@ -115,7 +167,7 @@ export default function BookingModal({
     📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
     📝 Опис проблеми: ${formData.problem}
             `;
-      } else if (consultationType === "child") {
+      } else if (selectedConsultationType === "child") {
         bookingMessage = `
     🔔 Нове бронювання
     😊 Тип: Дитяче консультування
@@ -144,16 +196,15 @@ export default function BookingModal({
         }
       );
 
-      // Додавання події в Google Calendar
       const summary =
-        consultationType === "individual"
+        selectedConsultationType === "individual"
           ? "Індивідуальне консультування"
-          : consultationType === "couple"
+          : selectedConsultationType === "couple"
           ? "Парне консультування"
           : "Дитяче консультування";
 
       let formattedDescription;
-      if (consultationType === "individual") {
+      if (selectedConsultationType === "individual") {
         formattedDescription = `
     Тип: ${summary}
     Ім'я: ${formData.name}
@@ -161,7 +212,7 @@ export default function BookingModal({
     Соц.мережі: ${formData.socialMedia || "Не вказано"}
     Опис проблеми: ${formData.problem}
     `;
-      } else if (consultationType === "couple") {
+      } else if (selectedConsultationType === "couple") {
         formattedDescription = `
     Тип: ${summary}
     Ім'я першого партнера: ${formData.name}
@@ -170,7 +221,7 @@ export default function BookingModal({
     Соц.мережі: ${formData.socialMedia || "Не вказано"}
     Опис проблеми: ${formData.problem}
     `;
-      } else if (consultationType === "child") {
+      } else if (selectedConsultationType === "child") {
         formattedDescription = `
     Тип: ${summary}
     Ім'я батька/матері: ${formData.name}
@@ -198,33 +249,22 @@ export default function BookingModal({
       alert("Бронювання успішно створено! Деталі відправлені в Telegram.");
       onClose();
       setCurrentStep("form");
+      setFormData({
+        name: "",
+        phone: "",
+        socialMedia: "",
+        problem: "",
+        partnerName: "",
+        childName: "",
+        childAge: "",
+      });
     } catch (error) {
       alert("Помилка при створенні бронювання: " + error);
     }
   };
 
   const handlePayment = () => {
-    // Перенаправлення на MonoBank для оплати
-    // const paymentData = {
-    //   amount: price * 100, // MonoBank вимагає суму в копійках
-    //   ccy: 980, // UAH
-    //   merchantPaymInfo: {
-    //     reference: `${consultationType}_${Date.now()}`,
-    //     destination: `${consultationType} consultation`,
-    //   },
-    //   redirectUrl: window.location.href,
-    //   webHookUrl: "https://your-backend.com/webhook", // URL для вебхука
-    // };
-    // // Формування URL для оплати через MonoBank
-    // window.location.href = `https://api.monobank.ua/api/merchant/invoice/create?token=${
-    //   process.env.NEXT_PUBLIC_MONOBANK_TOKEN
-    // }&amount=${paymentData.amount}&ccy=${
-    //   paymentData.ccy
-    // }&merchantPaymInfo=${encodeURIComponent(
-    //   JSON.stringify(paymentData.merchantPaymInfo)
-    // )}&redirectUrl=${encodeURIComponent(
-    //   paymentData.redirectUrl
-    // )}&webHookUrl=${encodeURIComponent(paymentData.webHookUrl)}`;
+    // Логіка оплати через MonoBank
   };
 
   const telegramLink = "https://t.me/admin_username";
@@ -237,10 +277,7 @@ export default function BookingModal({
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">
-              {consultationType === "individual" &&
-                "Індивідуальне консультування"}
-              {consultationType === "couple" && "Парне консультування"}
-              {consultationType === "child" && "Дитяче консультування"}
+              {consultationData[selectedConsultationType].title}
             </h2>
             <button
               onClick={onClose}
@@ -252,6 +289,26 @@ export default function BookingModal({
 
           {currentStep === "form" && (
             <div className="space-y-4">
+              {/* Вкладки для вибору типу консультації */}
+              <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
+                {Object.entries(consultationData).map(([key, data]) => (
+                  <button
+                    key={key}
+                    onClick={() =>
+                      handleTypeSelect(key as keyof typeof consultationData)
+                    }
+                    className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
+                      selectedConsultationType === key
+                        ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
+                        : "text-gray-600 hover:text-gray-800"
+                    }`}
+                  >
+                    {data.icon}
+                    <span className="text-sm">{data.title}</span>
+                  </button>
+                ))}
+              </div>
+
               <div className="bg-red-50 p-4 rounded-lg mb-4">
                 <p className="text-sm text-red-800">
                   <Clock className="inline w-4 h-4 mr-1" />
@@ -259,7 +316,7 @@ export default function BookingModal({
                 </p>
               </div>
 
-              {consultationType === "individual" && (
+              {selectedConsultationType === "individual" && (
                 <>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -277,7 +334,7 @@ export default function BookingModal({
                 </>
               )}
 
-              {consultationType === "couple" && (
+              {selectedConsultationType === "couple" && (
                 <>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -308,7 +365,7 @@ export default function BookingModal({
                 </>
               )}
 
-              {consultationType === "child" && (
+              {selectedConsultationType === "child" && (
                 <>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -421,7 +478,7 @@ export default function BookingModal({
             <div>
               <GoogleCalendar
                 onDateSelect={handleDateSelect}
-                consultationType={consultationType}
+                consultationType={selectedConsultationType}
                 duration={duration}
                 minimumBookingHours={4}
               />
@@ -446,11 +503,7 @@ export default function BookingModal({
                 <h4 className="font-medium mb-2">Деталі бронювання:</h4>
                 <p>
                   <strong>Послуга:</strong>{" "}
-                  {consultationType === "individual"
-                    ? "Індивідуальне консультування"
-                    : consultationType === "couple"
-                    ? "Парне консультування"
-                    : "Дитяче консультування"}
+                  {consultationData[selectedConsultationType].title}
                 </p>
                 <p>
                   <strong>Дата:</strong>{" "}

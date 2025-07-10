@@ -66,6 +66,7 @@ export default function BenefitsContainer() {
           <h1 className="text-3xl md:text-4xl font-semibold text-black mb-4">
             Переваги моєї роботи
           </h1>
+          <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
         </div>
 
         {/* Content Container */}
@@ -80,7 +81,7 @@ export default function BenefitsContainer() {
             <Image
               src={benefitsImg}
               alt="Олександра Алексюк"
-              className="w-auto md:h-160 h-92 rounded-3xl shadow-2xl self-center"
+              className="w-full md:w-auto md:h-160 h-92 rounded-3xl shadow-2xl self-center object-cover"
               quality={85}
               placeholder="blur"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

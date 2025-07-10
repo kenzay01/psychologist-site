@@ -1,18 +1,34 @@
 import { useState, useEffect } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, User, Users } from "lucide-react";
+
 export default function SupervisionModal({
   isOpen,
   onClose,
-  supervisionType,
-  price,
-  duration,
+  supervisionType: initialSupervisionType,
+  price: initialPrice,
+  duration: initialDuration,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  supervisionType: "individual" | "group";
-  price: number;
-  duration: number;
+  supervisionType?: "individual" | "group";
+  price?: number;
+  duration?: number;
 }) {
+  const supervisionData = {
+    individual: {
+      title: "Індивідуальна супервізія",
+      icon: <User className="w-6 h-6" />,
+      duration: 60,
+      price: 2000,
+    },
+    group: {
+      title: "Групова супервізія",
+      icon: <Users className="w-6 h-6" />,
+      duration: 120,
+      price: 800,
+    },
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -20,6 +36,14 @@ export default function SupervisionModal({
     experience: "",
     supervisionGoals: "",
   });
+
+  const [selectedSupervisionType, setSelectedSupervisionType] = useState<
+    "individual" | "group"
+  >(initialSupervisionType || "individual");
+
+  const price = initialPrice || supervisionData[selectedSupervisionType].price;
+  const duration =
+    initialDuration || supervisionData[selectedSupervisionType].duration;
 
   useEffect(() => {
     if (isOpen) {
@@ -34,11 +58,16 @@ export default function SupervisionModal({
         document.body.style.top = "";
         document.body.style.width = "";
         document.body.style.overflow = "";
-
         window.scrollTo(0, scrollY);
       };
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && initialSupervisionType) {
+      setSelectedSupervisionType(initialSupervisionType);
+    }
+  }, [isOpen, initialSupervisionType]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,6 +76,17 @@ export default function SupervisionModal({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleTypeSelect = (type: "individual" | "group") => {
+    setSelectedSupervisionType(type);
+    setFormData({
+      name: "",
+      phone: "",
+      socialMedia: "",
+      experience: "",
+      supervisionGoals: "",
+    }); // Очищаємо форму при зміні типу
   };
 
   const handleSubmit = async () => {
@@ -58,14 +98,14 @@ export default function SupervisionModal({
     try {
       const message = `
       🔔 Нова заявка на ${
-        supervisionType === "individual" ? "індивідуальну" : "групову"
+        selectedSupervisionType === "individual" ? "індивідуальну" : "групову"
       } супервізію
       🙎‍♂️ Ім'я: ${formData.name}
       📞 Телефон: ${formData.phone}
       📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
       📝 Досвід: ${formData.experience || "Не вказано"}
       🎯 Цілі супервізії: ${formData.supervisionGoals}
-            `;
+      `;
 
       await fetch(
         `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -83,6 +123,13 @@ export default function SupervisionModal({
 
       alert("Заявку успішно відправлено в Telegram!");
       onClose();
+      setFormData({
+        name: "",
+        phone: "",
+        socialMedia: "",
+        experience: "",
+        supervisionGoals: "",
+      });
     } catch (error) {
       alert("Помилка при відправці заявки. Спробуйте ще раз." + error);
     }
@@ -93,17 +140,12 @@ export default function SupervisionModal({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      //   onClick={onClose}
-    >
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">
-              {supervisionType === "individual"
-                ? "Індивідуальна супервізія"
-                : "Групова супервізія"}
+              {supervisionData[selectedSupervisionType].title}
             </h2>
             <button
               onClick={onClose}
@@ -114,6 +156,26 @@ export default function SupervisionModal({
           </div>
 
           <div className="space-y-4">
+            {/* Вкладки для вибору типу супервізії */}
+            <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
+              {Object.entries(supervisionData).map(([key, data]) => (
+                <button
+                  key={key}
+                  onClick={() =>
+                    handleTypeSelect(key as keyof typeof supervisionData)
+                  }
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
+                    selectedSupervisionType === key
+                      ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
+                      : "text-gray-600 hover:text-gray-800"
+                  }`}
+                >
+                  {data.icon}
+                  <span className="text-sm">{data.title}</span>
+                </button>
+              ))}
+            </div>
+
             <div className="bg-red-50 p-4 rounded-lg mb-4">
               <p className="text-sm text-red-800">
                 Тривалість: {duration} хв | Ціна: {price} грн

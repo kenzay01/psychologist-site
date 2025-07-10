@@ -48,6 +48,7 @@ export default function ServicesBlock() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Послуги
           </h2>
+          <div className="w-36 h-1 bg-red-500 mx-auto mb-8"></div>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Професійна психологічна допомога для різних життєвих ситуацій
           </p>

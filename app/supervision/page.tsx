@@ -111,7 +111,7 @@ const SupervisionContent = () => {
                 }}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
                   activeTab === key
-                    ? "bg-white text-red-500 shadow-sm"
+                    ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
                     : "text-gray-600 hover:text-gray-800"
                 }`}
               >
@@ -126,7 +126,7 @@ const SupervisionContent = () => {
       <div className="max-w-6xl mx-auto px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <div className="flex items-center space-x-3 mb-4">
                 {currentData.icon}
                 <h1 className="text-3xl font-bold text-gray-800">Супервізія</h1>
@@ -144,7 +144,7 @@ const SupervisionContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Чому супервізія зі мною?
               </h2>
@@ -164,7 +164,7 @@ const SupervisionContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Для кого ця супервізія?
               </h2>
@@ -188,7 +188,7 @@ const SupervisionContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Формат і умови
               </h2>
@@ -248,7 +248,7 @@ const SupervisionContent = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 Швидка інформація
               </h3>
@@ -272,7 +272,7 @@ const SupervisionContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}
