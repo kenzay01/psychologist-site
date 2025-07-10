@@ -17,7 +17,14 @@ const GoogleCalendar = ({
   minimumBookingHours = 5, // За замовчуванням 5 годин
 }: Props) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<
+    {
+      title: string;
+      start: Date;
+      end: Date;
+      type: "individual" | "couple" | "child";
+    }[]
+  >([]);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
   const calendarId = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID;
@@ -35,16 +42,23 @@ const GoogleCalendar = ({
         );
         const data = await res.json();
 
-        const fetched = data.items.map((item: any) => ({
-          title: item.summary,
-          start: new Date(item.start.dateTime),
-          end: new Date(item.end.dateTime),
-          type: item.description?.includes("individual")
-            ? "individual"
-            : item.description?.includes("couple")
-            ? "couple"
-            : "child",
-        }));
+        const fetched = data.items.map(
+          (item: {
+            summary: string;
+            start: { dateTime: string };
+            end: { dateTime: string };
+            description?: string;
+          }) => ({
+            title: item.summary,
+            start: new Date(item.start.dateTime),
+            end: new Date(item.end.dateTime),
+            type: item.description?.includes("individual")
+              ? "individual"
+              : item.description?.includes("couple")
+              ? "couple"
+              : "child",
+          })
+        );
 
         setEvents(fetched);
       } catch (err) {
@@ -120,8 +134,8 @@ const GoogleCalendar = ({
   };
 
   const handleDateChange = (
-    value: Date | [Date | null, Date | null] | null,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    value: Date | [Date | null, Date | null] | null
+    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     let selected: Date | null = null;
 
