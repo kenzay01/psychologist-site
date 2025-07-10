@@ -83,7 +83,7 @@ const Header = () => {
         <nav
           className={`${
             isNotHomePage ? "h-16" : "hidden"
-          } md:block absolute w-full backdrop-blur-sm shadow-lg`}
+          } md:block relative md:absolute w-full backdrop-blur-sm shadow-lg`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="flex md:justify-between justify-end items-center py-3">
@@ -106,13 +106,13 @@ const Header = () => {
                   </button>
                   {/* Невидимий міст - розширює hover область */}
                   <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <div className="bg-black/95 rounded-lg px-2 shadow-lg z-[9999]">
+                    <div className="bg-black/50 backdrop-blur-md  rounded-lg px-2 shadow-lg z-[9999]">
                       <div className="py-2">
                         {servicesLinks.map((service) => (
                           <Link
                             key={service.href}
                             href={service.href}
-                            className="block px-4 py-2 text-sm text-white hover:bg-red-500 hover:text-black transition-colors rounded-md"
+                            className="block px-4 py-2 text-sm text-white hover:bg-red-500 transition-colors rounded-md"
                             onClick={() => {
                               toggleMenu();
                             }}
