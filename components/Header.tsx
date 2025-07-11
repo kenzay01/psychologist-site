@@ -5,44 +5,48 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import BookingModal from "./Modal/Modal";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const router = useRouter();
   const pathname = usePathname();
-  const isNotHomePage = pathname !== "/";
+  const isNotHomePage =
+    pathname !== `/${currentLocale}` && pathname !== `/${currentLocale}/`;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const navLinks = [
-    { href: "/", label: "ГОЛОВНА" },
-    { href: "/aboutMe", label: "ПРО МЕНЕ" },
-    { href: "/dyplomy", label: "ДИПЛОМИ" },
-    { href: "/blog", label: "БЛОГ" },
-    // { href: "/contact", label: "КОНТАКТИ" },
+    { href: "/", label: dict?.header.nav.home },
+    { href: "/aboutMe", label: dict?.header.nav.aboutMe },
+    { href: "/dyplomy", label: dict?.header.nav.diplomas },
+    { href: "/blog", label: dict?.header.nav.blog },
   ];
 
   const servicesLinks = [
     {
       href: "/consultation?type=individual",
-      label: "Індивідуальне консультування",
+      label: dict?.header.nav.servicesLinks.individual,
     },
-    { href: "/consultation?type=couple", label: "Парне консультування" },
+    {
+      href: "/consultation?type=couple",
+      label: dict?.header.nav.servicesLinks.couple,
+    },
     {
       href: "/consultation?type=child",
-      label: "Робота з дітьми та підлітками",
+      label: dict?.header.nav.servicesLinks.child,
     },
-    { href: "/supervision", label: "Супервізія" },
+    { href: "/supervision", label: dict?.header.nav.servicesLinks.supervision },
   ];
 
-  // const socialLinks = [
-  //   { href: "#", icon: Send, label: "Telegram" },
-  //   { href: "#", icon: Instagram, label: "Instagram" },
-  //   { href: "#", icon: Mail, label: "Email" },
-  // ];
+  if (loading) return null;
 
   return (
     <>
@@ -51,7 +55,7 @@ const Header = () => {
           <nav
             className={`
     w-full
-    ${isNotHomePage ? "bg-white/90  relative" : "bg-transparent absolute"}
+    ${isNotHomePage ? "bg-white/90 relative" : "bg-transparent absolute"}
     ${isNotHomePage ? "block h-16" : "hidden md:block"}
     backdrop-blur-sm transition-colors duration-300 top-0
   `}
@@ -63,7 +67,11 @@ const Header = () => {
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
-                      href={link.href}
+                      href={
+                        link.href === "/"
+                          ? `/${currentLocale}`
+                          : `/${currentLocale}${link.href}`
+                      }
                       className={`${
                         isNotHomePage ? "text-black" : "text-white"
                       } hover:text-red-500 font-bold transition-colors`}
@@ -72,23 +80,22 @@ const Header = () => {
                     </Link>
                   ))}
 
-                  {/* Services dropdown - ВИПРАВЛЕНО з невидимим містом */}
+                  {/* Services dropdown */}
                   <div className="relative group">
                     <button
                       className={`${
                         isNotHomePage ? "text-black" : "text-white"
                       } hover:text-red-500 font-bold transition-colors`}
                     >
-                      ПОСЛУГИ
+                      {dict?.header.nav.services}
                     </button>
-                    {/* Невидимий міст - розширює hover область */}
                     <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                      <div className="bg-black/50 backdrop-blur-md  rounded-lg px-2 shadow-lg z-[9999]">
+                      <div className="bg-black/50 backdrop-blur-md rounded-lg px-2 shadow-lg z-[9999]">
                         <div className="py-2">
                           {servicesLinks.map((service) => (
                             <Link
                               key={service.href}
-                              href={service.href}
+                              href={`/${currentLocale}${service.href}`}
                               className="block px-4 py-2 text-sm text-white hover:bg-red-500 transition-colors rounded-md"
                               onClick={() => {
                                 toggleMenu();
@@ -104,21 +111,21 @@ const Header = () => {
                 </div>
 
                 {/* CTA Button */}
-                <div className="hidden md:block">
+                <div className="hidden md:flex items-center justify-center space-x-4">
+                  <LanguageSwitcher currentLocale={currentLocale} />
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md"
                     onClick={() => {
                       setIsModalOpen(true);
                     }}
                   >
-                    ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
+                    {dict?.header.cta.bookConsultation}
                   </button>
                 </div>
-
-                {/* Mobile menu button */}
               </div>
             </div>
           </nav>
+
           <button
             onClick={toggleMenu}
             className={`md:hidden p-2 rounded-md ${
@@ -127,8 +134,7 @@ const Header = () => {
                 : isNotHomePage
                 ? "text-black"
                 : "text-white"
-            }
-            absolute top-3 right-3 focus:outline-none  z-20`}
+            } absolute top-3 right-3 focus:outline-none z-20`}
           >
             {isMenuOpen ? (
               <X className="w-8 h-8" />
@@ -140,12 +146,16 @@ const Header = () => {
           {/* Mobile menu */}
           {isMenuOpen && (
             <div className="absolute md:hidden bg-white border-t w-full">
-              <div className="px-4 py-2 space-y-1 ">
+              <div className="px-4 py-2 space-y-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
-                    href={link.href}
-                    className="block px-3 py-2 text-red-500 hover:bg-red-50 rounded-md "
+                    href={
+                      link.href === "/"
+                        ? `/${currentLocale}`
+                        : `/${currentLocale}${link.href}`
+                    }
+                    className="block px-3 py-2 text-red-500 hover:bg-red-50 rounded-md"
                     onClick={() => {
                       toggleMenu();
                     }}
@@ -156,12 +166,14 @@ const Header = () => {
 
                 {/* Mobile services menu */}
                 <div className="px-3 py-2">
-                  <div className="text-red-500 font-medium mb-2">ПОСЛУГИ</div>
+                  <div className="text-red-500 font-medium mb-2">
+                    {dict?.header.nav.services}
+                  </div>
                   <div className="pl-4 space-y-1">
                     {servicesLinks.map((service) => (
                       <Link
                         key={service.href}
-                        href={service.href}
+                        href={`/${currentLocale}${service.href}`}
                         className="block py-1 text-sm text-gray-600 hover:text-red-500"
                         onClick={() => {
                           toggleMenu();
@@ -172,53 +184,20 @@ const Header = () => {
                     ))}
                   </div>
                 </div>
-
+                <div className="px-3 py-2 self-end">
+                  <LanguageSwitcher currentLocale={currentLocale} />
+                </div>
                 <div className="px-3 py-2">
                   <button
                     className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
                     onClick={() => {
                       setIsModalOpen(true);
-                      // toggleMenu();
                     }}
                   >
-                    ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
+                    {dict?.header.cta.bookConsultation}
                   </button>
                 </div>
               </div>
-
-              {/* Mobile contact info */}
-              {/* <div className="bg-red-500 backdrop-blur-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                  <div className="flex justify-between items-center py-3 text-white text-sm flex-col space-y-2">
-                    <div className="flex items-center space-x-6 ">
-                      <div className="flex items-center space-x-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>м. Київ вул. Бриса Гринченка, 2</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Phone className="w-4 h-4" />
-                        <a href="tel:+380987313541">+380 98 731 35 41</a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                      {socialLinks.map((social, index) => (
-                        <a
-                          key={index}
-                          href={social.href}
-                          className="text-white hover:text-red-200 transition-colors"
-                          aria-label={social.label}
-                          onClick={() => {
-                            toggleMenu();
-                          }}
-                        >
-                          <social.icon className="w-5 h-5" />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           )}
         </div>

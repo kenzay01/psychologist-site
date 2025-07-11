@@ -10,53 +10,54 @@ import {
   HandHeart,
   GraduationCap,
 } from "lucide-react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 export default function BenefitsContainer() {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
   const router = useRouter();
   const benefits = [
     {
       id: "01",
-      title: "Інтегративний та гнучкий підхід",
-      description:
-        "Не працюю «по шаблону». Поєдную різні підходи: позитивну психотерапію, транзактний аналіз, полімодальний підхід. Терапія вибудовується під вас і ваші реальні потреби.",
+      title: dict?.benefits.items[0].title,
+      description: dict?.benefits.items[0].description,
       icon: Sparkles,
     },
     {
       id: "02",
-      title: "Професійна підтримка для пар та родин",
-      description:
-        "Працюю з парами у кризах, на межі розриву або тими, хто хоче повернути близькість та взаємоповагу. Допомагаю налагодити спілкування та зупинити руйнівні сценарії.",
+      title: dict?.benefits.items[1].title,
+      description: dict?.benefits.items[1].description,
       icon: Users,
     },
     {
       id: "03",
-      title: "Досвід роботи з дітьми та підлітками",
-      description:
-        "Працюю з підлітками, які переживають тривогу, сором, самотність або шукають свою ідентичність. Допомагаю батькам краще розуміти дітей і створювати контакт замість конфлікту.",
+      title: dict?.benefits.items[2].title,
+      description: dict?.benefits.items[2].description,
       icon: Heart,
     },
     {
       id: "04",
-      title: "Глибока спеціалізація у сфері сексуальності",
-      description:
-        "Як сертифікована сексологиня, допомагаю працювати з сексуальними дисфункціями, відсутністю бажання, тілесним соромом, болем під час сексу та страхом близькості.",
+      title: dict?.benefits.items[3].title,
+      description: dict?.benefits.items[3].description,
       icon: Shield,
     },
     {
       id: "05",
-      title: "Підтримка в найважчі моменти життя",
-      description:
-        "Психологічна допомога в часи втрат, змін, війни, переїздів, післяпологових станів та вигорання. Усе, що зараз болить — має право бути і може стати точкою росту.",
+      title: dict?.benefits.items[4].title,
+      description: dict?.benefits.items[4].description,
       icon: HandHeart,
     },
     {
       id: "06",
-      title: "Супервізія і розвиток для фахівців",
-      description:
-        "Працюю як супервізорка для психологів, які прагнуть професійного росту, ясності у роботі та етичної підтримки. Допомагаю розібратись у складних випадках і не загубити себе.",
+      title: dict?.benefits.items[5].title,
+      description: dict?.benefits.items[5].description,
       icon: GraduationCap,
     },
   ];
+
+  if (loading) return null;
 
   return (
     <section className="relative py-10 font-semibold">
@@ -64,7 +65,7 @@ export default function BenefitsContainer() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-semibold text-black mb-4">
-            Переваги моєї роботи
+            {dict?.benefits.title}
           </h1>
           <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
         </div>
@@ -74,9 +75,7 @@ export default function BenefitsContainer() {
           {/* Image */}
           <div className="flex-1/3 flex flex-col gap-8 justify-center">
             <h1 className="md:text-lg font-semibold text-black mb-4 text-center">
-              Я створюю підтримувальний простір, де можна відкрито говорити про
-              важливе — без осуду, сорому чи табу. Працюю з повагою до ваших
-              кордонів, досвіду та темпу.
+              {dict?.benefits.description}
             </h1>
             <Image
               src={benefitsImg}
@@ -119,15 +118,14 @@ export default function BenefitsContainer() {
             <div className="pt-6 md:col-span-2 w-full">
               <button
                 onClick={() => {
-                  router.push("/aboutMe");
+                  router.push(`/${currentLocale}/aboutMe`);
                 }}
                 className="bg-red-500 hover:bg-red-600 text-white w-full md:px-12 py-3 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-md hover:scale-105 transition-all duration-300"
               >
-                ДІЗНАТИСЯ БІЛЬШЕ
+                {dict?.benefits.cta.learnMore}
               </button>
             </div>
           </div>
-          {/* Benefits List */}
         </div>
       </div>
     </section>

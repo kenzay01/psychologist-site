@@ -1,3 +1,9 @@
+"use client";
+
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
+
 interface TypeSelectorProps {
   selectedType: "consultation" | "supervision";
   onTypeSelect: (type: "consultation" | "supervision") => void;
@@ -7,6 +13,11 @@ export default function TypeSelector({
   selectedType,
   onTypeSelect,
 }: TypeSelectorProps) {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
+
+  if (loading) return null;
+
   return (
     <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
       <button
@@ -17,7 +28,7 @@ export default function TypeSelector({
             : "text-gray-600 hover:text-gray-800"
         }`}
       >
-        Консультація
+        {dict?.typeSelector.consultation}
       </button>
       <button
         onClick={() => onTypeSelect("supervision")}
@@ -27,7 +38,7 @@ export default function TypeSelector({
             : "text-gray-600 hover:text-gray-800"
         }`}
       >
-        Супервізія
+        {dict?.typeSelector.supervision}
       </button>
     </div>
   );

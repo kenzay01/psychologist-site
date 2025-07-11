@@ -1,21 +1,27 @@
+"use client";
+
 import { MessageCircle, Clock } from "lucide-react";
 import { JSX } from "react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
+
 interface ConsultationFormProps {
   consultationData: {
     individual: {
-      title: string;
+      title: string | undefined;
       icon: JSX.Element;
       duration: number;
       price: number;
     };
     couple: {
-      title: string;
+      title: string | undefined;
       icon: JSX.Element;
       duration: number;
       price: number;
     };
     child: {
-      title: string;
+      title: string | undefined;
       icon: JSX.Element;
       duration: number;
       price: number;
@@ -52,6 +58,11 @@ export default function ConsultationForm({
   onSubmit,
   telegramLink,
 }: ConsultationFormProps) {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
+
+  if (loading) return null;
+
   return (
     <div className="space-y-4">
       <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
@@ -67,7 +78,7 @@ export default function ConsultationForm({
                 : "text-gray-600 hover:text-gray-800"
             }`}
           >
-            {data.icon}
+            <div className="md:flex-1">{data.icon}</div>
             <span className="text-sm hidden md:block">{data.title}</span>
           </button>
         ))}
@@ -76,14 +87,16 @@ export default function ConsultationForm({
       <div className="bg-red-50 p-4 rounded-lg mb-4">
         <p className="text-sm text-red-800">
           <Clock className="inline w-4 h-4 mr-1" />
-          Тривалість: {duration} хв | Ціна: {price} грн
+          {dict?.consultationForm.durationPrice
+            .replace("{duration}", duration.toString())
+            .replace("{price}", price.toString())}
         </p>
       </div>
 
       {selectedConsultationType === "individual" && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Ім`я *
+            {dict?.consultationForm.nameLabel}
           </label>
           <input
             type="text"
@@ -100,7 +113,7 @@ export default function ConsultationForm({
         <>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ім`я першого партнера *
+              {dict?.consultationForm.firstPartnerNameLabel}
             </label>
             <input
               type="text"
@@ -113,7 +126,7 @@ export default function ConsultationForm({
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ім`я другого партнера *
+              {dict?.consultationForm.secondPartnerNameLabel}
             </label>
             <input
               type="text"
@@ -131,7 +144,7 @@ export default function ConsultationForm({
         <>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ім`я батька/матері *
+              {dict?.consultationForm.parentNameLabel}
             </label>
             <input
               type="text"
@@ -144,7 +157,7 @@ export default function ConsultationForm({
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ім`я дитини *
+              {dict?.consultationForm.childNameLabel}
             </label>
             <input
               type="text"
@@ -157,7 +170,7 @@ export default function ConsultationForm({
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Вік дитини *
+              {dict?.consultationForm.childAgeLabel}
             </label>
             <input
               type="number"
@@ -175,7 +188,7 @@ export default function ConsultationForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Телефон *
+          {dict?.consultationForm.phoneLabel}
         </label>
         <input
           type="tel"
@@ -183,14 +196,14 @@ export default function ConsultationForm({
           value={formData.phone}
           onChange={onInputChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-          placeholder="+380..."
+          placeholder={dict?.consultationForm.phonePlaceholder}
           required
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Соціальні мережі
+          {dict?.consultationForm.socialMediaLabel}
         </label>
         <input
           type="text"
@@ -198,13 +211,13 @@ export default function ConsultationForm({
           value={formData.socialMedia}
           onChange={onInputChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-          placeholder="Instagram, Telegram тощо"
+          placeholder={dict?.consultationForm.socialMediaPlaceholder}
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Опис проблеми *
+          {dict?.consultationForm.problemLabel}
         </label>
         <textarea
           name="problem"
@@ -221,7 +234,7 @@ export default function ConsultationForm({
           onClick={onSubmit}
           className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
         >
-          Відправити заявку
+          {dict?.consultationForm.submitButton}
         </button>
         <a
           href={telegramLink}
@@ -230,7 +243,7 @@ export default function ConsultationForm({
           className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors text-center"
         >
           <MessageCircle className="inline w-4 h-4 mr-2" />
-          Зв`язатися в Telegram
+          {dict?.consultationForm.telegramButton}
         </a>
       </div>
     </div>

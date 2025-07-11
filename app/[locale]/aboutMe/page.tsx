@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import aboutMeImg from "@/public/about-me-img.jpg";
-// import { useRouter } from "next/navigation";
 import { useState } from "react";
 import BookingModal from "@/components/Modal/Modal";
 import {
@@ -15,87 +14,92 @@ import {
   Lightbulb,
   Compass,
 } from "lucide-react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 export default function AboutMe() {
-  // const router = useRouter();
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const approaches = [
     {
-      name: "Позитивна психотерапія",
-      description: "Фокус на ресурсах і сильних сторонах особистості",
+      name: dict?.aboutMe.approaches[0].name,
+      description: dict?.aboutMe.approaches[0].description,
       icon: Star,
     },
     {
-      name: "Трансактний аналіз",
-      description: "Розуміння динаміки стосунків і внутрішніх станів",
+      name: dict?.aboutMe.approaches[1].name,
+      description: dict?.aboutMe.approaches[1].description,
       icon: MessageCircle,
     },
     {
-      name: "Полімодальний підхід",
-      description: "Гнучке поєднання різних терапевтичних методів",
+      name: dict?.aboutMe.approaches[2].name,
+      description: dict?.aboutMe.approaches[2].description,
       icon: Compass,
     },
     {
-      name: "Психосоматика",
-      description: "Робота з тілесними проявами емоційних станів",
+      name: dict?.aboutMe.approaches[3].name,
+      description: dict?.aboutMe.approaches[3].description,
       icon: Heart,
     },
     {
-      name: "Сімейна терапія",
-      description: "Налагодження стосунків у родині та з близькими",
+      name: dict?.aboutMe.approaches[4].name,
+      description: dict?.aboutMe.approaches[4].description,
       icon: Users,
     },
   ];
 
   const workFormats = [
     {
-      title: "Консультації в Києві",
-      location: "центр міста",
+      title: dict?.aboutMe.workFormats[0].title,
+      location: dict?.aboutMe.workFormats[0].location,
       icon: MapPin,
-      description: "Особисті зустрічі в комфортному офісі",
+      description: dict?.aboutMe.workFormats[0].description,
     },
     {
-      title: "Онлайн-формат",
-      location: "з будь-якої точки світу",
+      title: dict?.aboutMe.workFormats[1].title,
+      location: dict?.aboutMe.workFormats[1].location,
       icon: Monitor,
-      description: "Зручні сесії через відеозв'язок",
+      description: dict?.aboutMe.workFormats[1].description,
     },
     {
-      title: "Супервізії для психологів",
-      location: "індивідуальні та групові",
+      title: dict?.aboutMe.workFormats[2].title,
+      location: dict?.aboutMe.workFormats[2].location,
       icon: Users,
-      description: "Професійна підтримка для колег",
+      description: dict?.aboutMe.workFormats[2].description,
     },
   ];
 
   const clientTypes = [
     {
-      title: "Жінки, які прагнуть змін",
-      description: "Ті, хто втомився бути завжди сильною і хоче знайти баланс",
+      title: dict?.aboutMe.clientTypes[0].title,
+      description: dict?.aboutMe.clientTypes[0].description,
       icon: Heart,
     },
     {
-      title: "Пари в пошуках близькості",
-      description: "Хочуть відновити зв'язок, сексуальність та взаємоповагу",
+      title: dict?.aboutMe.clientTypes[1].title,
+      description: dict?.aboutMe.clientTypes[1].description,
       icon: Users,
     },
     {
-      title: "Підлітки у становленні",
-      description:
-        "Шукають себе, переживають тривогу чи проблеми з ідентичністю",
+      title: dict?.aboutMe.clientTypes[2].title,
+      description: dict?.aboutMe.clientTypes[2].description,
       icon: Compass,
     },
     {
-      title: "Фахівці в розвитку",
-      description: "Потребують супервізії, підтримки та професійного зростання",
+      title: dict?.aboutMe.clientTypes[3].title,
+      description: dict?.aboutMe.clientTypes[3].description,
       icon: Lightbulb,
     },
     {
-      title: "Люди в кризових станах",
-      description: "Не знають що саме болить, але відчувають потребу в змінах",
+      title: dict?.aboutMe.clientTypes[4].title,
+      description: dict?.aboutMe.clientTypes[4].description,
       icon: Shield,
     },
   ];
+
+  if (loading) return null;
 
   return (
     <>
@@ -104,7 +108,7 @@ export default function AboutMe() {
           {/* Header */}
           <div className="text-center mb-8 md:mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Про мене
+              {dict?.aboutMe.title}
             </h1>
             <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
           </div>
@@ -124,10 +128,8 @@ export default function AboutMe() {
                   loading="lazy"
                 />
                 <div className="relative mt-4 md:mt-0 md:absolute md:-bottom-6 md:-right-6 bg-red-500 text-white px-4 py-3 rounded-2xl shadow-lg max-w-sm">
-                  <blockquote className=" font-medium italic">
-                    «Зі мною можна по-справжньому: без сорому, без `правильно`
-                    чи `неправильно`. Я створюю безпечний простір для справжніх
-                    розмов»
+                  <blockquote className="font-medium italic">
+                    {dict?.aboutMe.quote}
                   </blockquote>
                 </div>
               </div>
@@ -137,31 +139,24 @@ export default function AboutMe() {
             <div className="space-y-6">
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                  Мій підхід до роботи
+                  {dict?.aboutMe.approachTitle}
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Я не працюю за готовими шаблонами. Кожна людина унікальна,
-                  тому терапія вибудовується саме під ваші потреби, темп і
-                  особливості. Створюю безпечний простір, де можна говорити про
-                  важке, сумне, інтимне — все, що справжнє.
+                  {dict?.aboutMe.approachDescription}
                 </p>
                 <div className="border-l-4 border-red-500 pl-4">
                   <p className="text-gray-700 font-medium">
-                    Працюю з повагою до ваших кордонів, досвіду та темпу. Не даю
-                    готових порад — разом досліджуємо, що саме для вас є
-                    правдою, ресурсом і виходом.
+                    {dict?.aboutMe.approachDetail}
                   </p>
                 </div>
               </div>
 
               <div className="bg-red-100 rounded-2xl p-8 border border-red-100">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">
-                  Філософія роботи
+                  {dict?.aboutMe.philosophyTitle}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Вірю, що з теплом, професіоналізмом і прийняттям можливо
-                  зцілювати навіть дуже глибокі рани. Усе, що зараз болить — має
-                  право бути. І може стати точкою росту.
+                  {dict?.aboutMe.philosophyDescription}
                 </p>
               </div>
             </div>
@@ -170,7 +165,7 @@ export default function AboutMe() {
           {/* Approaches Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
-              Підходи у роботі
+              {dict?.aboutMe.approachesTitle}
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {approaches.map((approach, index) => {
@@ -200,7 +195,7 @@ export default function AboutMe() {
           {/* Work Formats Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
-              Формати роботи
+              {dict?.aboutMe.workFormatsTitle}
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {workFormats.map((format, index) => {
@@ -231,7 +226,7 @@ export default function AboutMe() {
           {/* Client Types Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
-              З ким я працюю
+              {dict?.aboutMe.clientTypesTitle}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {clientTypes.map((client, index) => {
@@ -263,19 +258,18 @@ export default function AboutMe() {
           {/* Call to Action */}
           <div className="bg-red-500 rounded-3xl p-6 md:p-12 text-center text-white">
             <h2 className="text-3xl font-bold mb-6">
-              Готові розпочати свій шлях до змін?
+              {dict?.aboutMe.cta.title}
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Говорити про сексуальність, стосунки і внутрішні конфлікти можна —
-              без сорому, осуду чи табу.
+              {dict?.aboutMe.cta.description}
             </p>
             <button
               onClick={() => {
                 setIsModalOpen(true);
               }}
-              className="bg-white text-red-600 w-full px-2  md:px-12 py-4 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold text-sm md:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              className="bg-white text-red-600 w-full px-2 md:px-12 py-4 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold text-sm md:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
-              ЗАПИСАТИСЯ НА КОНСУЛЬТАЦІЮ
+              {dict?.aboutMe.cta.bookConsultation}
             </button>
           </div>
         </div>

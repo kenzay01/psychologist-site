@@ -13,10 +13,15 @@ import {
   Users,
   Baby,
 } from "lucide-react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 type ConsultationType = "individual" | "couple" | "child";
 
 const ConsultationContent = () => {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<ConsultationType>("individual");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,108 +38,71 @@ const ConsultationContent = () => {
 
   const consultationData = {
     individual: {
-      title: "Індивідуальна терапія",
+      title: dict?.consultation.types.individual.title,
       icon: <User className="w-6 h-6" />,
-      duration: "50-60",
-      price: "2000",
-      blockquote:
-        "«Коли всередині щось болить, але словами не описати — це вже запит»",
-      description:
-        "Індивідуальна терапія — це місце, де не треба триматися. Тут можна зняти всі маски й бути справжньою.",
-      description2:
-        "Ми звикаємо справлятись. Терпіти, усміхатись, бути «зручною», «сильною», «успішною». Але всередині накопичується втома, порожнеча, тривога, відчуття, що щось не так — із життям, із тілом, з собою.",
-      topics: [
-        "Постійна тривога, відчуття провини, сором",
-        "Апатія, втрата сенсу, «нічого не хочу»",
-        "Проблеми у стосунках або неможливість їх побудувати",
-        "Відсутність сексуального бажання або страх інтимності",
-        "Тілесний сором, неприйняття себе",
-        "Розрив, зрада, розлучення",
-        "Нав’язливі думки, перфекціонізм, синдром самозванця",
-        "Післяпологові стани, материнське вигоряння",
-        "ПТСР, досвід війни або насильства",
-        "«Просто важко» — без пояснень",
-      ],
-      format: "Онлайн або офлайн сесії (Київ), тривалістю 50–60 хвилин",
+      duration: dict?.consultation.types.individual.duration,
+      price: dict?.consultation.types.individual.price,
+      blockquote: dict?.consultation.types.individual.blockquote,
+      description: dict?.consultation.types.individual.description,
+      description2: dict?.consultation.types.individual.description2,
+      topics: dict?.consultation.types.individual.topics,
+      format: dict?.consultation.types.individual.format,
       reviews: [
         {
-          name: "Олена К.",
+          name: dict?.consultation.types.individual.reviews[0].name,
           rating: 5,
-          text: "Дуже професійний підхід. Допомогла розібратися з тривожністю.",
+          text: dict?.consultation.types.individual.reviews[0].text,
         },
         {
-          name: "Михайло С.",
+          name: dict?.consultation.types.individual.reviews[1].name,
           rating: 5,
-          text: "Рекомендую! Відчуваю значні зміни після кількох сесій.",
+          text: dict?.consultation.types.individual.reviews[1].text,
         },
       ],
     },
     couple: {
-      title: "Сімейна та парна психотерапія",
+      title: dict?.consultation.types.couple.title,
       icon: <Users className="w-6 h-6" />,
-      duration: "80",
-      price: "2600",
-      blockquote:
-        "«Коли в системі порушується баланс — страждають усі. Але змінюючи взаємодію, можна змінити життя»",
-      description:
-        "У сім’ї чи парі ми можемо відчувати найбільшу близькість — або найбільший біль. Стосунки, які мали бути джерелом сили, нерідко стають полем боротьби, розчарувань, образ і мовчання.",
-      description2:
-        "Я працюю з сімейними та парними системами, допомагаючи знайти нову мову розуміння, почути одне одного, відновити зв’язок і довіру. Я бачу пару чи родину не як набір окремих людей, а як єдину живу систему, в якій кожен має значення.",
-      topics: [
-        "Неможливість домовитися",
-        "Криза: зрада, ревнощі, втрата близькості",
-        "Зміни після народження дитини",
-        "Відсутність спільного «ми»",
-        "Дивна поведінка дитини як дзеркало системи",
-        "Бажання зберегти або поглибити стосунки",
-      ],
-      format: "Онлайн або офлайн сесії (Київ), тривалістю 80 хвилин",
+      duration: dict?.consultation.types.couple.duration,
+      price: dict?.consultation.types.couple.price,
+      blockquote: dict?.consultation.types.couple.blockquote,
+      description: dict?.consultation.types.couple.description,
+      description2: dict?.consultation.types.couple.description2,
+      topics: dict?.consultation.types.couple.topics,
+      format: dict?.consultation.types.couple.format,
       reviews: [
         {
-          name: "Андрій та Марія",
+          name: dict?.consultation.types.couple.reviews[0].name,
           rating: 5,
-          text: "Врятували наші стосунки. Дякуємо за професійну допомогу!",
+          text: dict?.consultation.types.couple.reviews[0].text,
         },
         {
-          name: "Ігор та Аліна",
+          name: dict?.consultation.types.couple.reviews[1].name,
           rating: 5,
-          text: "Навчилися краще розуміти один одного.",
+          text: dict?.consultation.types.couple.reviews[1].text,
         },
       ],
     },
     child: {
-      title: "Дитяче та підліткове консультування",
+      title: dict?.consultation.types.child.title,
       icon: <Baby className="w-6 h-6" />,
-      duration: "45-60",
-      price: "2000",
-      blockquote:
-        "«Дитина не має проблем — вона має спосіб кричати про те, що її турбує»",
-      description:
-        "Діти та підлітки не завжди можуть пояснити словами, що з ними відбувається. Вони говорять через поведінку, тіло, страхи, тишу, сльози, гнів або дивні реакції. І завдання дорослих — почути ці сигнали.",
-      description2:
-        "Я працюю з дітьми, підлітками та батьками як психологиня, дитяча та підліткова терапевтка. Створюю безпечний простір, де дитина може бути собою, а батьки — отримати підтримку та розуміння.",
-      topics: [
-        "Замкнутість, тривожність, страхи",
-        "Агресія, істерики, відмова говорити",
-        "Порушення сну, апетиту, тики",
-        "Труднощі в адаптації до садка чи школи",
-        "Реакції на зміни, розлучення батьків",
-        "Підліткова криза ідентичності, самопошук",
-        "Тілесний сором, сексуальні переживання",
-        "Булінг, тривога, складнощі у навчанні",
-      ],
-      format:
-        "Індивідуальна робота або сімейні сесії (онлайн/офлайн у Києві), тривалістю 45–60 хвилин",
+      duration: dict?.consultation.types.child.duration,
+      price: dict?.consultation.types.child.price,
+      blockquote: dict?.consultation.types.child.blockquote,
+      description: dict?.consultation.types.child.description,
+      description2: dict?.consultation.types.child.description2,
+      topics: dict?.consultation.types.child.topics,
+      format: dict?.consultation.types.child.format,
       reviews: [
         {
-          name: "Оксана (мама Данила)",
+          name: dict?.consultation.types.child.reviews[0].name,
           rating: 5,
-          text: "Син став більш впевненим і комунікабельним.",
+          text: dict?.consultation.types.child.reviews[0].text,
         },
         {
-          name: "Володимир (батько Ані)",
+          name: dict?.consultation.types.child.reviews[1].name,
           rating: 5,
-          text: "Допомогли дочці впоратися з шкільними проблемами.",
+          text: dict?.consultation.types.child.reviews[1].text,
         },
       ],
     },
@@ -144,6 +112,8 @@ const ConsultationContent = () => {
     setSelectedConsultationType(type);
     setIsModalOpen(true);
   };
+
+  if (loading) return null;
 
   const currentData = consultationData[activeTab];
 
@@ -182,9 +152,9 @@ const ConsultationContent = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
-              <div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-3 mb-2 flex-col md:flex-row justify-center text-center md:text-left">
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
-                <h1 className="md:flex-1 text-3xl font-bold text-gray-800">
+                <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
                   {currentData.title}
                 </h1>
               </div>
@@ -203,10 +173,10 @@ const ConsultationContent = () => {
 
             <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Теми роботи
+                {dict?.consultation.topicsTitle}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {currentData.topics.map((topic, index) => (
+                {currentData.topics?.map((topic, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     <span className="text-gray-700">{topic}</span>
@@ -217,13 +187,14 @@ const ConsultationContent = () => {
 
             <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Формат і умови
+                {dict?.consultation.formatTitle}
               </h2>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Clock className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
-                    Тривалість: {currentData.duration} хвилин
+                    {dict?.consultation.durationLabel}: {currentData.duration}{" "}
+                    {dict?.consultation.minutes}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
@@ -233,7 +204,8 @@ const ConsultationContent = () => {
                 <div className="flex items-center space-x-3">
                   <CreditCard className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
-                    Ціна: {currentData.price} грн
+                    {dict?.consultation.priceLabel}: {currentData.price}{" "}
+                    {dict?.consultation.currency}
                   </span>
                 </div>
               </div>
@@ -241,7 +213,7 @@ const ConsultationContent = () => {
 
             <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Відгуки клієнтів
+                {dict?.consultation.reviewsTitle}
               </h2>
               <div className="space-y-4">
                 {currentData.reviews.map((review, index) => (
@@ -269,20 +241,32 @@ const ConsultationContent = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Швидка інформація
+                {dict?.consultation.quickInfoTitle}
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Тривалість:</span>
-                  <span className="font-medium">{currentData.duration} хв</span>
+                  <span className="text-gray-600">
+                    {dict?.consultation.durationLabel}:
+                  </span>
+                  <span className="font-medium">
+                    {currentData.duration} {dict?.consultation.minutes}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Ціна:</span>
-                  <span className="font-medium">{currentData.price} грн</span>
+                  <span className="text-gray-600">
+                    {dict?.consultation.priceLabel}:
+                  </span>
+                  <span className="font-medium">
+                    {currentData.price} {dict?.consultation.currency}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Формат:</span>
-                  <span className="font-medium">Онлайн/офлайн</span>
+                  <span className="text-gray-600">
+                    {dict?.consultation.formatLabel}:
+                  </span>
+                  <span className="font-medium">
+                    {dict?.consultation.formatValue}
+                  </span>
                 </div>
               </div>
             </div>
@@ -294,7 +278,7 @@ const ConsultationContent = () => {
                   className="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
                 >
                   <Calendar className="w-5 h-5" />
-                  <span>Записатися на консультацію</span>
+                  <span>{dict?.consultation.cta.bookConsultation}</span>
                 </button>
 
                 <a
@@ -304,18 +288,17 @@ const ConsultationContent = () => {
                   className="w-full bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors flex items-center justify-center space-x-2"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span>Зв`язатися в Telegram</span>
+                  <span>{dict?.consultation.cta.contactTelegram}</span>
                 </a>
               </div>
             </div>
             {selectedConsultationType === "couple" && (
               <div className="bg-red-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-red-800 mb-2">
-                  Важлива інформація
+                  {dict?.consultation.coupleInfo.title}
                 </h3>
                 <h4 className="text-sm text-red-600 italic">
-                  Також можливе індивідуальне консультування одного з партнерів,
-                  якщо наразі немає змоги або готовності працювати разом.
+                  {dict?.consultation.coupleInfo.description}
                 </h4>
               </div>
             )}
@@ -328,18 +311,16 @@ const ConsultationContent = () => {
         onClose={() => setIsModalOpen(false)}
         type={"consultation"}
         consultationType={selectedConsultationType}
-        // price={Number(consultationData[selectedConsultationType].price)}
-        // duration={Number(
-        //   consultationData[selectedConsultationType].duration.split("-")[0]
-        // )}
       />
     </div>
   );
 };
 
 export default function ConsultationPage() {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict } = useDictionary(currentLocale);
   return (
-    <Suspense fallback={<div>Завантаження...</div>}>
+    <Suspense fallback={<div>{dict?.consultation.loading}</div>}>
       <ConsultationContent />
     </Suspense>
   );

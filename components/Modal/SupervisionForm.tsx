@@ -1,16 +1,21 @@
+"use client";
+
 import { MessageCircle, Clock } from "lucide-react";
 import { JSX } from "react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 interface SupervisionFormProps {
   supervisionData: {
     individual: {
-      title: string;
+      title: string | undefined;
       icon: JSX.Element;
       duration: number;
       price: number;
     };
     group: {
-      title: string;
+      title: string | undefined;
       icon: JSX.Element;
       duration: number;
       price: number;
@@ -45,6 +50,11 @@ export default function SupervisionForm({
   onSubmit,
   telegramLink,
 }: SupervisionFormProps) {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
+
+  if (loading) return null;
+
   return (
     <div className="space-y-4">
       <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
@@ -69,13 +79,15 @@ export default function SupervisionForm({
       <div className="bg-red-50 p-4 rounded-lg mb-4">
         <p className="text-sm text-red-800">
           <Clock className="inline w-4 h-4 mr-1" />
-          Тривалість: {duration} хв | Ціна: {price} грн
+          {dict?.supervisionForm.durationPrice
+            .replace("{duration}", duration.toString())
+            .replace("{price}", price.toString())}
         </p>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Ім`я *
+          {dict?.supervisionForm.nameLabel}
         </label>
         <input
           type="text"
@@ -89,7 +101,7 @@ export default function SupervisionForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Телефон *
+          {dict?.supervisionForm.phoneLabel}
         </label>
         <input
           type="tel"
@@ -97,14 +109,14 @@ export default function SupervisionForm({
           value={formData.phone}
           onChange={onInputChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-          placeholder="+380..."
+          placeholder={"+380..."}
           required
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Соціальні мережі
+          {dict?.supervisionForm.socialMediaLabel}
         </label>
         <input
           type="text"
@@ -112,13 +124,13 @@ export default function SupervisionForm({
           value={formData.socialMedia}
           onChange={onInputChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-          placeholder="Instagram, Telegram тощо"
+          placeholder={dict?.supervisionForm.socialMediaPlaceholder}
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Ваш досвід у психології/терапії
+          {dict?.supervisionForm.experienceLabel}
         </label>
         <textarea
           name="experience"
@@ -126,13 +138,13 @@ export default function SupervisionForm({
           onChange={onInputChange}
           rows={3}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-          placeholder="Опишіть ваш професійний досвід"
+          placeholder={dict?.supervisionForm.experiencePlaceholder}
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Цілі супервізії *
+          {dict?.supervisionForm.supervisionGoalsLabel}
         </label>
         <textarea
           name="supervisionGoals"
@@ -141,7 +153,7 @@ export default function SupervisionForm({
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
           required
-          placeholder="Які питання чи кейси хочете обговорити?"
+          placeholder={dict?.supervisionForm.supervisionGoalsPlaceholder}
         />
       </div>
 
@@ -150,7 +162,7 @@ export default function SupervisionForm({
           onClick={onSubmit}
           className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
         >
-          Відправити заявку
+          {dict?.supervisionForm.submitButton}
         </button>
         <a
           href={telegramLink}
@@ -159,7 +171,7 @@ export default function SupervisionForm({
           className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors text-center"
         >
           <MessageCircle className="inline w-4 h-4 mr-2" />
-          Зв`язатися в Telegram
+          {dict?.supervisionForm.telegramButton}
         </a>
       </div>
     </div>

@@ -1,12 +1,17 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import ModalContainer from "./ModalContainer";
 import TypeSelector from "./TypeSelector";
 import ConsultationForm from "./ConsultationForm";
-import SupervisionForm from ".//SupervisionForm";
+import SupervisionForm from "./SupervisionForm";
 import CalendarStep from "./CalenderStep";
 import ConfirmationStep from "./ConfirmationStep";
 import { User, Users, Baby } from "lucide-react";
 import moment from "moment";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 export default function Modal({
   isOpen,
@@ -21,21 +26,24 @@ export default function Modal({
   consultationType?: "individual" | "couple" | "child";
   supervisionType?: "individual" | "group";
 }) {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
+
   const consultationData = {
     individual: {
-      title: "Індивідуальна терапія",
+      title: dict?.consultation.types.individual.title,
       icon: <User className="w-6 h-6 flex" />,
       duration: 60,
       price: 2000,
     },
     couple: {
-      title: "Сімейна та парна психотерапія",
+      title: dict?.consultation.types.couple.title,
       icon: <Users className="w-6 h-6" />,
       duration: 80,
       price: 2600,
     },
     child: {
-      title: "Дитяче та підліткове консультування",
+      title: dict?.consultation.types.child.title,
       icon: <Baby className="w-6 h-6" />,
       duration: 60,
       price: 2000,
@@ -44,13 +52,13 @@ export default function Modal({
 
   const supervisionData = {
     individual: {
-      title: "Індивідуальна супервізія",
+      title: dict?.supervision.types.individual.title,
       icon: <User className="w-6 h-6" />,
       duration: 60,
       price: 2000,
     },
     group: {
-      title: "Групова супервізія",
+      title: dict?.supervision.types.group.title,
       icon: <Users className="w-6 h-6" />,
       duration: 120,
       price: 1000,
@@ -180,43 +188,62 @@ export default function Modal({
 
   const handleSubmit = async () => {
     if (!formData.name || !formData.phone) {
-      alert("Будь ласка, заповніть всі обов'язкові поля");
+      alert(dict?.modal.form.requiredFieldsError);
       return;
     }
 
     if (selectedType === "consultation") {
       if (!formData.problem) {
-        alert("Будь ласка, вкажіть опис проблеми");
+        alert(dict?.modal.form.problemRequiredError);
         return;
       }
       if (selectedConsultationType === "couple" && !formData.partnerName) {
-        alert("Будь ласка, вкажіть ім'я другого партнера");
+        alert(dict?.modal.form.partnerNameRequiredError);
         return;
       }
       if (
         selectedConsultationType === "child" &&
         (!formData.childName || !formData.childAge)
       ) {
-        alert("Будь ласка, заповніть всі поля для дитячого консультування");
+        alert(dict?.modal.form.childFieldsRequiredError);
         return;
       }
       setCurrentStep("calendar");
     } else {
       if (!formData.supervisionGoals) {
-        alert("Будь ласка, вкажіть цілі супервізії");
+        alert(dict?.modal.form.supervisionGoalsRequiredError);
         return;
       }
       try {
-        const message = `
-        🔔 Нова заявка на ${
-          selectedSupervisionType === "individual" ? "індивідуальну" : "групову"
-        } супервізію
-        🙎‍♂️ Ім'я: ${formData.name}
-        📞 Телефон: ${formData.phone}
-        📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        📝 Досвід: ${formData.experience || "Не вказано"}
-        🎯 Цілі супервізії: ${formData.supervisionGoals}
-        `;
+        const message =
+          dict?.modal.supervisionMessage.newRequest.replace(
+            "{type}",
+            selectedSupervisionType === "individual"
+              ? dict?.supervision.types.individual.title
+              : dict?.supervision.types.group.title
+          ) +
+          "\n" +
+          dict?.modal.supervisionMessage.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.supervisionMessage.phone.replace(
+            "{phone}",
+            formData.phone
+          ) +
+          "\n" +
+          dict?.modal.supervisionMessage.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.supervisionMessage.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.supervisionMessage.experience.replace(
+            "{experience}",
+            formData.experience || dict?.modal.supervisionMessage.experience
+          ) +
+          "\n" +
+          dict?.modal.supervisionMessage.supervisionGoals.replace(
+            "{supervisionGoals}",
+            formData.supervisionGoals
+          );
 
         await fetch(
           `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -232,7 +259,7 @@ export default function Modal({
           }
         );
 
-        alert("Заявку успішно відправлено в Telegram!");
+        alert(dict?.modal.form.supervisionRequestSuccess);
         onClose();
         setFormData({
           name: "",
@@ -246,7 +273,7 @@ export default function Modal({
           supervisionGoals: "",
         });
       } catch (error) {
-        alert("Помилка при відправці заявки. Спробуйте ще раз." + error);
+        alert(error);
       }
     }
   };
@@ -259,43 +286,113 @@ export default function Modal({
 
   const handleBookingConfirmation = async () => {
     try {
-      let bookingMessage = ``;
+      let bookingMessage = "";
+      let summary = "";
       if (selectedConsultationType === "individual") {
-        bookingMessage = `
-        🔔 Нове бронювання
-        😊 Тип: Індивідуальне консультування
-        📅 Дата: ${selectedDate}
-        ⏰ Час: ${selectedTime}
-        🙎‍♂️ Ім'я: ${formData.name}
-        📞 Телефон: ${formData.phone}
-        📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        📝 Опис проблеми: ${formData.problem}
-        `;
+        summary = dict?.consultation.types.individual.title || "";
+        bookingMessage =
+          dict?.modal.bookingMessage.newBooking +
+          "\n" +
+          dict?.modal.bookingMessage.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.bookingMessage.date.replace(
+            "{date}",
+            selectedDate || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.time.replace(
+            "{time}",
+            selectedTime || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.bookingMessage.phone.replace("{phone}", formData.phone) +
+          "\n" +
+          dict?.modal.bookingMessage.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.bookingMessage.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       } else if (selectedConsultationType === "couple") {
-        bookingMessage = `
-        🔔 Нове бронювання
-        😊 Тип: Парне консультування
-        📅 Дата: ${selectedDate}
-        ⏰ Час: ${selectedTime}
- O       🙎‍♂️ Ім'я першого партнера: ${formData.name}
-        🙎‍♂️ Ім'я другого партнера: ${formData.partnerName}
-        📞 Телефон: ${formData.phone}
-        📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        📝 Опис проблеми: ${formData.problem}
-        `;
+        summary = dict?.consultation.types.couple.title || "";
+        bookingMessage =
+          dict?.modal.bookingMessage.newBooking +
+          "\n" +
+          dict?.modal.bookingMessage.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.bookingMessage.date.replace(
+            "{date}",
+            selectedDate || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.time.replace(
+            "{time}",
+            selectedTime || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.bookingMessage.partnerName.replace(
+            "{partnerName}",
+            formData.partnerName
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.phone.replace("{phone}", formData.phone) +
+          "\n" +
+          dict?.modal.bookingMessage.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.bookingMessage.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       } else if (selectedConsultationType === "child") {
-        bookingMessage = `
-        🔔 Нове бронювання
-        😊 Тип: Дитяче консультування
-        📅 Дата: ${selectedDate}
-        ⏰ Час: ${selectedTime}
-        🙎‍♂️ Ім'я батька/матері: ${formData.name}
-        🙎‍♀️ Ім'я дитини: ${formData.childName}
-        👶 Вік дитини: ${formData.childAge}
-        📞 Телефон: ${formData.phone}
-        📫 Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        📝 Опис проблеми: ${formData.problem}
-        `;
+        summary = dict?.consultation.types.child.title || "";
+        bookingMessage =
+          dict?.modal.bookingMessage.newBooking +
+          "\n" +
+          dict?.modal.bookingMessage.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.bookingMessage.date.replace(
+            "{date}",
+            selectedDate || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.time.replace(
+            "{time}",
+            selectedTime || ""
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.bookingMessage.childName.replace(
+            "{childName}",
+            formData.childName
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.childAge.replace(
+            "{childAge}",
+            formData.childAge
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.phone.replace("{phone}", formData.phone) +
+          "\n" +
+          dict?.modal.bookingMessage.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.bookingMessage.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.bookingMessage.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       }
 
       await fetch(
@@ -312,41 +409,79 @@ export default function Modal({
         }
       );
 
-      const summary =
-        selectedConsultationType === "individual"
-          ? "Індивідуальне консультування"
-          : selectedConsultationType === "couple"
-          ? "Парне консультування"
-          : "Дитяче консультування";
-
-      let formattedDescription;
+      let formattedDescription = "";
       if (selectedConsultationType === "individual") {
-        formattedDescription = `
-        Тип: ${summary}
-        Ім'я: ${formData.name}
-        Телефон: ${formData.phone}
-        Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        Опис проблеми: ${formData.problem}
-        `;
+        formattedDescription =
+          dict?.modal.eventDescription.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.eventDescription.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.eventDescription.phone.replace(
+            "{phone}",
+            formData.phone
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.eventDescription.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       } else if (selectedConsultationType === "couple") {
-        formattedDescription = `
-        Тип: ${summary}
-        Ім'я першого партнера: ${formData.name}
-        Ім'я другого партнера: ${formData.partnerName}
-        Телефон: ${formData.phone}
-        Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        Опис проблеми: ${formData.problem}
-        `;
+        formattedDescription =
+          dict?.modal.eventDescription.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.eventDescription.name.replace("{name}", formData.name) +
+          "\n" +
+          dict?.modal.eventDescription.partnerName.replace(
+            "{partnerName}",
+            formData.partnerName
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.phone.replace(
+            "{phone}",
+            formData.phone
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.eventDescription.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       } else if (selectedConsultationType === "child") {
-        formattedDescription = `
-        Тип: ${summary}
-        Ім'я батька/матері: ${formData.name}
-        Ім'я дитини: ${formData.childName}
-        Вік дитини: ${formData.childAge}
-        Телефон: ${formData.phone}
-        Соц.мережі: ${formData.socialMedia || "Не вказано"}
-        Опис проблеми: ${formData.problem}
-        `;
+        formattedDescription =
+          dict?.modal.eventDescription.type.replace("{type}", summary) +
+          "\n" +
+          dict?.modal.eventDescription.childName
+            .replace("{name}", formData.name)
+            .replace("{childName}", formData.childName) +
+          "\n" +
+          dict?.modal.eventDescription.childAge.replace(
+            "{childAge}",
+            formData.childAge
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.phone.replace(
+            "{phone}",
+            formData.phone
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.socialMedia.replace(
+            "{socialMedia}",
+            formData.socialMedia || dict?.modal.eventDescription.socialMedia
+          ) +
+          "\n" +
+          dict?.modal.eventDescription.problem.replace(
+            "{problem}",
+            formData.problem
+          );
       }
 
       await fetch("/api/create-event", {
@@ -362,7 +497,7 @@ export default function Modal({
         }),
       });
 
-      alert("Бронювання успішно створено! Деталі відправлені в Telegram.");
+      alert(dict?.modal.form.bookingSuccess);
       onClose();
       setCurrentStep("form");
       setFormData({
@@ -377,7 +512,7 @@ export default function Modal({
         supervisionGoals: "",
       });
     } catch (error) {
-      alert("Помилка при створенні бронювання: " + error);
+      alert(dict?.modal.form.bookingError + ": " + error);
     }
   };
 
@@ -387,7 +522,7 @@ export default function Modal({
 
   const telegramLink = "https://t.me/admin_username";
 
-  if (!isOpen) return null;
+  if (!isOpen || loading) return null;
 
   return (
     <ModalContainer

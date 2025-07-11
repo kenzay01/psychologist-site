@@ -1,4 +1,9 @@
+"use client";
+
 import GoogleCalendar from "../GoogleCalendar";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 interface CalendarStepProps {
   consultationType: "individual" | "couple" | "child";
@@ -13,6 +18,11 @@ export default function CalendarStep({
   onDateSelect,
   onBack,
 }: CalendarStepProps) {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
+
+  if (loading) return null;
+
   return (
     <div>
       <GoogleCalendar
@@ -26,7 +36,7 @@ export default function CalendarStep({
           onClick={onBack}
           className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
         >
-          Назад
+          {dict?.calendarStep.back}
         </button>
       </div>
     </div>

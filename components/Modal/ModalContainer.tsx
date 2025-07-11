@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ModalContainerProps {
-  title: string;
+  title: string | undefined;
   onClose: () => void;
   children: ReactNode;
 }

@@ -1,8 +1,13 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import { Clock } from "lucide-react";
+import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useDictionary } from "@/hooks/getDictionary";
+import { Locale } from "@/i18n/config";
 
 interface Props {
   onDateSelect: (date: string, time: string) => void;
@@ -17,6 +22,8 @@ const GoogleCalendar = ({
   duration,
   minimumBookingHours = 5, // За замовчуванням 5 годин
 }: Props) => {
+  const currentLocale = useCurrentLanguage() as Locale;
+  const { dict, loading } = useDictionary(currentLocale);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<
     {
@@ -161,19 +168,20 @@ const GoogleCalendar = ({
     }
   };
 
+  if (loading) return null;
+
   return (
     <div className="space-y-4 p-4 bg-white rounded-lg shadow-sm border-2 border-red-500">
       <h3 className="text-lg font-semibold text-gray-800 flex items-center space-x-2">
         <Clock className="w-5 h-5 text-red-500" />
-        <span>Оберіть дату та час:</span>
+        <span>{dict?.calendar.selectDateTime}</span>
       </h3>
       <div className="w-full flex justify-center">
         <Calendar
           onChange={handleDateChange}
           value={selectedDate}
           minDate={getMinDate()}
-          // maxDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
-          locale="uk-UA"
+          locale={currentLocale}
           className="border-none rounded-lg shadow-sm bg-gray-50 text-gray-800"
         />
       </div>
@@ -181,7 +189,8 @@ const GoogleCalendar = ({
       {selectedDate && (
         <div>
           <h4 className="font-medium text-gray-800 mt-4 mb-2">
-            Доступний час на {moment(selectedDate).format("DD.MM.YYYY")}:
+            {dict?.calendar.availableTimeOn}{" "}
+            {moment(selectedDate).format("DD.MM.YYYY")}:
           </h4>
           {availableTimes.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -197,7 +206,7 @@ const GoogleCalendar = ({
             </div>
           ) : (
             <p className="text-gray-500 text-sm">
-              Немає вільного часу на цю дату
+              {dict?.calendar.noAvailableTime}
             </p>
           )}
         </div>
