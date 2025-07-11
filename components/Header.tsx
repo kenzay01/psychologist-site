@@ -53,7 +53,7 @@ const Header = () => {
     w-full
     ${isNotHomePage ? "bg-white/90  relative" : "bg-transparent absolute"}
     ${isNotHomePage ? "block h-16" : "hidden md:block"}
-    backdrop-blur-sm transition-colors duration-300 top-0 border-b-2 border-white
+    backdrop-blur-sm transition-colors duration-300 top-0
   `}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
