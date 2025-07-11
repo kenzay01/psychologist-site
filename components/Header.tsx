@@ -121,12 +121,19 @@ const Header = () => {
           </nav>
           <button
             onClick={toggleMenu}
-            className="md:hidden p-2 rounded-md text-red-500 hover:text-red-600 bg-red-50 border-2 border-red-500 absolute top-3 right-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20"
+            className={`md:hidden p-2 rounded-md ${
+              isMenuOpen
+                ? "text-black"
+                : isNotHomePage
+                ? "text-black"
+                : "text-white"
+            }
+            absolute top-3 right-3 focus:outline-none  z-20`}
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-8 h-8" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="w-8 h-8" />
             )}
           </button>
 

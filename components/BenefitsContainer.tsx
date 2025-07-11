@@ -96,7 +96,7 @@ export default function BenefitsContainer() {
                 return (
                   <div
                     key={benefit.id}
-                    className="group bg-white/50 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2 border-red-500"
+                    className="group bg-white/50 backdrop-blur-sm rounded-2xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
                   >
                     <div className="flex items-start gap-3">
                       <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-2 shadow-md group-hover:shadow-lg transition-all duration-300">
