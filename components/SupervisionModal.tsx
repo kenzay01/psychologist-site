@@ -25,7 +25,7 @@ export default function SupervisionModal({
       title: "Групова супервізія",
       icon: <Users className="w-6 h-6" />,
       duration: 120,
-      price: 800,
+      price: 1000,
     },
   };
 
@@ -164,14 +164,14 @@ export default function SupervisionModal({
                   onClick={() =>
                     handleTypeSelect(key as keyof typeof supervisionData)
                   }
-                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
+                  className={`flex-1 flex items-center justify-center md:space-x-2 py-2 px-4 rounded-md transition-colors ${
                     selectedSupervisionType === key
                       ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
                       : "text-gray-600 hover:text-gray-800"
                   }`}
                 >
                   {data.icon}
-                  <span className="text-sm">{data.title}</span>
+                  <span className="text-sm hidden md:block">{data.title}</span>
                 </button>
               ))}
             </div>

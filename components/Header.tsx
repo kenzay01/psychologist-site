@@ -139,7 +139,7 @@ const Header = () => {
 
           {/* Mobile menu */}
           {isMenuOpen && (
-            <div className="absolute md:hidden bg-white border-t w-full border-b-4 md:border-b-0 border-red-500">
+            <div className="absolute md:hidden bg-white border-t w-full">
               <div className="px-4 py-2 space-y-1 ">
                 {navLinks.map((link) => (
                   <Link

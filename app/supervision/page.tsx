@@ -57,7 +57,7 @@ const SupervisionContent = () => {
       title: "Групова супервізія",
       icon: <Users className="w-6 h-6" />,
       duration: "120",
-      price: "800",
+      price: "1000",
       description:
         "Професійне коло для обміну досвідом, роботи з кейсами, зворотного зв’язку та підтримки. До 12 учасників, 1 раз на 2 тижні.",
       topics: [

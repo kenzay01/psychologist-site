@@ -154,7 +154,7 @@ export default function AboutMe() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl p-8 border border-red-100">
+              <div className="bg-red-100 rounded-2xl p-8 border border-red-100">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">
                   Філософія роботи
                 </h3>

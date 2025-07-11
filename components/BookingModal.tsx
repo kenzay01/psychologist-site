@@ -27,7 +27,7 @@ export default function BookingModal({
   const consultationData = {
     individual: {
       title: "Індивідуальна терапія",
-      icon: <User className="w-6 h-6" />,
+      icon: <User className="w-6 h-6 flex " />,
       duration: 60,
       price: 2000,
     },
@@ -297,14 +297,16 @@ export default function BookingModal({
                     onClick={() =>
                       handleTypeSelect(key as keyof typeof consultationData)
                     }
-                    className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
+                    className={`flex-1 flex items-center justify-center md:space-x-2 py-2 px-4 rounded-md transition-colors ${
                       selectedConsultationType === key
                         ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
                         : "text-gray-600 hover:text-gray-800"
                     }`}
                   >
                     {data.icon}
-                    <span className="text-sm">{data.title}</span>
+                    <span className="text-sm hidden md:block">
+                      {data.title}
+                    </span>
                   </button>
                 ))}
               </div>

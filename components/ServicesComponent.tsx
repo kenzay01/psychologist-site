@@ -56,7 +56,7 @@ export default function ServicesBlock() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Послуги
           </h2>
-          <div className="w-36 h-1 bg-red-500 mx-auto mb-8"></div>
+          <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Професійна психологічна допомога для різних життєвих ситуацій
           </p>
@@ -67,7 +67,7 @@ export default function ServicesBlock() {
           {services.map((service) => (
             <div
               key={service.id}
-              className="bg-white rounded-2xl shadow-lg transition-all duration-300 overflow-hidden flex flex-col md:flex-row border-2 border-red-500 hover:shadow-2xl hover:scale-[1.01]"
+              className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row hover:shadow-2xl hover:scale-[1.01]"
             >
               {/* Image/Icon Section */}
               <div className="flex-none w-full md:w-1/2 bg-gray-100  flex items-center justify-center">
