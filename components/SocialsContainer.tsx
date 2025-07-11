@@ -1,13 +1,14 @@
 "use client";
-import { Instagram, Youtube, MessageCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Instagram } from "lucide-react";
+// , Youtube, MessageCircle
+// import { useRouter } from "next/navigation";
 import Image from "next/image";
 import instagramImg from "@/public/socials/instagram.jpg";
 // import youtubeImg from "@/public/socials/youtube.jpg";
 // import tiktokImg from "@/public/socials/tiktok.jpg";
 
 export default function SocialsContainer() {
-  const router = useRouter();
+  //   const router = useRouter();
 
   const socials = [
     {
