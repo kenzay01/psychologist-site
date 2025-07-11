@@ -1,0 +1,34 @@
+import GoogleCalendar from "../GoogleCalendar";
+
+interface CalendarStepProps {
+  consultationType: "individual" | "couple" | "child";
+  duration: number;
+  onDateSelect: (date: string, time: string) => void;
+  onBack: () => void;
+}
+
+export default function CalendarStep({
+  consultationType,
+  duration,
+  onDateSelect,
+  onBack,
+}: CalendarStepProps) {
+  return (
+    <div>
+      <GoogleCalendar
+        onDateSelect={onDateSelect}
+        consultationType={consultationType}
+        duration={duration}
+        minimumBookingHours={4}
+      />
+      <div className="flex space-x-3 pt-6">
+        <button
+          onClick={onBack}
+          className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+        >
+          Назад
+        </button>
+      </div>
+    </div>
+  );
+}

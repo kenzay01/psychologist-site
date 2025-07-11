@@ -6,7 +6,7 @@ import Image from "next/image";
 // import { Youtube, Instagram, Send } from "lucide-react";
 // import { useRouter } from "next/navigation";
 import { useState } from "react";
-import BookingModal from "./BookingModal";
+import BookingModal from "./Modal/Modal";
 export default function HomeBanner() {
   // const router = useRouter();
   // const socialLinks = [

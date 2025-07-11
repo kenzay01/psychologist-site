@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import BookingModal from "./BookingModal";
+import BookingModal from "./Modal/Modal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 import { MapPin, Phone, Send, Instagram, MessageSquare } from "lucide-react";
 import { useState } from "react";
-import BookingModal from "./BookingModal";
+import BookingModal from "./Modal/Modal";
 
 export default function Footer() {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { MessageCircle, Star, User, Users } from "lucide-react";
-import SupervisionModal from "@/components/SupervisionModal";
+import Modal from "@/components/Modal/Modal";
 
 // Головний компонент сторінки
 type SupervisionType = "individual" | "group";
@@ -293,28 +293,17 @@ const SupervisionContent = () => {
                 </a>
               </div>
             </div>
-
-            {/* <div className="bg-red-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-red-800 mb-3">
-                Важлива інформація
-              </h3>
-              <ul className="text-sm text-red-600 space-y-2">
-                <li>• Конфіденційність гарантована</li>
-                <li>• Можна скасувати запис за 24 години</li>
-                <li>• Сертифікат із кредитами ECTS</li>
-                <li>• Безпечне професійне середовище</li>
-              </ul>
-            </div> */}
           </div>
         </div>
       </div>
 
-      <SupervisionModal
+      <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        type="supervision"
         supervisionType={selectedSupervisionType}
-        price={Number(supervisionData[selectedSupervisionType].price)}
-        duration={Number(supervisionData[selectedSupervisionType].duration)}
+        // price={Number(supervisionData[selectedSupervisionType].price)}
+        // duration={Number(supervisionData[selectedSupervisionType].duration)}
       />
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import BookingModal from "@/components/BookingModal";
+import Modal from "@/components/Modal/Modal";
 import {
   Calendar,
   Clock,
@@ -323,9 +323,10 @@ const ConsultationContent = () => {
         </div>
       </div>
 
-      <BookingModal
+      <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        type={"consultation"}
         consultationType={selectedConsultationType}
         // price={Number(consultationData[selectedConsultationType].price)}
         // duration={Number(

@@ -3,7 +3,7 @@ import Image from "next/image";
 import aboutMeImg from "@/public/about-me-img.jpg";
 // import { useRouter } from "next/navigation";
 import { useState } from "react";
-import BookingModal from "@/components/BookingModal";
+import BookingModal from "@/components/Modal/Modal";
 import {
   MapPin,
   Monitor,
