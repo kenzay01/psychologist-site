@@ -12,7 +12,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
@@ -24,10 +24,10 @@ const Header = () => {
   };
 
   const navLinks = [
-    { href: "/", label: dict?.header.nav.home },
-    { href: "/aboutMe", label: dict?.header.nav.aboutMe },
-    { href: "/dyplomy", label: dict?.header.nav.diplomas },
-    { href: "/blog", label: dict?.header.nav.blog },
+    { href: "/", label: dict?.header.nav.home || "Головна" },
+    { href: "/aboutMe", label: dict?.header.nav.aboutMe || "Про мене" },
+    { href: "/dyplomy", label: dict?.header.nav.diplomas || "Дипломи" },
+    { href: "/blog", label: dict?.header.nav.blog || "Блог" },
   ];
 
   const servicesLinks = [
@@ -46,7 +46,7 @@ const Header = () => {
     { href: "/supervision", label: dict?.header.nav.servicesLinks.supervision },
   ];
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>
@@ -87,7 +87,7 @@ const Header = () => {
                         isNotHomePage ? "text-black" : "text-white"
                       } hover:text-red-500 font-bold transition-colors`}
                     >
-                      {dict?.header.nav.services}
+                      {dict?.header.nav.services || "Послуги"}
                     </button>
                     <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                       <div className="bg-black/50 backdrop-blur-md rounded-lg px-2 shadow-lg z-[9999]">
@@ -119,7 +119,8 @@ const Header = () => {
                       setIsModalOpen(true);
                     }}
                   >
-                    {dict?.header.cta.bookConsultation}
+                    {dict?.header.cta.bookConsultation ||
+                      "Записатися на консультацію"}
                   </button>
                 </div>
               </div>

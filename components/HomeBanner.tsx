@@ -10,10 +10,10 @@ import { Locale } from "@/i18n/config";
 
 export default function HomeBanner() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>
@@ -52,13 +52,19 @@ export default function HomeBanner() {
                     <span className="inline-block">{word}</span>
                     <br />
                   </Fragment>
-                ))}
+                )) || (
+                  <span className="inline-block">
+                    Олександра <br /> Алексюк
+                  </span>
+                )}
               </h1>
               <h2 className="font-semibold text-lg md:text-2xl lg:text-3xl mb-4">
-                {dict?.homeBanner.subtitle}
+                {dict?.homeBanner.subtitle ||
+                  "Психолог, психотерапевт, супервізор, тренер"}
               </h2>
               <p className="text-md md:text-xl lg:text-2xl max-w-2xl mx-auto">
-                {dict?.homeBanner.description}
+                {dict?.homeBanner.description ||
+                  "Працюю з дорослими, парами, дітьми та підлітками"}
               </p>
             </div>
 
@@ -70,7 +76,8 @@ export default function HomeBanner() {
                   setIsMenuOpen(true);
                 }}
               >
-                {dict?.homeBanner.cta.bookConsultation}
+                {dict?.homeBanner.cta.bookConsultation ||
+                  "Записатися на консультацію"}
               </button>
             </div>
           </div>
