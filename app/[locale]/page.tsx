@@ -11,8 +11,8 @@ export default function Home() {
       <GreetingComponent />
       <BenefitsContainer />
       <ServicesBlock />
-      <SocialsContainer />
       <Testimonials />
+      <SocialsContainer />
       {/* Add more components or sections as needed */}
     </div>
   );
