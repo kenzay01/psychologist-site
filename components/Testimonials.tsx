@@ -5,19 +5,20 @@ import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
   const [validImages, setValidImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const checkImages = async () => {
       setIsLoading(true);
       const validImagePaths: string[] = [];
 
-      // Перевіряємо зображення по одному
       for (let i = 1; i <= 30; i++) {
         const imagePath = `/comments/${currentLocale}/comment_${currentLocale}_${i}.jpg`;
 
@@ -41,6 +42,8 @@ const Testimonials = () => {
     checkImages();
   }, [currentLocale]);
 
+  const displayedImages = showAll ? validImages : validImages.slice(0, 3);
+
   return (
     <div className="py-8 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,9 +59,9 @@ const Testimonials = () => {
         {isLoading ? (
           <div className="text-center py-16">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
-            {/* <p className="mt-4 text-gray-600 text-lg"> */}
-            {/* {dict?.testimonials?.loading || "Завантаження відгуків..."} */}
-            {/* </p> */}
+            {/* <p className="mt-4 text-gray-600 text-lg">
+              {dict?.testimonials?.loading || "Завантаження відгуків..."}
+            </p> */}
           </div>
         ) : validImages.length === 0 ? (
           <div className="text-center py-16">
@@ -68,26 +71,45 @@ const Testimonials = () => {
             </p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
-            {validImages.map((image, index) => (
-              <div
-                key={image}
-                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 break-inside-avoid"
-              >
-                <Image
-                  src={image}
-                  alt={`Відгук ${index + 1}`}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                  width={500}
-                  height={300}
-                  quality={60}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 group-hover:bg-opacity-20 transition-opacity duration-300"></div>
+          <>
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+              {displayedImages.map((image, index) => (
+                <div
+                  key={image}
+                  className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 break-inside-avoid"
+                >
+                  <Image
+                    src={image}
+                    alt={`Відгук ${index + 1}`}
+                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    width={500}
+                    height={300}
+                    quality={60}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 group-hover:bg-opacity-20 transition-opacity duration-300"></div>
+                </div>
+              ))}
+            </div>
+            {validImages.length > 3 && (
+              <div className="text-center mt-8 md:hidden">
+                <button
+                  onClick={() => setShowAll((prev) => !prev)}
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+                >
+                  {showAll
+                    ? dict?.testimonials?.lessReviews || "Менше відгуків"
+                    : dict?.testimonials?.moreReviews || "Більше відгуків"}
+                  {showAll ? (
+                    <ArrowUp className="w-4 h-4" />
+                  ) : (
+                    <ArrowDown className="w-4 h-4" />
+                  )}
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
     </div>
