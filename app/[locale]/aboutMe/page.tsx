@@ -166,6 +166,7 @@ export default function AboutMe() {
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
               {dict?.aboutMe.approachesTitle}
+              <div className="w-24 h-1 bg-red-500 mx-auto mt-4"></div>
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {approaches.map((approach, index) => {
@@ -196,6 +197,7 @@ export default function AboutMe() {
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
               {dict?.aboutMe.workFormatsTitle}
+              <div className="w-24 h-1 bg-red-500 mx-auto mt-4"></div>
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {workFormats.map((format, index) => {
@@ -227,6 +229,7 @@ export default function AboutMe() {
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
               {dict?.aboutMe.clientTypesTitle}
+              <div className="w-24 h-1 bg-red-500 mx-auto mt-4"></div>
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {clientTypes.map((client, index) => {
