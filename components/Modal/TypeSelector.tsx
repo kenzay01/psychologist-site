@@ -14,9 +14,9 @@ export default function TypeSelector({
   onTypeSelect,
 }: TypeSelectorProps) {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
 
-  if (loading) return null;
+  //   if (loading) return null;
 
   return (
     <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">

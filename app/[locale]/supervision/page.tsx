@@ -14,7 +14,7 @@ type SupervisionType = "individual" | "group";
 
 const SupervisionContent = () => {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<SupervisionType>("individual");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,7 +79,7 @@ const SupervisionContent = () => {
     setIsModalOpen(true);
   };
 
-  if (loading) return null;
+  // if (loading) return null;
 
   const currentData = supervisionData[activeTab];
 

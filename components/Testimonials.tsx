@@ -4,6 +4,7 @@ import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -70,7 +71,7 @@ const Testimonials = () => {
   //   }
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-8 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8 tracking-tight">
           {dict?.testimonials.title}
@@ -87,11 +88,17 @@ const Testimonials = () => {
               key={image}
               className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 break-inside-avoid"
             >
-              <img
+              <Image
                 src={image}
                 alt={`Відгук ${index + 1}`}
                 className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
                 loading="lazy"
+                width={500} // Додано обов'язковий атрибут width
+                height={300} // Додано обов'язковий атрибут height
+                quality={60}
+                // placeholder="blur"
+                // blurDataURL={image} // Використовуємо те саме зображення як blur
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0  group-hover:bg-opacity-20 transition-opacity duration-300"></div>
             </div>

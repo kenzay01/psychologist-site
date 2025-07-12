@@ -25,7 +25,7 @@ type ConsultationType = "individual" | "couple" | "child";
 
 const ConsultationContent = () => {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<ConsultationType>("individual");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -120,7 +120,7 @@ const ConsultationContent = () => {
     setIsModalOpen(true);
   };
 
-  if (loading) return null;
+  // if (loading) return null;
 
   const currentData = consultationData[activeTab];
 

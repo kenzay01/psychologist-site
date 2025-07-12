@@ -49,9 +49,9 @@ export default function ConfirmationStep({
   onBack,
 }: ConfirmationStepProps) {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
 
-  if (loading) return null;
+  //   if (loading) return null;
 
   return (
     <div>

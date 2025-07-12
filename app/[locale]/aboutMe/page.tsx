@@ -20,7 +20,7 @@ import { Locale } from "@/i18n/config";
 
 export default function AboutMe() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const approaches = [
     {
@@ -99,7 +99,7 @@ export default function AboutMe() {
     },
   ];
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>

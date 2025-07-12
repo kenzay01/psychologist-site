@@ -8,10 +8,10 @@ import { Locale } from "@/i18n/config";
 
 export default function GreetingComponent() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const router = useRouter();
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <section className="bg-red-500 text-white relative overflow-hidden">

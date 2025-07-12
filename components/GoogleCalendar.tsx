@@ -23,7 +23,7 @@ const GoogleCalendar = ({
   minimumBookingHours = 5, // За замовчуванням 5 годин
 }: Props) => {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<
     {
@@ -168,7 +168,7 @@ const GoogleCalendar = ({
     }
   };
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <div className="space-y-4 p-4 bg-white rounded-lg shadow-sm border-2 border-red-500">

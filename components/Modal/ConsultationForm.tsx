@@ -59,9 +59,9 @@ export default function ConsultationForm({
   telegramLink,
 }: ConsultationFormProps) {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
 
-  if (loading) return null;
+  //   if (loading) return null;
 
   return (
     <div className="space-y-4">

@@ -12,7 +12,7 @@ import { Locale } from "@/i18n/config";
 
 export default function ServicesBlock() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const router = useRouter();
 
   const services = [
@@ -50,7 +50,7 @@ export default function ServicesBlock() {
     },
   ];
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <section className="py-8 md:py-16 bg-white">

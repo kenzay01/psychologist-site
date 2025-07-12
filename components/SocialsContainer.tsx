@@ -10,7 +10,7 @@ import { Locale } from "@/i18n/config";
 
 export default function SocialsContainer() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
 
   const socials = [
     {
@@ -36,7 +36,7 @@ export default function SocialsContainer() {
     },
   ];
 
-  if (loading) return null;
+  //   if (loading) return null;
 
   return (
     <section

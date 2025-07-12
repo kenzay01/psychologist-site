@@ -16,7 +16,7 @@ import { Locale } from "@/i18n/config";
 
 export default function BenefitsContainer() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const router = useRouter();
   const benefits = [
     {
@@ -57,7 +57,7 @@ export default function BenefitsContainer() {
     },
   ];
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <section className="relative py-10 font-semibold">
