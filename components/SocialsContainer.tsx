@@ -8,13 +8,25 @@ import tiktokImg from "@/public/socials/tiktok.jpg";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown } from "lucide-react";
 
 export default function SocialsContainer() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
   const [showAll, setShowAll] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   const socials = [
     {
@@ -40,7 +52,13 @@ export default function SocialsContainer() {
     },
   ];
 
-  const displayedSocials = showAll ? socials : socials.slice(0, 1);
+  // На мобільних показуємо 1 або всі (залежно від showAll)
+  // На десктопі завжди показуємо всі
+  const displayedSocials = isDesktop
+    ? socials
+    : showAll
+    ? socials
+    : socials.slice(0, 1);
 
   return (
     <section
@@ -90,6 +108,8 @@ export default function SocialsContainer() {
             </a>
           ))}
         </div>
+
+        {/* Кнопка показується тільки на мобільних пристроях */}
         {socials.length > 1 && (
           <div className="text-center mt-8 md:hidden">
             <button

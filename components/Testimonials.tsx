@@ -5,7 +5,7 @@ import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -13,6 +13,18 @@ const Testimonials = () => {
   const [validImages, setValidImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   useEffect(() => {
     const checkImages = async () => {
@@ -42,7 +54,13 @@ const Testimonials = () => {
     checkImages();
   }, [currentLocale]);
 
-  const displayedImages = showAll ? validImages : validImages.slice(0, 3);
+  // На мобільних показуємо 3 або всі (залежно від showAll)
+  // На десктопі завжди показуємо всі
+  const displayedImages = isDesktop
+    ? validImages
+    : showAll
+    ? validImages
+    : validImages.slice(0, 3);
 
   return (
     <div className="py-8 bg-white">
@@ -59,9 +77,6 @@ const Testimonials = () => {
         {isLoading ? (
           <div className="text-center py-16">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
-            {/* <p className="mt-4 text-gray-600 text-lg">
-              {dict?.testimonials?.loading || "Завантаження відгуків..."}
-            </p> */}
           </div>
         ) : validImages.length === 0 ? (
           <div className="text-center py-16">
@@ -92,6 +107,8 @@ const Testimonials = () => {
                 </div>
               ))}
             </div>
+
+            {/* Кнопка показується тільки на мобільних пристроях і коли є більше 3 зображень */}
             {validImages.length > 3 && (
               <div className="text-center mt-8 md:hidden">
                 <button
@@ -99,13 +116,9 @@ const Testimonials = () => {
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
                 >
                   {showAll
-                    ? dict?.testimonials?.lessReviews || "Менше відгуків"
+                    ? dict?.testimonials?.lessReviews || "Менше"
                     : dict?.testimonials?.moreReviews || "Більше відгуків"}
-                  {showAll ? (
-                    <ArrowUp className="w-4 h-4" />
-                  ) : (
-                    <ArrowDown className="w-4 h-4" />
-                  )}
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             )}
