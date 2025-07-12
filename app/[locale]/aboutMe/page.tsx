@@ -151,7 +151,7 @@ export default function AboutMe() {
                 </div>
               </div>
 
-              <div className="bg-red-100 rounded-2xl p-8 border border-red-100">
+              <div className="shadow-xl rounded-2xl p-8 ">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">
                   {dict?.aboutMe.philosophyTitle}
                 </h3>
@@ -176,7 +176,7 @@ export default function AboutMe() {
                     className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
                   >
                     <div className="flex items-center mb-4">
-                      <div className="bg-red-100 p-3 rounded-full mr-4">
+                      <div className="shadow-xl p-3 rounded-full mr-4 border border-red-500">
                         <IconComponent className="w-6 h-6 text-red-600" />
                       </div>
                       <h3 className="text-lg font-semibold text-gray-800">
@@ -237,7 +237,7 @@ export default function AboutMe() {
                     className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="bg-red-100 p-3 rounded-full flex-shrink-0">
+                      <div className="shadow-xl border border-red-500 p-3 rounded-full flex-shrink-0">
                         <IconComponent className="w-6 h-6 text-red-600" />
                       </div>
                       <div>

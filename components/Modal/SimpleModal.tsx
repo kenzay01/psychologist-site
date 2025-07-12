@@ -20,6 +20,7 @@ export default function SimpleModal({
     phone: "",
     socialMedia: "",
     email: "",
+    query: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,7 +42,9 @@ export default function SimpleModal({
     }
   }, [isOpen]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -59,8 +62,9 @@ export default function SimpleModal({
 
     setIsSubmitting(true);
     try {
+      console.log("Sending message to Telegram...", formData.query);
       const message =
-        (dict?.modal?.form?.newRequest || "Новий запит з форми зв'язку") +
+        (dict?.modal?.form?.newRequest || "Новий запит з форми зв’язку") +
         "\n" +
         (dict?.modal?.form?.name || "Ім’я: ").replace("{name}", formData.name) +
         "\n" +
@@ -79,8 +83,14 @@ export default function SimpleModal({
           formData.socialMedia ||
             dict?.modal?.form?.noSocialMedia ||
             "Не вказано"
+        ) +
+        "\n" +
+        (dict?.modal?.form?.query || "Запит: ").replace(
+          "{query}",
+          formData.query || dict?.modal?.form?.noQuery || "Не вказано"
         );
 
+      console.log("Sending message to Telegram:", message);
       await fetch(
         `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
         {
@@ -96,7 +106,13 @@ export default function SimpleModal({
       );
 
       alert(dict?.modal?.form?.requestSuccess || "Запит успішно відправлено!");
-      setFormData({ name: "", phone: "", socialMedia: "", email: "" });
+      setFormData({
+        name: "",
+        phone: "",
+        socialMedia: "",
+        email: "",
+        query: "",
+      });
       onClose();
     } catch (error) {
       alert(
@@ -188,6 +204,22 @@ export default function SimpleModal({
                 dict?.modal?.form?.socialMediaPlaceholder ||
                 "Введіть ваш профіль у соцмережі"
               }
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {dict?.modal?.form?.queryLabel || "Запит"}
+            </label>
+            <textarea
+              name="query"
+              value={formData.query}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              placeholder={
+                dict?.modal?.form?.queryPlaceholder ||
+                "Опишіть суть вашого питання"
+              }
+              rows={4}
             />
           </div>
         </div>

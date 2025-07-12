@@ -52,8 +52,6 @@ export default function SocialsContainer() {
     },
   ];
 
-  // На мобільних показуємо 1 або всі (залежно від showAll)
-  // На десктопі завжди показуємо всі
   const displayedSocials = isDesktop
     ? socials
     : showAll
@@ -92,16 +90,18 @@ export default function SocialsContainer() {
                 <social.icon className="w-8 h-8 text-white" />
               </div>
               <div className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col items-center justify-center hover:shadow-2xl hover:scale-[1.01]">
-                <div className="flex-none w-full bg-gray-100 flex items-center justify-center relative">
+                <div className="w-full h-[550px] md:h-[575px] bg-gray-100 flex items-center justify-center relative">
                   <Image
                     src={social.img}
                     alt={social.title ?? "Social image"}
-                    width={400}
+                    width={600}
                     height={450}
-                    className="w-full h-[550px] md:h-[450px] object-cover"
+                    layout="responsive"
+                    objectFit="cover"
+                    objectPosition="top"
                     quality={85}
                     placeholder="blur"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                    sizes="(max-width: 767px) 100vw, (max-width: 1199px) 33vw, 25vw"
                   />
                 </div>
               </div>
