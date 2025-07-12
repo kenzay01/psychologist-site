@@ -7,9 +7,9 @@ import { useState, useEffect } from "react";
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [validImages, setValidImages] = useState<string[]>([]);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  //   const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
     const checkImages = async () => {
@@ -35,39 +35,39 @@ const Testimonials = () => {
       }
 
       setValidImages(validImagePaths);
-      setImagesLoaded(true);
+      //   setImagesLoaded(true);
     };
 
     checkImages();
   }, [currentLocale]);
 
-  if (loading || !imagesLoaded) {
-    return (
-      <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Завантаження галереї...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //   if (loading || !imagesLoaded) {
+  //     return (
+  //       <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
+  //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  //           <div className="text-center">
+  //             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+  //             <p className="mt-4 text-gray-600">Завантаження галереї...</p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
-  if (validImages.length === 0) {
-    return (
-      <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-12 tracking-tight">
-            {dict?.testimonials.title}
-          </h2>
-          <div className="text-center text-gray-600">
-            <p>Зображення не знайдено для поточної мови.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //   if (validImages.length === 0) {
+  //     return (
+  //       <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
+  //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  //           <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-12 tracking-tight">
+  //             {dict?.testimonials.title}
+  //           </h2>
+  //           <div className="text-center text-gray-600">
+  //             <p>Зображення не знайдено для поточної мови.</p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
   return (
     <div className="py-16 bg-white">
