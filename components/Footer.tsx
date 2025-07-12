@@ -1,35 +1,64 @@
 "use client";
-import { MapPin, Phone, Send, Instagram, MessageSquare } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import BookingModal from "./Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import {
+  FaViber,
+  FaWhatsapp,
+  FaTelegram,
+  FaInstagram,
+  FaTiktok,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa6";
 
 export default function Footer() {
   const currentLocale = useCurrentLanguage() as Locale;
-  const { dict, loading } = useDictionary(currentLocale);
+  const { dict } = useDictionary(currentLocale);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const socialLinks = [
     {
-      href: "https://t.me/admin_username",
-      icon: Send,
-      label: dict?.footer.social.telegram || "Telegram",
-    },
-    {
-      href: "https://www.instagram.com/your_profile",
-      icon: Instagram,
-      label: dict?.footer.social.instagram || "Instagram",
+      href: "https://viber.com/your_profile",
+      icon: <FaViber className="w-6 h-6" />,
+      label: "Viber",
     },
     {
       href: "https://wa.me/+380987313541",
-      icon: MessageSquare,
-      label: dict?.footer.social.whatsapp || "WhatsApp",
+      icon: <FaWhatsapp className="w-6 h-6" />,
+      label: "WhatsApp",
+    },
+    {
+      href: "https://t.me/admin_username",
+      icon: <FaTelegram className="w-6 h-6" />,
+      label: "Telegram",
+    },
+    {
+      href: "https://www.instagram.com/your_profile",
+      icon: <FaInstagram className="w-6 h-6" />,
+      label: "Instagram",
+    },
+    {
+      href: "https://www.tiktok.com/@your_profile",
+      icon: <FaTiktok className="w-6 h-6" />,
+      label: "TikTok",
+    },
+    {
+      href: "https://www.linkedin.com/in/your_profile",
+      icon: <FaLinkedin className="w-6 h-6" />,
+      label: "LinkedIn",
+    },
+    {
+      href: "https://www.youtube.com/@your_profile",
+      icon: <FaYoutube className="w-6 h-6" />,
+      label: "YouTube",
     },
   ];
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>
@@ -51,16 +80,16 @@ export default function Footer() {
           <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-8 sm:items-center">
             {/* Соцмережі */}
             <div className="flex items-center justify-center space-x-4">
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social) => (
                 <a
-                  key={index}
+                  key={social.label}
                   href={social.href}
                   className="text-white hover:text-red-200 transition-colors"
                   aria-label={social.label}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <social.icon className="w-5 h-5" />
+                  {social.icon}
                 </a>
               ))}
             </div>

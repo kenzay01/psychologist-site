@@ -4,11 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import BookingModal from "./Modal/Modal";
+// import BookingModal from "./Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import LanguageSwitcher from "./LanguageSwitcher";
+import {
+  FaViber,
+  FaWhatsapp,
+  FaTelegram,
+  FaInstagram,
+  FaTiktok,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa6";
+import SimpleModal from "./Modal/SimpleModal";
 
 const Header = () => {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -46,7 +56,43 @@ const Header = () => {
     { href: "/supervision", label: dict?.header.nav.servicesLinks.supervision },
   ];
 
-  // if (loading) return null;
+  const socialLinks = [
+    {
+      href: "https://viber.com/your_profile",
+      icon: <FaViber className="w-6 h-6" />,
+      label: "Viber",
+    },
+    {
+      href: "https://wa.me/+380987313541",
+      icon: <FaWhatsapp className="w-6 h-6" />,
+      label: "WhatsApp",
+    },
+    {
+      href: "https://t.me/admin_username",
+      icon: <FaTelegram className="w-6 h-6" />,
+      label: "Telegram",
+    },
+    {
+      href: "https://www.instagram.com/your_profile",
+      icon: <FaInstagram className="w-6 h-6" />,
+      label: "Instagram",
+    },
+    {
+      href: "https://www.tiktok.com/@your_profile",
+      icon: <FaTiktok className="w-6 h-6" />,
+      label: "TikTok",
+    },
+    {
+      href: "https://www.linkedin.com/in/your_profile",
+      icon: <FaLinkedin className="w-6 h-6" />,
+      label: "LinkedIn",
+    },
+    {
+      href: "https://www.youtube.com/@your_profile",
+      icon: <FaYoutube className="w-6 h-6" />,
+      label: "YouTube",
+    },
+  ];
 
   return (
     <>
@@ -114,13 +160,12 @@ const Header = () => {
                 <div className="hidden md:flex items-center justify-center space-x-4">
                   <LanguageSwitcher currentLocale={currentLocale} />
                   <button
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md"
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md uppercase"
                     onClick={() => {
                       setIsModalOpen(true);
                     }}
                   >
-                    {dict?.header.cta.bookConsultation ||
-                      "Записатися на консультацію"}
+                    {dict?.header.cta.bookConsultation || "Зв’язатися зі мною"}
                   </button>
                 </div>
               </div>
@@ -185,12 +230,27 @@ const Header = () => {
                     ))}
                   </div>
                 </div>
-                <div className="px-3 py-2 self-end">
-                  <LanguageSwitcher currentLocale={currentLocale} />
+                <div>
+                  <div className="px-3 py-2 flex justify-between items-center">
+                    <LanguageSwitcher currentLocale={currentLocale} />
+                    <div className="flex space-x-1.5">
+                      {socialLinks.map((social) => (
+                        <a
+                          key={social.label}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-600 hover:text-red-500"
+                        >
+                          {social.icon}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className="px-3 py-2">
                   <button
-                    className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                    className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors uppercase"
                     onClick={() => {
                       setIsModalOpen(true);
                     }}
@@ -203,10 +263,7 @@ const Header = () => {
           )}
         </div>
       </header>
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <SimpleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };
