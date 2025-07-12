@@ -60,11 +60,11 @@ export default function SocialsContainer() {
 
   return (
     <section
-      className={`py-8 md:py-16 bg-white ${
+      className={`w-full flex justify-center items-centerf py-8 md:py-16 bg-white ${
         currentLocale === "ru" ? "hidden" : ""
       }`}
     >
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-5xl px-8 flex flex-col items-center justify-center w-full">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
