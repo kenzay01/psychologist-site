@@ -60,11 +60,11 @@ export default function SocialsContainer() {
 
   return (
     <section
-      className={`w-full flex justify-center items-centerf py-8 md:py-16 bg-white ${
+      className={`py-8 md:py-16 bg-white ${
         currentLocale === "ru" ? "hidden" : ""
       }`}
     >
-      <div className="max-w-5xl px-8 flex flex-col items-center justify-center w-full">
+      <div className="max-w-5xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
@@ -77,7 +77,7 @@ export default function SocialsContainer() {
         </div>
 
         {/* Socials Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 min-w-full">
           {displayedSocials.map((social) => (
             <a
               className="flex items-center justify-center flex-col gap-2"
@@ -90,7 +90,7 @@ export default function SocialsContainer() {
                 <social.icon className="w-8 h-8 text-white" />
               </div>
               <div className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col items-center justify-center hover:shadow-2xl hover:scale-[1.01]">
-                <div className="w-full h-[550px] md:h-[575px] bg-gray-100 flex items-center justify-center relative">
+                <div className="w-full min-w-[280px] h-[550px] md:h-[575px] bg-gray-100 flex items-center justify-center relative">
                   <Image
                     src={social.img}
                     alt={social.title ?? "Social image"}
