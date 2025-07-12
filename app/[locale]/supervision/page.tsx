@@ -7,6 +7,8 @@ import Modal from "@/components/Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import supervisionImg from "@/public/services/supervision.png";
+import Image from "next/image";
 
 type SupervisionType = "individual" | "group";
 
@@ -115,13 +117,22 @@ const SupervisionContent = () => {
       <div className="max-w-6xl mx-auto px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="flex items-center space-x-3 mb-4">
                 {currentData.icon}
                 <h1 className="text-3xl font-bold text-gray-800">
                   {dict?.supervision.title}
                 </h1>
               </div>
+              <Image
+                src={supervisionImg}
+                alt={"Consultation Image"}
+                className="w-full h-64 object-cover rounded-lg shadow-md mb-2"
+                quality={85}
+                placeholder="blur"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading="lazy"
+              />
               <p className="text-gray-600 text-lg leading-relaxed italic">
                 {dict?.supervision.blockquote}
               </p>
@@ -130,7 +141,7 @@ const SupervisionContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.supervision.whyTitle}
               </h2>
@@ -142,7 +153,7 @@ const SupervisionContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.supervision.forWhomTitle}
               </h2>
@@ -156,7 +167,7 @@ const SupervisionContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.supervision.formatTitle}
               </h2>
@@ -214,7 +225,7 @@ const SupervisionContent = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 {dict?.consultation.quickInfoTitle}
               </h3>
@@ -248,7 +259,7 @@ const SupervisionContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}

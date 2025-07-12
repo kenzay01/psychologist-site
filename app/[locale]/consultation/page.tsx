@@ -13,9 +13,13 @@ import {
   Users,
   Baby,
 } from "lucide-react";
+import Image from "next/image";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import individualImg from "@/public/services/individual.jpg";
+import couple from "@/public/services/couple.jpg";
+import child from "@/public/services/child.jpg";
 
 type ConsultationType = "individual" | "couple" | "child";
 
@@ -39,7 +43,8 @@ const ConsultationContent = () => {
   const consultationData = {
     individual: {
       title: dict?.consultation.types.individual.title,
-      icon: <User className="w-6 h-6" />,
+      icon: <User className="w-6 h-6 text-red-500" />,
+      img: individualImg,
       duration: dict?.consultation.types.individual.duration,
       price: dict?.consultation.types.individual.price,
       blockquote: dict?.consultation.types.individual.blockquote,
@@ -62,7 +67,8 @@ const ConsultationContent = () => {
     },
     couple: {
       title: dict?.consultation.types.couple.title,
-      icon: <Users className="w-6 h-6" />,
+      img: couple,
+      icon: <Users className="w-6 h-6 text-red-500" />,
       duration: dict?.consultation.types.couple.duration,
       price: dict?.consultation.types.couple.price,
       blockquote: dict?.consultation.types.couple.blockquote,
@@ -85,7 +91,8 @@ const ConsultationContent = () => {
     },
     child: {
       title: dict?.consultation.types.child.title,
-      icon: <Baby className="w-6 h-6" />,
+      img: child,
+      icon: <Baby className="w-6 h-6 text-red-500" />,
       duration: dict?.consultation.types.child.duration,
       price: dict?.consultation.types.child.price,
       blockquote: dict?.consultation.types.child.blockquote,
@@ -151,18 +158,26 @@ const ConsultationContent = () => {
       <div className="max-w-6xl mx-auto px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg ">
               <div className="flex items-center space-x-3 mb-2 flex-col md:flex-row justify-center text-center md:text-left">
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
                   {currentData.title}
                 </h1>
               </div>
-
+              <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
+              <Image
+                src={currentData.img}
+                alt={"Consultation Image"}
+                className="w-full h-64 object-cover rounded-lg shadow-md mb-2"
+                quality={85}
+                placeholder="blur"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading="lazy"
+              />
               <blockquote className="text-sm md:text-[16px] font-medium italic leading-relaxed mb-4">
                 {currentData.blockquote}
               </blockquote>
-
               <p className="text-gray-600 text-lg mb-4">
                 {currentData.description}
               </p>
@@ -171,7 +186,7 @@ const ConsultationContent = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.consultation.topicsTitle}
               </h2>
@@ -185,7 +200,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.consultation.formatTitle}
               </h2>
@@ -211,7 +226,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 {dict?.consultation.reviewsTitle}
               </h2>
@@ -239,7 +254,7 @@ const ConsultationContent = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 {dict?.consultation.quickInfoTitle}
               </h3>
@@ -271,7 +286,7 @@ const ConsultationContent = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border-2 border-red-500">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="space-y-3">
                 <button
                   onClick={() => openModal(activeTab)}

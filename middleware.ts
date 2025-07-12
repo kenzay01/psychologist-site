@@ -4,6 +4,37 @@ import { defaultLocale, locales } from "./i18n/config";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Виключаємо static files (зображення, css, js тощо)
+  const staticFileExtensions = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".svg",
+    ".css",
+    ".js",
+    ".ico",
+    ".woff",
+    ".woff2",
+    ".ttf",
+    ".pdf",
+    ".zip",
+    ".json",
+    ".xml",
+    ".txt",
+  ];
+
+  const isStaticFile = staticFileExtensions.some((ext) =>
+    pathname.toLowerCase().endsWith(ext)
+  );
+
+  // Якщо це static file, пропускаємо middleware
+  if (isStaticFile) {
+    return NextResponse.next();
+  }
+
   // Отримуємо мову з cookies
   const savedLocale = request.cookies.get("preferredLocale")?.value;
 

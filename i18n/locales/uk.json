@@ -494,5 +494,9 @@
     "problemLabel": "Опис проблеми *",
     "submitButton": "Відправити заявку",
     "telegramButton": "Зв`язатися в Telegram"
+  },
+  "testimonials": {
+    "title": "Відгуки клієнтів",
+    "description": "Ось що кажуть мої клієнти про роботу зі мною"
   }
 }

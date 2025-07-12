@@ -2,7 +2,7 @@
 import homeBgMobile from "@/public/home-img.jpg";
 import homeBgDesktop from "@/public/home-bg-desktop.jpg";
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import BookingModal from "./Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
@@ -47,13 +47,11 @@ export default function HomeBanner() {
           <div className="text-white md:text-start flex flex-col md:items-start md:justify-center items-center justify-end md:ml-48 ml-0 mb-8 mt-0 md:mt-24 md:mb-0">
             <div className="mb-8 md:mb-12">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4">
-                {dict?.homeBanner.title.split(" ").map((word, index) => (
-                  <>
-                    <span key={index} className="inline-block">
-                      {word}
-                    </span>
+                {dict?.homeBanner.title.split(" ").map((word) => (
+                  <Fragment key={word}>
+                    <span className="inline-block">{word}</span>
                     <br />
-                  </>
+                  </Fragment>
                 ))}
               </h1>
               <h2 className="font-semibold text-lg md:text-2xl lg:text-3xl mb-4">

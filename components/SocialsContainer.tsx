@@ -39,7 +39,11 @@ export default function SocialsContainer() {
   if (loading) return null;
 
   return (
-    <section className="py-8 md:py-16 bg-white">
+    <section
+      className={`py-8 md:py-16 bg-white ${
+        currentLocale === "ru" ? "hidden" : ""
+      }`}
+    >
       <div className="max-w-5xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
