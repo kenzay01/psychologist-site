@@ -165,7 +165,7 @@ const ConsultationContent = () => {
                   {currentData.title}
                 </h1>
               </div>
-              <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
+              <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
               <Image
                 src={currentData.img}
                 alt={"Consultation Image"}
@@ -206,18 +206,24 @@ const ConsultationContent = () => {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
+                  {/* <div className="flex-1 md:flex-0"> */}
                   <Clock className="w-5 h-5 text-red-500" />
+                  {/* </div> */}
                   <span className="text-gray-700">
                     {dict?.consultation.durationLabel}: {currentData.duration}{" "}
                     {dict?.consultation.minutes}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Calendar className="w-5 h-5 text-red-500" />
+                  <div className="flex-1 md:flex-0">
+                    <Calendar className="w-5 h-5 text-red-500" />
+                  </div>
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 ">
+                  {/* <div className="flex-1 md:flex-0"> */}
                   <CreditCard className="w-5 h-5 text-red-500" />
+                  {/* </div> */}
                   <span className="text-gray-700">
                     {dict?.consultation.priceLabel}: {currentData.price}{" "}
                     {dict?.consultation.currency}

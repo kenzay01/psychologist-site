@@ -4,6 +4,7 @@ import BenefitsContainer from "@/components/BenefitsContainer";
 import ServicesBlock from "@/components/ServicesComponent";
 import SocialsContainer from "@/components/SocialsContainer";
 import Testimonials from "@/components/Testimonials";
+import DiplomasBlock from "@/components/DyplomComponent";
 export default function Home() {
   return (
     <div>
@@ -11,6 +12,7 @@ export default function Home() {
       <GreetingComponent />
       <BenefitsContainer />
       <ServicesBlock />
+      <DiplomasBlock />
       <Testimonials />
       <SocialsContainer />
       {/* Add more components or sections as needed */}

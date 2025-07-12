@@ -32,7 +32,7 @@ const SupervisionContent = () => {
   const supervisionData = {
     individual: {
       title: dict?.supervision.types.individual.title,
-      icon: <User className="w-6 h-6" />,
+      icon: <User className="w-6 h-6 text-red-500" />,
       duration: dict?.supervision.types.individual.duration,
       price: dict?.supervision.types.individual.price,
       description: dict?.supervision.types.individual.description,
@@ -53,7 +53,7 @@ const SupervisionContent = () => {
     },
     group: {
       title: dict?.supervision.types.group.title,
-      icon: <Users className="w-6 h-6" />,
+      icon: <Users className="w-6 h-6 text-red-500" />,
       duration: dict?.supervision.types.group.duration,
       price: dict?.supervision.types.group.price,
       description: dict?.supervision.types.group.description,
@@ -118,12 +118,13 @@ const SupervisionContent = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-lg p-6 shadow-lg">
-              <div className="flex items-center space-x-3 mb-4">
-                {currentData.icon}
-                <h1 className="text-3xl font-bold text-gray-800">
-                  {dict?.supervision.title}
+              <div className="flex items-center space-x-3 mb-2 flex-col md:flex-row justify-center text-center md:text-left">
+                <div className="flex-1 md:flex-0">{currentData.icon}</div>
+                <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
+                  {currentData.title}
                 </h1>
               </div>
+              <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
               <Image
                 src={supervisionImg}
                 alt={"Consultation Image"}
@@ -173,23 +174,31 @@ const SupervisionContent = () => {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Users className="w-5 h-5 text-red-500" />
+                  <div className="flex-1 md:flex-0">
+                    <Users className="w-5 h-5 text-red-500" />
+                  </div>
                   <span className="text-gray-700">
                     {dict?.supervision.targetAudience}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Star className="w-5 h-5 text-red-500" />
+                  <div className="flex-1 md:flex-0">
+                    <Star className="w-5 h-5 text-red-500" />
+                  </div>
                   <span className="text-gray-700">
                     {dict?.supervision.topicsLabel}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Users className="w-5 h-5 text-red-500" />
+                  <div className="flex-1 md:flex-0">
+                    <Users className="w-5 h-5 text-red-500" />
+                  </div>
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Star className="w-5 h-5 text-red-500" />
+                  <div className="flex-1 md:flex-0">
+                    <Star className="w-5 h-5 text-red-500" />
+                  </div>
                   <span className="text-gray-700">
                     {dict?.supervision.certificate}
                   </span>
