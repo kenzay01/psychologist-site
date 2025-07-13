@@ -152,7 +152,7 @@ export default function Footer() {
 
                   {/* Desktop: Dropdown */}
                   <div className="hidden sm:block absolute bottom-full left-0 w-64 pb-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <div className="bg-black/50 backdrop-blur-md rounded-bg-black/50 backdrop-blur-md rounded-lg px-2 shadow-lg">
+                    <div className="bg-black/50 backdrop-blur-md rounded-lg px-2 shadow-lg">
                       <div className="py-2">
                         {servicesLinks.map((service) => (
                           <Link
