@@ -12,7 +12,7 @@ const Testimonials = () => {
   const { dict } = useDictionary(currentLocale);
   const [validImages, setValidImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
+  const [displayCount, setDisplayCount] = useState(3); // Починаємо з 3 зображень
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -54,18 +54,20 @@ const Testimonials = () => {
     checkImages();
   }, [currentLocale]);
 
-  // На мобільних показуємо 3 або всі (залежно від showAll)
-  // На десктопі завжди показуємо всі
+  // На десктопі показуємо всі зображення, на мобільних — обмежену кількість
   const displayedImages = isDesktop
     ? validImages
-    : showAll
-    ? validImages
-    : validImages.slice(0, 3);
+    : validImages.slice(0, displayCount);
+
+  // Функція для показу наступних 3 зображень
+  const handleShowMore = () => {
+    setDisplayCount((prev) => prev + 3);
+  };
 
   return (
     <div className="py-8 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8 tracking-tight">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 text-center">
           {dict?.testimonials?.title || "Відгуки"}
           <div className="w-24 h-1 bg-red-500 mx-auto mt-4"></div>
         </h2>
@@ -108,16 +110,14 @@ const Testimonials = () => {
               ))}
             </div>
 
-            {/* Кнопка показується тільки на мобільних пристроях і коли є більше 3 зображень */}
-            {validImages.length > 3 && (
-              <div className="text-center mt-8 md:hidden">
+            {/* Кнопка "Більше відгуків" показується тільки на мобільних і якщо є ще зображення */}
+            {validImages.length > displayCount && !isDesktop && (
+              <div className="text-center mt-8">
                 <button
-                  onClick={() => setShowAll((prev) => !prev)}
+                  onClick={handleShowMore}
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
                 >
-                  {showAll
-                    ? dict?.testimonials?.lessReviews || "Менше"
-                    : dict?.testimonials?.moreReviews || "Більше відгуків"}
+                  {dict?.testimonials?.moreReviews || "Більше відгуків"}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

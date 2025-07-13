@@ -21,15 +21,29 @@
     }
   },
   "footer": {
-    "address": "г. Киев, ул. Григория Сковороды, 2",
-    "phone": "+380 98 731 35 41",
-    "social": {
-      "telegram": "Telegram",
-      "instagram": "Instagram",
-      "whatsapp": "WhatsApp"
+    "contact": {
+      "phone": "+380 67 123 45 67",
+      "email": "email@psychologist.com",
+      "address": "Онлайн и офлайн (г. Киев)"
     },
-    "cta": {
-      "bookConsultation": "ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ"
+    "menu": {
+      "title": "Меню:"
+    },
+    "social": {
+      "title": "Социальные сети:"
+    },
+    "copyright": "© 2025 Александра Алексюк | Политика конфиденциальности",
+    "nav": {
+      "aboutMe": "Обо мне",
+      "diplomas": "Дипломы",
+      "blog": "Блог",
+      "services": "Услуги",
+      "servicesLinks": {
+        "individual": "Индивидуальная консультация",
+        "couple": "Парная консультация",
+        "child": "Детская консультация",
+        "supervision": "Супервизия"
+      }
     }
   },
   "homeBanner": {
