@@ -5,7 +5,7 @@ import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowUp, ArrowDown } from "lucide-react";
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -111,14 +111,24 @@ const Testimonials = () => {
             </div>
 
             {/* Кнопка "Більше відгуків" показується тільки на мобільних і якщо є ще зображення */}
-            {validImages.length > displayCount && !isDesktop && (
+            {!isDesktop && (
               <div className="text-center mt-8">
                 <button
-                  onClick={handleShowMore}
+                  onClick={
+                    validImages.length > displayCount
+                      ? handleShowMore
+                      : () => setDisplayCount(3)
+                  }
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
                 >
-                  {dict?.testimonials?.moreReviews || "Більше відгуків"}
-                  <ArrowRight className="w-4 h-4" />
+                  {validImages.length > displayCount
+                    ? dict?.testimonials?.moreReviews || "Більше відгуків"
+                    : dict?.testimonials?.lessReviews || "Менше відгуків"}
+                  {validImages.length > displayCount ? (
+                    <ArrowDown className="w-4 h-4" />
+                  ) : (
+                    <ArrowUp className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             )}
