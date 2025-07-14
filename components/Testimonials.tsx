@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
+import { useLayoutEffect } from "react";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
@@ -14,6 +15,7 @@ const Testimonials = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [displayCount, setDisplayCount] = useState(3); // Починаємо з 3 зображень
   const [isDesktop, setIsDesktop] = useState(false);
+  const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -25,6 +27,18 @@ const Testimonials = () => {
 
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
+  useLayoutEffect(() => {
+    if (shouldScrollToTop) {
+      const reviewsPosition = document.getElementById("reviewsContainer");
+      if (reviewsPosition) {
+        reviewsPosition.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+      setShouldScrollToTop(false);
+    }
+  }, [displayCount, shouldScrollToTop]);
 
   useEffect(() => {
     const checkImages = async () => {
@@ -117,36 +131,8 @@ const Testimonials = () => {
                     validImages.length > displayCount
                       ? handleShowMore
                       : () => {
-                          // Зберігаємо поточну позицію скролу
-                          const currentScrollY = window.scrollY;
-
-                          // Знаходимо елемент до зміни стану
-                          const reviewsPosition =
-                            document.getElementById("reviewsContainer");
-
-                          if (reviewsPosition) {
-                            // Зберігаємо позицію елемента відносно viewport
-                            const rect =
-                              reviewsPosition.getBoundingClientRect();
-                            const elementTop = rect.top;
-
-                            // Змінюємо стан
-                            setDisplayCount(3);
-
-                            // Після ререндеру скролимо до збереженої позиції
-                            requestAnimationFrame(() => {
-                              // Розраховуємо нову позицію після зміни висоти
-                              const newScrollY = currentScrollY + elementTop;
-
-                              // Скролимо до збереженої позиції елемента
-                              window.scrollTo({
-                                top: newScrollY,
-                                behavior: "smooth",
-                              });
-                            });
-                          } else {
-                            setDisplayCount(3);
-                          }
+                          setDisplayCount(3);
+                          setShouldScrollToTop(true);
                         }
                   }
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
