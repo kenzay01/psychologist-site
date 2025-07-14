@@ -134,7 +134,7 @@ const Testimonials = () => {
                               });
                             }
                             setDisplayCount(3);
-                          }, 50);
+                          }, 100);
                         }
                   }
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
