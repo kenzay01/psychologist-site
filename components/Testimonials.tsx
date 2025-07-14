@@ -120,9 +120,9 @@ const Testimonials = () => {
                       : () => {
                           const reviewsPosition =
                             document.getElementById("reviewsContainer");
-                          reviewsPosition?.scrollIntoView({
+                          window.scrollTo({
+                            top: reviewsPosition?.offsetTop || 0,
                             behavior: "smooth",
-                            block: "start",
                           });
                           setDisplayCount(3);
                         }
