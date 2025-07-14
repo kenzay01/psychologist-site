@@ -119,34 +119,31 @@ const Testimonials = () => {
                     validImages.length > displayCount
                       ? handleShowMore
                       : () => {
-                          // Зберігаємо поточну позицію скролу
-                          const currentScrollY = window.scrollY;
-
-                          // Знаходимо елемент до зміни стану
                           const reviewsPosition =
                             document.getElementById("reviewsContainer");
-
-                          console.log("reviewsPosition", reviewsPosition);
                           if (reviewsPosition) {
-                            // Зберігаємо позицію елемента відносно viewport
-                            const rect =
-                              reviewsPosition.getBoundingClientRect();
-                            const elementTop = rect.top;
-
-                            // Змінюємо стан
-                            setDisplayCount(3);
-
-                            // Після ререндеру скролимо до збереженої позиції
-                            requestAnimationFrame(() => {
-                              // Розраховуємо нову позицію після зміни висоти
-                              const newScrollY = currentScrollY + elementTop;
-
-                              // Скролимо до збереженої позиції елемента
-                              window.scrollTo({
-                                top: newScrollY,
+                            try {
+                              // Спробуємо scrollIntoView
+                              reviewsPosition.scrollIntoView({
                                 behavior: "smooth",
+                                block: "start",
                               });
-                            });
+                            } catch (error) {
+                              // Fallback для старих браузерів
+                              const rect =
+                                reviewsPosition.getBoundingClientRect();
+                              const scrollTop =
+                                window.pageYOffset ||
+                                document.documentElement.scrollTop;
+                              const targetY = rect.top + scrollTop;
+
+                              window.scrollTo(0, targetY);
+                            }
+
+                            // Змінюємо стан з затримкою
+                            setTimeout(() => {
+                              setDisplayCount(3);
+                            }, 300);
                           } else {
                             setDisplayCount(3);
                           }
