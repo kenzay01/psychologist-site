@@ -65,7 +65,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="py-8 bg-white">
+    <div className="py-8 bg-white" id="reviewsContainer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 text-center">
           {dict?.testimonials?.title || "Відгуки"}
@@ -117,7 +117,15 @@ const Testimonials = () => {
                   onClick={
                     validImages.length > displayCount
                       ? handleShowMore
-                      : () => setDisplayCount(3)
+                      : () => {
+                          const reviewsPosition =
+                            document.getElementById("reviewsContainer");
+                          reviewsPosition?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                          setDisplayCount(3);
+                        }
                   }
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
                 >
