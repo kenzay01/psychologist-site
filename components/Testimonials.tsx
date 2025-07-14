@@ -138,6 +138,7 @@ const Testimonials = () => {
                               const targetY = rect.top + scrollTop;
 
                               window.scrollTo(0, targetY);
+                              console.error(error);
                             }
 
                             // Змінюємо стан з затримкою
