@@ -110,7 +110,6 @@ const Testimonials = () => {
               ))}
             </div>
 
-            {/* Кнопка "Більше відгуків" показується тільки на мобільних і якщо є ще зображення */}
             {!isDesktop && (
               <div className="text-center mt-8">
                 <button
@@ -118,13 +117,24 @@ const Testimonials = () => {
                     validImages.length > displayCount
                       ? handleShowMore
                       : () => {
-                          const reviewsPosition =
-                            document.getElementById("reviewsContainer");
-                          window.scrollTo({
-                            top: reviewsPosition?.offsetTop || 0,
-                            behavior: "smooth",
-                          });
-                          setDisplayCount(3);
+                          setTimeout(() => {
+                            const reviewsPosition =
+                              document.getElementById("reviewsContainer");
+                            if (reviewsPosition) {
+                              const rect =
+                                reviewsPosition.getBoundingClientRect();
+                              const scrollTop =
+                                window.pageYOffset ||
+                                document.documentElement.scrollTop;
+                              const targetPosition = rect.top + scrollTop;
+
+                              window.scrollTo({
+                                top: targetPosition,
+                                behavior: "smooth",
+                              });
+                            }
+                            setDisplayCount(3);
+                          }, 50);
                         }
                   }
                   className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
