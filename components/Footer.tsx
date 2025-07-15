@@ -23,37 +23,37 @@ export default function Footer() {
 
   const socialLinks = [
     {
-      href: "https://viber.com/your_profile",
+      href: "/linktree",
       icon: <FaViber className="w-6 h-6" />,
       label: "Viber",
     },
     {
-      href: "https://wa.me/+380987313541",
+      href: "/linktree",
       icon: <FaWhatsapp className="w-6 h-6" />,
       label: "WhatsApp",
     },
     {
-      href: "https://t.me/admin_username",
+      href: "/linktree",
       icon: <FaTelegram className="w-6 h-6" />,
       label: "Telegram",
     },
     {
-      href: "https://www.instagram.com/your_profile",
+      href: "/linktree",
       icon: <FaInstagram className="w-6 h-6" />,
       label: "Instagram",
     },
     {
-      href: "https://www.tiktok.com/@your_profile",
+      href: "/linktree",
       icon: <FaTiktok className="w-6 h-6" />,
       label: "TikTok",
     },
     {
-      href: "https://www.linkedin.com/in/your_profile",
+      href: "/linktree",
       icon: <FaLinkedin className="w-6 h-6" />,
       label: "LinkedIn",
     },
     {
-      href: "https://www.youtube.com/@your_profile",
+      href: "/linktree",
       icon: <FaYoutube className="w-6 h-6" />,
       label: "YouTube",
     },
@@ -182,8 +182,8 @@ export default function Footer() {
                     href={social.href}
                     className="text-white hover:text-red-200 transition-colors"
                     aria-label={social.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
                   >
                     {social.icon}
                   </a>

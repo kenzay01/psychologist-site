@@ -33,21 +33,21 @@ export default function SocialsContainer() {
       id: 1,
       title: dict?.socials?.items[0].title,
       icon: FaInstagram,
-      link: "https://www.instagram.com/alexandra_aleksiuk?igsh=MWY2b2Y4eTR6MmllOQ%3D%3D&utm_source=qr",
+      link: "/linktree",
       img: instagramImg,
     },
     {
       id: 2,
       title: dict?.socials?.items[1].title,
       icon: FaYoutube,
-      link: "https://youtube.com/@psiholog.o.aleksiuk?si=6fosJ4s08PVEuWZj",
+      link: "/linktree",
       img: youtubeImg,
     },
     {
       id: 3,
       title: dict?.socials?.items[2].title,
       icon: FaTiktok,
-      link: "https://www.tiktok.com/@alexandraaleksiuk?_t=ZM-8xgvh42k9xe&_r=1",
+      link: "/linktree",
       img: tiktokImg,
     },
   ];
@@ -83,8 +83,8 @@ export default function SocialsContainer() {
               className="flex items-center justify-center flex-col gap-2"
               key={social.id}
               href={social.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              //   target="_blank"
+              //   rel="noopener noreferrer"
             >
               <div className="bg-red-500 w-24 backdrop-blur-sm rounded-2xl py-2 flex items-center justify-center">
                 <social.icon className="w-8 h-8 text-white" />

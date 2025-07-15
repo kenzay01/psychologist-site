@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
 // import { Metadata } from "next";
 import "../globals.css";
-import Header from "@/components/Header";
-import SideButton from "@/components/SideButton";
-import Footer from "@/components/Footer";
+// import Header from "@/components/Header";
+// import SideButton from "@/components/SideButton";
+// import Footer from "@/components/Footer";
+import AppRootLayout from "@/app/[locale]/RootLayout";
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -25,11 +26,7 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body>
-        <Header />
-        {children}
-        <Footer />
-        {/* SideButton for mobile navigation */}
-        <SideButton />
+        <AppRootLayout>{children}</AppRootLayout>
       </body>
     </html>
   );

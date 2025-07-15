@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { getDictionary } from "@/i18n";
 import { Locale } from "@/i18n/config";
