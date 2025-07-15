@@ -150,13 +150,13 @@ export default function LinkTree() {
               ))}
             </div>
 
-            <a
-              href={`tel:${dict?.footer.contact.phone || "+380671234567"}`}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base hover:bg-red-600 transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4"
+            <button
+              // href={`tel:${dict?.footer.contact.phone || "+380671234567"}`}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base hover:bg-red-600 transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
               onClick={() => setIsMenuOpen(true)}
             >
               {dict?.linkTree?.cta || "Зв’язатися"}
-            </a>
+            </button>
           </div>
         </div>
       </section>
