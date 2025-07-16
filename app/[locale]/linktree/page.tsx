@@ -94,7 +94,7 @@ export default function LinkTree() {
         <div className="relative z-10 w-full max-w-xs mx-auto px-4 py-6 flex flex-col items-center justify-center min-h-screen md:max-w-2xl md:py-12">
           {/* Main Content - Link Tree */}
           <div className="text-white text-center flex flex-col items-center gap-4">
-            <div className="mb-4">
+            <div className="md:mb-4 mb-20">
               <h1
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 cursor-pointer"
                 onClick={() => router.push(`/${currentLocale}`)}
@@ -111,7 +111,7 @@ export default function LinkTree() {
             </div>
 
             {/* Social Links (Horizontal on Mobile) */}
-            <div className="w-full flex flex-wrap justify-center gap-2">
+            <div className="w-full flex flex-wrap justify-center gap-2 mt-12">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
