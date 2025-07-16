@@ -5,6 +5,7 @@ import ServicesBlock from "@/components/ServicesComponent";
 import SocialsContainer from "@/components/SocialsContainer";
 import Testimonials from "@/components/Testimonials";
 import DiplomasBlock from "@/components/DyplomComponent";
+import BlogsBlock from "@/components/BlogBlock";
 export default function Home() {
   return (
     <div>
@@ -13,9 +14,9 @@ export default function Home() {
       <BenefitsContainer />
       <ServicesBlock />
       <DiplomasBlock />
+      <BlogsBlock />
       <Testimonials />
       <SocialsContainer />
-      {/* Add more components or sections as needed */}
     </div>
   );
 }

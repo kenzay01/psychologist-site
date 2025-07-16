@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk">
+    <html lang="uk" data-color-mode="light">
       <body>
         <AppRootLayout>{children}</AppRootLayout>
       </body>
