@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
 import ModalContainer from "./ModalContainer";
 import TypeSelector from "./TypeSelector";
 import ConsultationForm from "./ConsultationForm";
@@ -12,6 +13,7 @@ import moment from "moment";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import type { PaymentData } from "@/types/payment";
 
 export default function Modal({
   isOpen,
@@ -26,6 +28,7 @@ export default function Modal({
   consultationType?: "individual" | "couple" | "child";
   supervisionType?: "individual" | "group";
 }) {
+  // const router = useRouter();
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict, loading } = useDictionary(currentLocale);
 
@@ -516,8 +519,57 @@ export default function Modal({
     }
   };
 
-  const handlePayment = () => {
-    // Логіка оплати через MonoBank
+  // Функція для збереження даних та створення платежу
+  const handlePayment = async () => {
+    try {
+      const paymentData = {
+        formData,
+        selectedType,
+        selectedConsultationType,
+        selectedSupervisionType,
+        selectedDate,
+        selectedTime,
+        price,
+        duration,
+        timestamp: Date.now(),
+      } as PaymentData;
+
+      const response = await fetch("/api/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: price * 100,
+          merchantPaymInfo: {
+            reference: `booking_${Date.now()}`,
+            destination: `${
+              selectedType === "consultation"
+                ? consultationData[selectedConsultationType].title
+                : supervisionData[selectedSupervisionType].title
+            }`,
+            comment: `Оплата за ${
+              selectedType === "consultation" ? "консультацію" : "супервізію"
+            }`,
+          },
+          redirectUrl: `${window.location.origin}/payment-status`,
+          webHookUrl: `${window.location.origin}/api/payment-webhook`,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Зберігаємо invoiceId разом із paymentData
+        paymentData.invoiceId = result.invoiceId;
+        localStorage.setItem("paymentData", JSON.stringify(paymentData));
+        // Перенаправляємо на сторінку оплати
+        window.location.href = result.pageUrl;
+      } else {
+        alert("Помилка створення платежу: " + result.error);
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Помилка при створенні платежу");
+    }
   };
 
   const telegramLink = "https://t.me/admin_username";

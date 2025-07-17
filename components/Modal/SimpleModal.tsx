@@ -62,7 +62,7 @@ export default function SimpleModal({
 
     setIsSubmitting(true);
     try {
-      console.log("Sending message to Telegram...", formData.query);
+      // console.log("Sending message to Telegram...", formData.query);
       const message =
         (dict?.modal?.form?.newRequest || "Новий запит з форми зв’язку") +
         "\n" +
@@ -90,7 +90,7 @@ export default function SimpleModal({
           formData.query || dict?.modal?.form?.noQuery || "Не вказано"
         );
 
-      console.log("Sending message to Telegram:", message);
+      // console.log("Sending message to Telegram:", message);
       await fetch(
         `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
         {

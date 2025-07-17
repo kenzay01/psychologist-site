@@ -35,7 +35,7 @@ const GoogleCalendar = ({
   >([]);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
-  const calendarId = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID;
+  const calendarId = process.env.GOOGLE_CALENDAR_ID;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   // Отримання подій з Google Calendar
