@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   CheckCircle,
   XCircle,
@@ -48,7 +48,6 @@ type PaymentStatus =
 
 export default function PaymentStatusPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [paymentStatus, setPaymentStatus] =
     useState<PaymentStatus>("processing");
   const [loading, setLoading] = useState(true);
@@ -81,7 +80,7 @@ export default function PaymentStatusPage() {
       }
 
       const checkPaymentStatus = async () => {
-        const invoiceId = parsedData.invoiceId || searchParams.get("invoiceId");
+        const invoiceId = parsedData.invoiceId;
         console.log("Checking payment status for invoiceId:", invoiceId); // Логування
         if (invoiceId) {
           try {
@@ -128,7 +127,7 @@ export default function PaymentStatusPage() {
       console.error("No payment data in localStorage"); // Логування
       setLoading(false);
     }
-  }, [searchParams, dict]);
+  }, [dict]);
 
   // Обробка успішного платежу з затримкою
   useEffect(() => {

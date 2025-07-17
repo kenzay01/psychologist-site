@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Обробляємо webhook
-    const { invoiceId, status, amount, reference, failureReason } = body;
+    // const { invoiceId, status, amount, reference, failureReason } = body;
 
     // console.log("Payment webhook received:", {
     //   invoiceId,
