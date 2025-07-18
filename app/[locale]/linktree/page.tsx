@@ -7,8 +7,8 @@ import Image from "next/image";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import { useState } from "react";
-import { Earth } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Earth, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import SimpleModal from "@/components/Modal/SimpleModal";
 import {
@@ -26,7 +26,29 @@ export default function LinkTree() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handlePhoneClick = () => {
+    if (isMobile) {
+      window.location.href = "tel:+380997906110";
+    } else {
+      setShowPhone(true);
+    }
+  };
+
   const socialLinks = [
     {
       href: "https://viber.com/your_profile",
@@ -143,12 +165,15 @@ export default function LinkTree() {
               >
                 {dict?.linkTree?.to_site || "Перейти на сайт"}
               </button>
-              <a
-                href="tel:+380997906110"
+              <button
+                onClick={handlePhoneClick}
                 className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
               >
-                {dict?.footer.contact.phone || "+380 99 790 61 10"}
-              </a>
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+                {showPhone && !isMobile
+                  ? dict?.footer.contact.phone || "+380 99 790 61 10"
+                  : dict?.linkTree?.phone || "Телефон"}
+              </button>
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -167,7 +192,7 @@ export default function LinkTree() {
               className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
               onClick={() => setIsMenuOpen(true)}
             >
-              {dict?.linkTree?.cta || "Зв’язатися"}
+              {dict?.linkTree?.cta || "Зв'язатися"}
             </button>
           </div>
         </div>
