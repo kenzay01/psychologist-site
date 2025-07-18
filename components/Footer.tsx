@@ -1,8 +1,8 @@
 "use client";
 import { MapPin, Phone } from "lucide-react";
-// import { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-// import BookingModal from "./Modal/Modal";
+import Modal from "./Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
@@ -19,7 +19,7 @@ import {
 export default function Footer() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const socialLinks = [
     {
@@ -91,6 +91,14 @@ export default function Footer() {
       <footer className="bg-red-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col w-full">
           <div className="flex w-full justify-between flex-col md:flex-row">
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="block md:hidden mb-4 bg-white text-red-600 w-full px-2 md:px-12 py-4 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold text-sm md:text-lg shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300"
+            >
+              {dict?.aboutMe.cta.bookConsultation}
+            </button>
             {/* Контакти */}
             <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-6 items-start mb-6">
               <div className="flex items-center space-x-2">
@@ -213,10 +221,7 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      /> */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }

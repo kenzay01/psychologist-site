@@ -12,7 +12,6 @@ export default function DiplomasBlock() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
   const router = useRouter();
-  //   const [validImages, setValidImages] = useState<string[]>([]);
 
   // Дипломи з підписами
   const diplomas = [
@@ -21,8 +20,9 @@ export default function DiplomasBlock() {
       title:
         dict?.diplomas.subtitle ||
         "CBT-сертификат \n Супервизия 2024 \n Тренинг по эмоциональному интеллекту",
-      image: "/certificates/certificate_17.jpg",
-      image2: "/certificates/certificate_1.jpg",
+      image1: "/certificates/certificate_18.jpg",
+      image2: "/certificates/certificate_19.jpg",
+      image3: "/certificates/certificate_17.jpg",
     },
   ];
 
@@ -72,49 +72,50 @@ export default function DiplomasBlock() {
           {diplomas.map((diploma) => (
             <div
               key={diploma.id}
-              className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row hover:shadow-2xl hover:scale-[1.01]"
+              className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col w-full"
             >
               {/* Image Section */}
-              <div className="flex-none w-full md:w-1/2 bg-gray-100 flex items-center justify-center gap-2 p-2">
-                <div className="flex-1/5">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
+                <div className="w-full md:w-1/3">
                   <Image
-                    src={diploma.image}
+                    src={diploma.image1}
                     alt={diploma.title}
                     className="w-full h-full object-cover rounded-lg"
                     quality={85}
-                    //   placeholder="blur"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
                     width={250}
                     height={300}
                   />
                 </div>
-                <div className="flex-1/3">
+                <div className="w-full md:w-1/3">
                   <Image
                     src={diploma.image2}
                     alt={diploma.title}
                     className="w-full h-full object-cover rounded-lg"
                     quality={85}
-                    //   placeholder="blur"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
-                    width={400}
+                    width={250}
+                    height={300}
+                  />
+                </div>
+                <div className="w-full md:w-1/4">
+                  <Image
+                    src={diploma.image3}
+                    alt={diploma.title}
+                    className="w-full h-full object-cover rounded-lg"
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    width={250}
                     height={300}
                   />
                 </div>
               </div>
 
               {/* Content Section */}
-              <div className="flex-1 p-4 md:p-6 flex flex-col justify-center">
-                <h3 className="text-md md:text-xl font-bold text-gray-900 mb-2 flex flex-col gap-2">
-                  {diploma.title.split("\n").map((line, index) => (
-                    // <Fragment key={index}>
-                    <span key={index} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </h3>
+              <div className="p-4 md:p-6 flex flex-col items-center">
                 <button
                   onClick={() => router.push(`/${currentLocale}/dyplomy`)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-6 w-full py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 justify-between hover:scale-102 transition-all duration-300 shadow-md"
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 w-full py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 justify-center hover:scale-102 transition-all duration-300 shadow-md"
                 >
                   {dict?.diplomas?.cta?.learnMore || "Дізнатися більше"}
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -123,43 +124,6 @@ export default function DiplomasBlock() {
             </div>
           ))}
         </div>
-
-        {/* Mobile version - Horizontal Slider */}
-        {/* <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4">
-          {diplomas.map((diploma) => (
-            <div
-              key={diploma.id}
-              className="bg-white rounded-2xl shadow-xl flex-none w-4/5 snap-center"
-            >
-              <div className="flex flex-col">
-                <div className="bg-gray-100 flex items-center justify-center">
-                  <Image
-                    src={diploma.image}
-                    alt={diploma.title}
-                    className="w-full h-48 object-cover"
-                    quality={85}
-                    // placeholder="blur"
-                    sizes="(max-width: 768px) 80vw"
-                    width={300}
-                    height={200}
-                  />
-                </div>
-                <div className="p-4 flex flex-col justify-center">
-                  <h3 className="text-md font-bold text-gray-900 mb-3">
-                    {diploma.title}
-                  </h3>
-                  <button
-                    onClick={() => router.push(`/${currentLocale}/dyplomy`)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-semibold text-sm inline-flex items-center gap-2 justify-between hover:scale-102 transition-all duration-300 shadow-md"
-                  >
-                    {dict?.diplomas?.cta?.learnMore || "Дізнатися більше"}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
       </div>
     </section>
   );

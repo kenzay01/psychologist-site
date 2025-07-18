@@ -11,7 +11,7 @@ export default function ConsultationTeaserComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <div className="w-full max-w-7xl flex justify-center items-center mx-auto py-4">
+      <div className="w-full max-w-7xl flex justify-center items-center md:mx-auto p-4">
         <div className="bg-red-500 rounded-3xl p-6 md:p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-6">{dict?.aboutMe.cta.title}</h2>
           <p className="text-xl mb-8 opacity-90">

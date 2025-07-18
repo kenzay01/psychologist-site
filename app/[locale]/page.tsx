@@ -19,7 +19,9 @@ export default function Home() {
       <BlogsBlock />
       <Testimonials />
       <SocialsContainer />
-      <ConsultationTeaserComponent />
+      <div className="hidden md:block">
+        <ConsultationTeaserComponent />
+      </div>
     </div>
   );
 }
