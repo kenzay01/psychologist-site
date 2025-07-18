@@ -62,7 +62,7 @@ export default function Footer() {
   const navLinks = [
     { href: "/aboutMe", label: dict?.header.nav.aboutMe || "Про мене" },
     { href: "/dyplomy", label: dict?.header.nav.diplomas || "Дипломи" },
-    { href: "/blog", label: dict?.header.nav.blog || "Блог" },
+    { href: "/blogs", label: dict?.header.nav.blog || "Блог" },
   ];
 
   const servicesLinks = [
