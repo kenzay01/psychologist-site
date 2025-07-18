@@ -1,3 +1,4 @@
+"use client";
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { locales, Locale } from "@/i18n/config";

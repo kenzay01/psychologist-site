@@ -21,7 +21,8 @@ export default function DiplomasBlock() {
       title:
         dict?.diplomas.subtitle ||
         "CBT-сертификат \n Супервизия 2024 \n Тренинг по эмоциональному интеллекту",
-      image: "/certificates/certificate_1.jpg",
+      image: "/certificates/certificate_17.jpg",
+      image2: "/certificates/certificate_1.jpg",
     },
   ];
 
@@ -67,25 +68,38 @@ export default function DiplomasBlock() {
           </p>
         </div>
 
-        {/* Desktop version - Grid */}
-        <div className="flex items-center justify-center flex-wrap gap-8">
+        <div className="flex items-center justify-center flex-wrap gap-8 w-full">
           {diplomas.map((diploma) => (
             <div
               key={diploma.id}
               className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row hover:shadow-2xl hover:scale-[1.01]"
             >
               {/* Image Section */}
-              <div className="flex-none w-full md:w-1/2 bg-gray-100 flex items-center justify-center">
-                <Image
-                  src={diploma.image}
-                  alt={diploma.title}
-                  className="w-full h-full object-cover"
-                  quality={85}
-                  //   placeholder="blur"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  width={500}
-                  height={300}
-                />
+              <div className="flex-none w-full md:w-1/2 bg-gray-100 flex items-center justify-center gap-2 p-2">
+                <div className="flex-1/5">
+                  <Image
+                    src={diploma.image}
+                    alt={diploma.title}
+                    className="w-full h-full object-cover rounded-lg"
+                    quality={85}
+                    //   placeholder="blur"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    width={250}
+                    height={300}
+                  />
+                </div>
+                <div className="flex-1/3">
+                  <Image
+                    src={diploma.image2}
+                    alt={diploma.title}
+                    className="w-full h-full object-cover rounded-lg"
+                    quality={85}
+                    //   placeholder="blur"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    width={400}
+                    height={300}
+                  />
+                </div>
               </div>
 
               {/* Content Section */}

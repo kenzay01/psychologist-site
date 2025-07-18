@@ -6,6 +6,7 @@ import SocialsContainer from "@/components/SocialsContainer";
 import Testimonials from "@/components/Testimonials";
 import DiplomasBlock from "@/components/DyplomComponent";
 import BlogsBlock from "@/components/BlogBlock";
+import ConsultationTeaserComponent from "@/components/ConsultationTeaserComponent";
 export default function Home() {
   return (
     <div>
@@ -13,10 +14,12 @@ export default function Home() {
       <GreetingComponent />
       <BenefitsContainer />
       <ServicesBlock />
+      <ConsultationTeaserComponent />
       <DiplomasBlock />
       <BlogsBlock />
       <Testimonials />
       <SocialsContainer />
+      <ConsultationTeaserComponent />
     </div>
   );
 }
