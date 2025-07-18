@@ -437,7 +437,8 @@
     "confirmButton": "Подтвердить бронирование",
     "or": "Или",
     "payButton": "Оплатить через MonoBank",
-    "backButton": "Назад к выбору времени"
+    "backButton": "Назад к выбору времени",
+    "loading": "Загрузка..."
   },
   "modal": {
     "form": {

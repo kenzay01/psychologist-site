@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { locales, localeNames } from "@/i18n/config";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function LanguageSwitcher({
   currentLocale,
@@ -11,6 +11,25 @@ export default function LanguageSwitcher({
   currentLocale: string;
 }) {
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check window width to determine if it's mobile
+    const updateIsMobile = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 640);
+      }
+    };
+
+    // Initial check
+    updateIsMobile();
+
+    // Add resize event listener
+    window.addEventListener("resize", updateIsMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("preferredLocale", currentLocale);
@@ -23,6 +42,8 @@ export default function LanguageSwitcher({
     return segments.join("/");
   };
 
+  const isHomePage = pathname === `/${currentLocale}`;
+
   return (
     <div className="flex items-center md:space-x-1">
       {locales.map((locale, index) => (
@@ -30,9 +51,15 @@ export default function LanguageSwitcher({
           <Link
             href={getLocalizedPath(locale)}
             className={`px-2 py-1 text-sm rounded transition-colors ${
-              currentLocale === locale
-                ? " text-red-500"
-                : "text-gray-600 hover:text-red-500 hover:bg-gray-200"
+              isHomePage
+                ? currentLocale === locale
+                  ? isMobile
+                    ? "text-red-500" // Red on mobile for homepage
+                    : "text-white" // White on desktop for homepage
+                  : "text-gray-600 hover:text-red-500 hover:bg-gray-200"
+                : currentLocale === locale
+                ? "text-red-500"
+                : "text-gray-400"
             }`}
           >
             {localeNames[locale]}

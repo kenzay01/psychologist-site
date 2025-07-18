@@ -119,7 +119,7 @@ export default function LinkTree() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-transparent border-2 border-red-500 text-red-500 md:px-3 md:py-2 py-1 px-1.5 rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-1 shadow-md md:hover:scale-105"
+                  className="bg-transparent border-2 border-white text-red-500 md:px-3 md:py-2 py-1 px-1.5 rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-1 shadow-md md:hover:scale-105"
                 >
                   {link.icon}
                   {/* {link.label} */}
@@ -138,14 +138,14 @@ export default function LinkTree() {
             {/* Social Links (Vertical with Labels) */}
             <div className="w-full flex flex-col gap-2">
               <button
-                className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
                 onClick={() => router.push(`/${currentLocale}`)}
               >
                 {dict?.linkTree?.to_site || "Перейти на сайт"}
               </button>
               <a
                 href="tel:+380997906110"
-                className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
               >
                 {dict?.footer.contact.phone || "+380 99 790 61 10"}
               </a>
@@ -155,7 +155,7 @@ export default function LinkTree() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                  className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
                 >
                   {link.icon}
                   {link.label}
@@ -164,7 +164,7 @@ export default function LinkTree() {
             </div>
 
             <button
-              className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
+              className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
               onClick={() => setIsMenuOpen(true)}
             >
               {dict?.linkTree?.cta || "Зв’язатися"}

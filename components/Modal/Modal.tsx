@@ -572,7 +572,7 @@ export default function Modal({
     }
   };
 
-  const telegramLink = "https://t.me/admin_username";
+  const telegramLink = "https://t.me/Alexandra_Aleksiuk";
 
   if (!isOpen || loading) return null;
 

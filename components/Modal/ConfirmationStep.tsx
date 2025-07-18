@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Calendar, CreditCard } from "lucide-react";
 import { JSX } from "react";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
@@ -32,8 +33,8 @@ interface ConfirmationStepProps {
   selectedTime: string | null;
   duration: number;
   price: number;
-  onConfirm: () => void;
-  onPayment: () => void;
+  onConfirm: () => Promise<void> | void;
+  onPayment: () => Promise<void> | void;
   onBack: () => void;
 }
 
@@ -50,8 +51,29 @@ export default function ConfirmationStep({
 }: ConfirmationStepProps) {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
+  const [isLoading, setIsLoading] = useState<"confirm" | "payment" | null>(
+    null
+  );
 
-  //   if (loading) return null;
+  const handleConfirm = async () => {
+    if (isLoading) return;
+    setIsLoading("confirm");
+    try {
+      await onConfirm();
+    } finally {
+      setIsLoading(null);
+    }
+  };
+
+  const handlePayment = async () => {
+    if (isLoading) return;
+    setIsLoading("payment");
+    try {
+      await onPayment();
+    } finally {
+      setIsLoading(null);
+    }
+  };
 
   return (
     <div>
@@ -88,26 +110,45 @@ export default function ConfirmationStep({
 
       <div className="space-y-3">
         <button
-          onClick={onConfirm}
-          className="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors flex items-center justify-center"
+          onClick={handleConfirm}
+          disabled={isLoading !== null}
+          className={`w-full py-3 px-4 rounded-md flex items-center justify-center transition-colors ${
+            isLoading !== null
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-red-500 text-white hover:bg-red-600"
+          }`}
         >
           <Calendar className="w-5 h-5 mr-2" />
-          {dict?.confirmationStep.confirmButton}
+          {isLoading === "confirm"
+            ? dict?.confirmationStep.loading
+            : dict?.confirmationStep.confirmButton}
         </button>
         <h1 className="text-center text-gray-500 text-sm">
           {dict?.confirmationStep.or}
         </h1>
         <button
-          onClick={onPayment}
-          className="w-full bg-black text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors flex items-center justify-center"
+          onClick={handlePayment}
+          disabled={isLoading !== null}
+          className={`w-full py-3 px-4 rounded-md flex items-center justify-center transition-colors ${
+            isLoading !== null
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-black text-white hover:bg-gray-800"
+          }`}
         >
           <CreditCard className="w-5 h-5 mr-2" />
-          {dict?.confirmationStep.payButton}
+          {isLoading === "payment"
+            ? dict?.confirmationStep.loading
+            : dict?.confirmationStep.payButton}
         </button>
 
         <button
           onClick={onBack}
-          className="w-full border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors"
+          disabled={isLoading !== null}
+          className={`w-full py-2 px-4 rounded-md transition-colors border border-gray-300 ${
+            isLoading !== null
+              ? "bg-gray-50 text-gray-500 cursor-not-allowed"
+              : "hover:bg-gray-50"
+          }`}
         >
           {dict?.confirmationStep.backButton}
         </button>
