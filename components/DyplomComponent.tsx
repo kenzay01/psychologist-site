@@ -72,11 +72,11 @@ export default function DiplomasBlock() {
           {diplomas.map((diploma) => (
             <div
               key={diploma.id}
-              className="bg-white rounded-2xl shadow-xl transition-all duration-300 overflow-hidden flex flex-col w-full"
+              className="bg-white rounded-2xl transition-all duration-300 overflow-hidden flex flex-col w-full"
             >
               {/* Image Section */}
               <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/3 shadow-lg">
                   <Image
                     src={diploma.image1}
                     alt={diploma.title}
@@ -87,7 +87,7 @@ export default function DiplomasBlock() {
                     height={300}
                   />
                 </div>
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/3 shadow-lg">
                   <Image
                     src={diploma.image2}
                     alt={diploma.title}
@@ -98,7 +98,7 @@ export default function DiplomasBlock() {
                     height={300}
                   />
                 </div>
-                <div className="w-full md:w-1/4">
+                <div className="w-full md:w-1/4 shadow-lg">
                   <Image
                     src={diploma.image3}
                     alt={diploma.title}
@@ -115,7 +115,7 @@ export default function DiplomasBlock() {
               <div className="p-4 md:p-6 flex flex-col items-center">
                 <button
                   onClick={() => router.push(`/${currentLocale}/dyplomy`)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-6 w-full py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 justify-center hover:scale-102 transition-all duration-300 shadow-md"
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-xl font-semibold text-base md:text-md inline-flex items-center gap-2 justify-center hover:scale-102 transition-all duration-300 shadow-md"
                 >
                   {dict?.diplomas?.cta?.learnMore || "Дізнатися більше"}
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
