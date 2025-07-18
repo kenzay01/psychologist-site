@@ -154,6 +154,16 @@ const Header = () => {
                       </div>
                     </div>
                   </div>
+
+                  <Link
+                    key={`/${currentLocale}/linktree`}
+                    href={`/${currentLocale}/linktree`}
+                    className={`${
+                      isNotHomePage ? "text-black" : "text-white"
+                    } hover:text-red-500 font-bold transition-colors`}
+                  >
+                    {dict?.header.nav.linkTree || "Контакти"}
+                  </Link>
                 </div>
 
                 {/* CTA Button */}
@@ -230,6 +240,17 @@ const Header = () => {
                     ))}
                   </div>
                 </div>
+                {/* <Link
+                  key={`/${currentLocale}/linktree`}
+                  href={`/${currentLocale}/linktree`}
+                  className="block px-3 py-2 text-red-500 hover:bg-red-50 rounded-md"
+                  onClick={() => {
+                    toggleMenu();
+                  }}
+                >
+                  {dict?.header.nav.linkTree || "Контакти"}
+                </Link> */}
+
                 <div>
                   <div className="px-3 py-2 flex justify-between items-center">
                     <LanguageSwitcher currentLocale={currentLocale} />
@@ -246,6 +267,14 @@ const Header = () => {
                         </a>
                       ))}
                     </div>
+                  </div>
+                  <div className="flex justify-end items-center w-full px-3 py-1">
+                    <a
+                      href="tel:+380997906110"
+                      className="text-red-500 hover:text-red-600 text-lg"
+                    >
+                      +380 99 790 61 10
+                    </a>
                   </div>
                 </div>
                 <div className="px-3 py-2">

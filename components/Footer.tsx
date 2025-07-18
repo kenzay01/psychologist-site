@@ -95,7 +95,9 @@ export default function Footer() {
             <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-6 items-start mb-6">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span>{dict?.footer.contact.phone || "+380 67 123 45 67"}</span>
+                <a href={`tel:+380997906110`}>
+                  {dict?.footer.contact.phone || "+380 99 790 61 10"}
+                </a>
               </div>
               <div className="flex items-center space-x-2">
                 <span>
@@ -166,6 +168,15 @@ export default function Footer() {
                       </div>
                     </div>
                   </div>
+                </li>
+                <li>
+                  <Link
+                    key={`/${currentLocale}/linktree`}
+                    href={`/${currentLocale}/linktree`}
+                    className="text-white hover:text-red-200 transition-colors"
+                  >
+                    {dict?.header.nav.linkTree || "Контакти"}
+                  </Link>
                 </li>
               </ul>
             </div>

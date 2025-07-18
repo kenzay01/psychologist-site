@@ -1,7 +1,8 @@
 "use client";
 
 import homeBgMobile from "@/public/link-tree-mob.jpg";
-import homeBgDesktop from "@/public/home-bg-desktop.jpg";
+// import homeBgDesktop from "@/public/home-bg-desktop.jpg";
+import homeBgDesktop from "@/public/link-tree-desk.jpg";
 import Image from "next/image";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
@@ -33,12 +34,12 @@ export default function LinkTree() {
       label: "Viber",
     },
     {
-      href: "https://wa.me/+380987313541",
+      href: "https://wa.me/+380997906110",
       icon: <FaWhatsapp className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "WhatsApp",
     },
     {
-      href: "https://t.me/admin_username",
+      href: "https://t.me/olexandra_alexuk",
       icon: <FaTelegram className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "Telegram",
     },
@@ -111,7 +112,7 @@ export default function LinkTree() {
             </div>
 
             {/* Social Links (Horizontal on Mobile) */}
-            <div className="w-full flex flex-wrap justify-center gap-2 mt-16">
+            <div className="w-full flex flex-wrap justify-center gap-2 mt-24 md:mt-6">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -137,11 +138,17 @@ export default function LinkTree() {
             {/* Social Links (Vertical with Labels) */}
             <div className="w-full flex flex-col gap-2">
               <button
-                className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md"
+                className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
                 onClick={() => router.push(`/${currentLocale}`)}
               >
                 {dict?.linkTree?.to_site || "Перейти на сайт"}
               </button>
+              <a
+                href="tel:+380997906110"
+                className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+              >
+                {dict?.footer.contact.phone || "+380 99 790 61 10"}
+              </a>
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
