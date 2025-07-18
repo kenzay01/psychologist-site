@@ -17,6 +17,8 @@ import {
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import Testimonials from "@/components/Testimonials";
+import SocialsContainer from "@/components/SocialsContainer";
 
 export default function AboutMe() {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -104,7 +106,7 @@ export default function AboutMe() {
   return (
     <>
       <section className="min-h-screen bg-white py-8">
-        <div className="max-w-6xl mx-auto px-8">
+        <div className="max-w-6xl mx-auto px-8 pb-4">
           {/* Header */}
           <div className="text-center mb-8 md:mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
@@ -276,6 +278,8 @@ export default function AboutMe() {
             </button>
           </div>
         </div>
+        <Testimonials />
+        <SocialsContainer />
       </section>
       <BookingModal
         isOpen={isModalOpen}

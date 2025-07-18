@@ -210,6 +210,14 @@ export default function Footer() {
               </div>
             </div>
           </div>
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+            className="hidden md:block mb-4 bg-white text-red-600 w-full px-2 md:px-12 py-2 rounded-bl-md rounded-br-3xl rounded-tl-3xl rounded-tr-md font-semibold shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300"
+          >
+            {dict?.aboutMe.cta.bookConsultation}
+          </button>
 
           {/* Копірайт */}
           <div className="border-t border-red-400 pt-4">

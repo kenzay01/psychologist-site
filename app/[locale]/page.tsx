@@ -19,9 +19,9 @@ export default function Home() {
       <BlogsBlock />
       <Testimonials />
       <SocialsContainer />
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <ConsultationTeaserComponent />
-      </div>
+      </div> */}
     </div>
   );
 }

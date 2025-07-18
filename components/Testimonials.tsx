@@ -13,13 +13,26 @@ const Testimonials = () => {
   const { dict } = useDictionary(currentLocale);
   const [validImages, setValidImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [displayCount, setDisplayCount] = useState(3); // Починаємо з 3 зображень
+  const [displayCount, setDisplayCount] = useState(3); // Початкова кількість зображень
   const [isDesktop, setIsDesktop] = useState(false);
-  //   const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
+
+  // Налаштування кількості зображень для показу
+  const INITIAL_DESKTOP_COUNT = 8; // Початкова кількість на десктопі
+  const INITIAL_MOBILE_COUNT = 3; // Початкова кількість на мобільних
+  const INCREMENT_DESKTOP = 4; // Скільки додавати на десктопі
+  const INCREMENT_MOBILE = 3; // Скільки додавати на мобільних
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 768);
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+
+      // Встановлюємо початкову кількість залежно від розміру екрану
+      if (desktop) {
+        setDisplayCount(INITIAL_DESKTOP_COUNT);
+      } else {
+        setDisplayCount(INITIAL_MOBILE_COUNT);
+      }
     };
 
     checkScreenSize();
@@ -56,14 +69,46 @@ const Testimonials = () => {
     checkImages();
   }, [currentLocale]);
 
-  // На десктопі показуємо всі зображення, на мобільних — обмежену кількість
-  const displayedImages = isDesktop
-    ? validImages
-    : validImages.slice(0, displayCount);
+  // Показуємо обмежену кількість зображень на всіх пристроях
+  const displayedImages = validImages.slice(0, displayCount);
 
-  // Функція для показу наступних 3 зображень
+  // Функція для показу наступних зображень
   const handleShowMore = () => {
-    setDisplayCount((prev) => prev + 3);
+    setDisplayCount(
+      (prev) => prev + (isDesktop ? INCREMENT_DESKTOP : INCREMENT_MOBILE)
+    );
+  };
+
+  // Функція для скорочення кількості зображень
+  const handleShowLess = () => {
+    const reviewsPosition = document.getElementById("reviewsContainer");
+    if (reviewsPosition) {
+      try {
+        // Спробуємо scrollIntoView
+        reviewsPosition.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } catch (error) {
+        // Fallback для старих браузерів
+        const rect = reviewsPosition.getBoundingClientRect();
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const targetY = rect.top + scrollTop;
+
+        window.scrollTo(0, targetY);
+        console.error(error);
+      }
+
+      // Змінюємо стан з затримкою
+      setTimeout(() => {
+        setDisplayCount(
+          isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
+        );
+      }, 300);
+    } else {
+      setDisplayCount(isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
+    }
   };
 
   return (
@@ -112,57 +157,26 @@ const Testimonials = () => {
               ))}
             </div>
 
-            {!isDesktop && (
-              <div className="text-center mt-8">
-                <button
-                  onClick={
-                    validImages.length > displayCount
-                      ? handleShowMore
-                      : () => {
-                          const reviewsPosition =
-                            document.getElementById("reviewsContainer");
-                          if (reviewsPosition) {
-                            try {
-                              // Спробуємо scrollIntoView
-                              reviewsPosition.scrollIntoView({
-                                behavior: "smooth",
-                                block: "start",
-                              });
-                            } catch (error) {
-                              // Fallback для старих браузерів
-                              const rect =
-                                reviewsPosition.getBoundingClientRect();
-                              const scrollTop =
-                                window.pageYOffset ||
-                                document.documentElement.scrollTop;
-                              const targetY = rect.top + scrollTop;
-
-                              window.scrollTo(0, targetY);
-                              console.error(error);
-                            }
-
-                            // Змінюємо стан з затримкою
-                            setTimeout(() => {
-                              setDisplayCount(3);
-                            }, 300);
-                          } else {
-                            setDisplayCount(3);
-                          }
-                        }
-                  }
-                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
-                >
-                  {validImages.length > displayCount
-                    ? dict?.testimonials?.moreReviews || "Більше відгуків"
-                    : dict?.testimonials?.lessReviews || "Менше відгуків"}
-                  {validImages.length > displayCount ? (
-                    <ArrowDown className="w-4 h-4" />
-                  ) : (
-                    <ArrowUp className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            )}
+            {/* Кнопка для показу більше/менше зображень */}
+            <div className="text-center mt-8">
+              <button
+                onClick={
+                  validImages.length > displayCount
+                    ? handleShowMore
+                    : handleShowLess
+                }
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+              >
+                {validImages.length > displayCount
+                  ? dict?.testimonials?.moreReviews || "Більше відгуків"
+                  : dict?.testimonials?.lessReviews || "Менше відгуків"}
+                {validImages.length > displayCount ? (
+                  <ArrowDown className="w-4 h-4" />
+                ) : (
+                  <ArrowUp className="w-4 h-4" />
+                )}
+              </button>
+            </div>
           </>
         )}
       </div>
