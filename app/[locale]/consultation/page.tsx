@@ -47,6 +47,8 @@ const ConsultationContent = () => {
       img: individualImg,
       duration: dict?.consultation.types.individual.duration,
       price: dict?.consultation.types.individual.price,
+      price_5: 1800,
+      price_10: 1500,
       blockquote: dict?.consultation.types.individual.blockquote,
       description: dict?.consultation.types.individual.description,
       description2: dict?.consultation.types.individual.description2,
@@ -71,6 +73,8 @@ const ConsultationContent = () => {
       icon: <Users className="w-6 h-6 text-red-500" />,
       duration: dict?.consultation.types.couple.duration,
       price: dict?.consultation.types.couple.price,
+      price_5: 2400,
+      price_10: 2200,
       blockquote: dict?.consultation.types.couple.blockquote,
       description: dict?.consultation.types.couple.description,
       description2: dict?.consultation.types.couple.description2,
@@ -95,6 +99,8 @@ const ConsultationContent = () => {
       icon: <Baby className="w-6 h-6 text-red-500" />,
       duration: dict?.consultation.types.child.duration,
       price: dict?.consultation.types.child.price,
+      price_5: 1800,
+      price_10: 1500,
       blockquote: dict?.consultation.types.child.blockquote,
       description: dict?.consultation.types.child.description,
       description2: dict?.consultation.types.child.description2,
@@ -269,16 +275,28 @@ const ConsultationContent = () => {
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="flex-1 md:flex-0">
-                    <Calendar className="w-5 h-5 text-red-500" />
-                  </div>
+                  <Calendar className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
                 <div className="flex items-center space-x-3 ">
                   <CreditCard className="w-5 h-5 text-red-500" />
                   <span className="text-gray-700">
                     {dict?.consultation.priceLabel}: {currentData.price}{" "}
-                    {dict?.consultation.currency}
+                    {dict?.consultation.currency} {dict?.consultation.per_one}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3 ">
+                  <CreditCard className="w-5 h-5 text-red-500" />
+                  <span className="text-gray-700">
+                    {dict?.consultation.priceLabel}: {currentData.price_5}{" "}
+                    {dict?.consultation.currency} {dict?.consultation.per_5}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3 ">
+                  <CreditCard className="w-5 h-5 text-red-500" />
+                  <span className="text-gray-700">
+                    {dict?.consultation.priceLabel}: {currentData.price_10}{" "}
+                    {dict?.consultation.currency} {dict?.consultation.per_10}
                   </span>
                 </div>
               </div>

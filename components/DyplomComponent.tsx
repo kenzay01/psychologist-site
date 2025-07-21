@@ -81,8 +81,9 @@ export default function DiplomasBlock() {
                     src={diploma.image1}
                     alt={diploma.title}
                     className="w-full h-full object-cover rounded-lg"
-                    quality={85}
+                    quality={75}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    loading="lazy"
                     width={250}
                     height={300}
                   />
@@ -92,8 +93,9 @@ export default function DiplomasBlock() {
                     src={diploma.image2}
                     alt={diploma.title}
                     className="w-full h-full object-cover rounded-lg"
-                    quality={85}
+                    quality={75}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    loading="lazy"
                     width={250}
                     height={300}
                   />
@@ -103,8 +105,9 @@ export default function DiplomasBlock() {
                     src={diploma.image3}
                     alt={diploma.title}
                     className="w-full h-full object-cover rounded-lg"
-                    quality={85}
+                    quality={75}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 16vw"
+                    loading="lazy"
                     width={250}
                     height={300}
                   />

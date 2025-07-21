@@ -230,6 +230,9 @@
     "formatValue": "Онлайн/офлайн",
     "minutes": "хв",
     "currency": "грн",
+    "per_one": "за одну",
+    "per_5": "від 5",
+    "per_10": "від 10",
     "cta": {
       "bookConsultation": "Записатися на консультацію",
       "contactTelegram": "Зв`язатися в Telegram"
@@ -545,7 +548,10 @@
     "description": "Ось що кажуть мої клієнти про роботу зі мною",
     "noImages": "Зображення відгуків не знайдено",
     "moreReviews": "Більше відгуків",
-    "lessReviews": "Менше відгуків"
+    "lessReviews": "Менше відгуків",
+    "titleVideo": "Відео відгуки",
+    "descriptionVideo": "Думки моїх клієнтів у відео форматі",
+    "noVideos": "Відео відгуків не знайдено"
   },
   "diplomas": {
     "title": "Дипломи та сертифікати",

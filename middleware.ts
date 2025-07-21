@@ -24,6 +24,7 @@ export function middleware(request: NextRequest) {
     ".json",
     ".xml",
     ".txt",
+    ".mp4",
   ];
 
   const isStaticFile = staticFileExtensions.some((ext) =>

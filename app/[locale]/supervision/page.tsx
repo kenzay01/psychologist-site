@@ -8,6 +8,7 @@ import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import supervisionImg from "@/public/services/supervision.png";
+import supervisionIndividualImg from "@/public/services/supervision_individual.jpg";
 import Image from "next/image";
 
 type SupervisionType = "individual" | "group";
@@ -32,6 +33,7 @@ const SupervisionContent = () => {
   const supervisionData = {
     individual: {
       title: dict?.supervision.types.individual.title,
+      img: supervisionIndividualImg,
       icon: <User className="w-6 h-6 text-red-500" />,
       duration: dict?.supervision.types.individual.duration,
       price: dict?.supervision.types.individual.price,
@@ -53,6 +55,7 @@ const SupervisionContent = () => {
     },
     group: {
       title: dict?.supervision.types.group.title,
+      img: supervisionImg,
       icon: <Users className="w-6 h-6 text-red-500" />,
       duration: dict?.supervision.types.group.duration,
       price: dict?.supervision.types.group.price,
@@ -126,9 +129,9 @@ const SupervisionContent = () => {
               </div>
               <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
               <Image
-                src={supervisionImg}
+                src={currentData.img}
                 alt={"Consultation Image"}
-                className="w-full h-64 object-cover rounded-lg shadow-md mb-2"
+                className="w-full h-64 object-cover rounded-lg shadow-md mb-2 object-top"
                 quality={85}
                 placeholder="blur"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

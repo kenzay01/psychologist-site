@@ -7,6 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import DiplomasBlock from "@/components/DyplomComponent";
 import BlogsBlock from "@/components/BlogBlock";
 import ConsultationTeaserComponent from "@/components/ConsultationTeaserComponent";
+import VideoCommentsSection from "@/components/VideoCommentsSection";
 export default function Home() {
   return (
     <div>
@@ -18,6 +19,7 @@ export default function Home() {
       <DiplomasBlock />
       <BlogsBlock />
       <Testimonials />
+      <VideoCommentsSection />
       <SocialsContainer />
       {/* <div className="hidden md:block">
         <ConsultationTeaserComponent />
