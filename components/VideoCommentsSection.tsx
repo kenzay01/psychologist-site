@@ -57,8 +57,8 @@ const VideoCommentsSection = () => {
           if (response.ok) {
             validVideoPaths.push(videoPath);
           } else {
-            console.warn(`Video not found: ${videoPath}`);
-            // break;
+            // console.warn(`Video not found: ${videoPath}`);
+            break;
           }
         } catch (error) {
           console.error(`Error fetching video ${videoPath}:`, error);
