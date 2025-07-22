@@ -18,6 +18,7 @@ const VideoCommentsSection = () => {
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const prevWidthRef = useRef<number>(0);
 
   const INITIAL_DESKTOP_COUNT = 8;
   const INITIAL_MOBILE_COUNT = 3;
@@ -26,14 +27,49 @@ const VideoCommentsSection = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      const desktop = window.innerWidth >= 768;
-      setIsDesktop(desktop);
-      setDisplayCount(desktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
+      const currentWidth = window.innerWidth;
+      const desktop = currentWidth >= 768;
+
+      // Перевіряємо чи реально змінився розмір екрану (не просто скрол)
+      if (Math.abs(currentWidth - prevWidthRef.current) > 50) {
+        const wasDesktop = prevWidthRef.current >= 768;
+
+        // Тільки якщо змінився тип пристрою (з мобільного на десктоп або навпаки)
+        if (desktop !== wasDesktop) {
+          setIsDesktop(desktop);
+          setDisplayCount(
+            desktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
+          );
+        }
+
+        prevWidthRef.current = currentWidth;
+      } else {
+        // Просто оновлюємо isDesktop без зміни displayCount
+        setIsDesktop(desktop);
+      }
     };
 
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    // Ініціалізація
+    const initialWidth = window.innerWidth;
+    const initialDesktop = initialWidth >= 768;
+    prevWidthRef.current = initialWidth;
+    setIsDesktop(initialDesktop);
+    setDisplayCount(
+      initialDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
+    );
+
+    // Додаємо debounce для resize event
+    let resizeTimeout: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkScreenSize, 150);
+    };
+
+    window.addEventListener("resize", debouncedResize);
+    return () => {
+      window.removeEventListener("resize", debouncedResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   useEffect(() => {
@@ -136,11 +172,11 @@ const VideoCommentsSection = () => {
     <div className="py-8 bg-white" id="videoCommentsContainer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 text-center">
-          {dict?.testimonials?.title || "Відео відгуки"}
+          {dict?.testimonials?.titleVideo || "Відео відгуки"}
           <div className="w-24 h-1 bg-red-500 mx-auto mt-4"></div>
         </h2>
         <p className="text-center text-gray-600 mb-8">
-          {dict?.testimonials?.description ||
+          {dict?.testimonials?.descriptionVideo ||
             "Думки наших клієнтів у відео форматі"}
         </p>
 
@@ -182,7 +218,7 @@ const VideoCommentsSection = () => {
             </div>
 
             {(canShowMore || canShowLess) && (
-              <div className="text-center mt-8">
+              <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {canShowMore && (
                   <button
                     onClick={handleShowMore}
@@ -195,7 +231,7 @@ const VideoCommentsSection = () => {
                 {canShowLess && (
                   <button
                     onClick={handleShowLess}
-                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md ml-4"
+                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
                   >
                     {dict?.testimonials?.lessReviews || "Менше відгуків"}
                     <ArrowUp className="w-4 h-4" />
