@@ -1,7 +1,6 @@
 "use client";
 
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
-// import { useLayoutEffect } from "react";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { useState, useEffect } from "react";
@@ -13,31 +12,23 @@ const Testimonials = () => {
   const { dict } = useDictionary(currentLocale);
   const [validImages, setValidImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [displayCount, setDisplayCount] = useState(3); // Початкова кількість зображень
+  const [displayCount, setDisplayCount] = useState(3);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // Налаштування кількості зображень для показу
-  const INITIAL_DESKTOP_COUNT = 8; // Початкова кількість на десктопі
-  const INITIAL_MOBILE_COUNT = 3; // Початкова кількість на мобільних
-  const INCREMENT_DESKTOP = 4; // Скільки додавати на десктопі
-  const INCREMENT_MOBILE = 3; // Скільки додавати на мобільних
+  const INITIAL_DESKTOP_COUNT = 8;
+  const INITIAL_MOBILE_COUNT = 3;
+  const INCREMENT_DESKTOP = 4;
+  const INCREMENT_MOBILE = 3;
 
   useEffect(() => {
     const checkScreenSize = () => {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-
-      // Встановлюємо початкову кількість залежно від розміру екрану
-      if (desktop) {
-        setDisplayCount(INITIAL_DESKTOP_COUNT);
-      } else {
-        setDisplayCount(INITIAL_MOBILE_COUNT);
-      }
+      setDisplayCount(desktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
     };
 
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
-
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
@@ -48,7 +39,6 @@ const Testimonials = () => {
 
       for (let i = 1; i <= 30; i++) {
         const imagePath = `/comments/${currentLocale}/comment_${currentLocale}_${i}.jpg`;
-
         try {
           const response = await fetch(imagePath, { method: "HEAD" });
           if (response.ok) {
@@ -69,47 +59,36 @@ const Testimonials = () => {
     checkImages();
   }, [currentLocale]);
 
-  // Показуємо обмежену кількість зображень на всіх пристроях
   const displayedImages = validImages.slice(0, displayCount);
 
-  // Функція для показу наступних зображень
   const handleShowMore = () => {
     setDisplayCount(
       (prev) => prev + (isDesktop ? INCREMENT_DESKTOP : INCREMENT_MOBILE)
     );
   };
 
-  // Функція для скорочення кількості зображень
   const handleShowLess = () => {
     const reviewsPosition = document.getElementById("reviewsContainer");
     if (reviewsPosition) {
       try {
-        // Спробуємо scrollIntoView
-        reviewsPosition.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        reviewsPosition.scrollIntoView({ behavior: "smooth", block: "start" });
       } catch (error) {
-        // Fallback для старих браузерів
         const rect = reviewsPosition.getBoundingClientRect();
         const scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
         const targetY = rect.top + scrollTop;
-
-        window.scrollTo(0, targetY);
+        window.scrollTo({ top: targetY, behavior: "smooth" });
         console.error(error);
       }
-
-      // Змінюємо стан з затримкою
-      setTimeout(() => {
-        setDisplayCount(
-          isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
-        );
-      }, 300);
-    } else {
-      setDisplayCount(isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
     }
+    setTimeout(() => {
+      setDisplayCount(isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
+    }, 300);
   };
+
+  const canShowMore = validImages.length > displayCount;
+  const canShowLess =
+    displayCount > (isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
 
   return (
     <div className="py-8 bg-white" id="reviewsContainer">
@@ -122,7 +101,6 @@ const Testimonials = () => {
           {dict?.testimonials?.description || "Думки наших клієнтів"}
         </p>
 
-        {/* Loading State */}
         {isLoading ? (
           <div className="text-center py-16">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
@@ -157,26 +135,28 @@ const Testimonials = () => {
               ))}
             </div>
 
-            {/* Кнопка для показу більше/менше зображень */}
-            <div className="text-center mt-8">
-              <button
-                onClick={
-                  validImages.length > displayCount
-                    ? handleShowMore
-                    : handleShowLess
-                }
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
-              >
-                {validImages.length > displayCount
-                  ? dict?.testimonials?.moreReviews || "Більше відгуків"
-                  : dict?.testimonials?.lessReviews || "Менше відгуків"}
-                {validImages.length > displayCount ? (
-                  <ArrowDown className="w-4 h-4" />
-                ) : (
-                  <ArrowUp className="w-4 h-4" />
+            {(canShowMore || canShowLess) && (
+              <div className="text-center mt-8">
+                {canShowMore && (
+                  <button
+                    onClick={handleShowMore}
+                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+                  >
+                    {dict?.testimonials?.moreReviews || "Більше відгуків"}
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
                 )}
-              </button>
-            </div>
+                {canShowLess && (
+                  <button
+                    onClick={handleShowLess}
+                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md ml-4"
+                  >
+                    {dict?.testimonials?.lessReviews || "Менше відгуків"}
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>

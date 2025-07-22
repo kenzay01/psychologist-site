@@ -19,7 +19,6 @@ const VideoCommentsSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Налаштування кількості відео для показу
   const INITIAL_DESKTOP_COUNT = 8;
   const INITIAL_MOBILE_COUNT = 3;
   const INCREMENT_DESKTOP = 4;
@@ -29,17 +28,11 @@ const VideoCommentsSection = () => {
     const checkScreenSize = () => {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-
-      if (desktop) {
-        setDisplayCount(INITIAL_DESKTOP_COUNT);
-      } else {
-        setDisplayCount(INITIAL_MOBILE_COUNT);
-      }
+      setDisplayCount(desktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
     };
 
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
-
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
@@ -50,14 +43,11 @@ const VideoCommentsSection = () => {
 
       for (let i = 1; i <= 30; i++) {
         const videoPath = `/video_comments/video_comment_${i}.mp4`;
-
         try {
           const response = await fetch(videoPath, { method: "HEAD" });
-          console.log("response", response);
           if (response.ok) {
             validVideoPaths.push(videoPath);
           } else {
-            // console.warn(`Video not found: ${videoPath}`);
             break;
           }
         } catch (error) {
@@ -73,71 +63,55 @@ const VideoCommentsSection = () => {
     checkVideos();
   }, []);
 
-  // Показуємо обмежену кількість відео на всіх пристроях
   const displayedVideos = validVideos.slice(0, displayCount);
 
-  // Функція для показу наступних відео
   const handleShowMore = () => {
     setDisplayCount(
       (prev) => prev + (isDesktop ? INCREMENT_DESKTOP : INCREMENT_MOBILE)
     );
   };
 
-  // Функція для скорочення кількості відео
   const handleShowLess = () => {
     const reviewsPosition = document.getElementById("videoCommentsContainer");
     if (reviewsPosition) {
       try {
-        reviewsPosition.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        reviewsPosition.scrollIntoView({ behavior: "smooth", block: "start" });
       } catch (error) {
         const rect = reviewsPosition.getBoundingClientRect();
         const scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
         const targetY = rect.top + scrollTop;
-
-        window.scrollTo(0, targetY);
+        window.scrollTo({ top: targetY, behavior: "smooth" });
         console.error(error);
       }
     }
-
     setTimeout(() => {
       setDisplayCount(isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
     }, 300);
   };
 
-  // Відкриття модального вікна з відео
   const openVideoModal = (videoIndex: number) => {
     setSelectedVideoIndex(videoIndex);
     setIsModalOpen(true);
-    // Блокуємо скрол при відкритті модального вікна
     document.body.style.overflow = "hidden";
   };
 
-  // Закриття модального вікна
   const closeVideoModal = () => {
     setIsModalOpen(false);
     setSelectedVideoIndex(null);
-    // Відновлюємо скрол
     document.body.style.overflow = "unset";
-
-    // Зупиняємо відео при закритті
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
   };
 
-  // Закриття модального вікна при кліку на фон
   const handleModalBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeVideoModal();
     }
   };
 
-  // Закриття модального вікна при натисканні Escape
   useEffect(() => {
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isModalOpen) {
@@ -154,6 +128,10 @@ const VideoCommentsSection = () => {
     };
   }, [isModalOpen]);
 
+  const canShowMore = validVideos.length > displayCount;
+  const canShowLess =
+    displayCount > (isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
+
   return (
     <div className="py-8 bg-white" id="videoCommentsContainer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -166,7 +144,6 @@ const VideoCommentsSection = () => {
             "Думки наших клієнтів у відео форматі"}
         </p>
 
-        {/* Loading State */}
         {isLoading ? (
           <div className="text-center py-16">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
@@ -194,8 +171,6 @@ const VideoCommentsSection = () => {
                     >
                       <source src={`${video}#t=1`} type="video/mp4" />
                     </video>
-
-                    {/* Overlay з кнопкою Play */}
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-all duration-300">
                       <div className="bg-white bg-opacity-90 rounded-full p-4 transform group-hover:scale-110 transition-transform duration-300">
                         <Play className="w-8 h-8 text-red-500 fill-current" />
@@ -206,57 +181,44 @@ const VideoCommentsSection = () => {
               ))}
             </div>
 
-            {/* Кнопка для показу більше/менше відео */}
-            <div
-              className={`${
-                validVideos.length > displayCount ||
-                displayCount >
-                  (isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT)
-                  ? "block"
-                  : "hidden"
-              } text-center mt-8`}
-            >
-              <button
-                onClick={
-                  displayCount === INITIAL_MOBILE_COUNT &&
-                  validVideos.length > displayCount
-                    ? handleShowMore
-                    : handleShowLess
-                }
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
-              >
-                {displayCount === INITIAL_MOBILE_COUNT &&
-                validVideos.length > displayCount
-                  ? dict?.testimonials?.moreReviews || "Більше відгуків"
-                  : dict?.testimonials?.lessReviews || "Менше відгуків"}
-                {displayCount === INITIAL_MOBILE_COUNT &&
-                validVideos.length > displayCount ? (
-                  <ArrowDown className="w-4 h-4" />
-                ) : (
-                  <ArrowUp className="w-4 h-4" />
+            {(canShowMore || canShowLess) && (
+              <div className="text-center mt-8">
+                {canShowMore && (
+                  <button
+                    onClick={handleShowMore}
+                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+                  >
+                    {dict?.testimonials?.moreReviews || "Більше відгуків"}
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
                 )}
-              </button>
-            </div>
+                {canShowLess && (
+                  <button
+                    onClick={handleShowLess}
+                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md ml-4"
+                  >
+                    {dict?.testimonials?.lessReviews || "Менше відгуків"}
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>
 
-      {/* Модальне вікно з відео */}
       {isModalOpen && selectedVideoIndex !== null && (
         <div
           className="fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4"
           onClick={handleModalBackdropClick}
         >
           <div className="relative bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            {/* Кнопка закриття */}
             <button
               onClick={closeVideoModal}
               className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-all duration-200"
             >
               <X className="w-6 h-6" />
             </button>
-
-            {/* Відео плеєр */}
             <div className="w-full">
               <video
                 ref={videoRef}
