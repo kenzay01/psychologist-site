@@ -19,6 +19,7 @@ import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import Testimonials from "@/components/Testimonials";
 import SocialsContainer from "@/components/SocialsContainer";
+import VideoCommentsSection from "@/components/VideoCommentsSection";
 
 export default function AboutMe() {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -279,6 +280,7 @@ export default function AboutMe() {
           </div>
         </div>
         <Testimonials />
+        <VideoCommentsSection />
         <SocialsContainer />
       </section>
       <BookingModal
