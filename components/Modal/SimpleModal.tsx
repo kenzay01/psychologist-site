@@ -91,19 +91,24 @@ export default function SimpleModal({
         );
 
       // console.log("Sending message to Telegram:", message);
-      await fetch(
-        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
-            text: message,
-          }),
-        }
-      );
+      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+      if (!botToken) {
+        throw new Error("Telegram bot token is not defined");
+      }
+      const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+      if (!chatId) {
+        throw new Error("Telegram chat ID is not defined");
+      }
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+        }),
+      });
 
       alert(dict?.modal?.form?.requestSuccess || "Запит успішно відправлено!");
       setFormData({

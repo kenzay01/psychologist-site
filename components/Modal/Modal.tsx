@@ -398,19 +398,25 @@ export default function Modal({
           );
       }
 
-      await fetch(
-        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
-            text: bookingMessage,
-          }),
-        }
-      );
+      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+      if (!botToken) {
+        throw new Error("Telegram bot token is not set");
+      }
+      const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+      if (!chatId) {
+        throw new Error("Telegram chat ID is not set");
+      }
+
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: bookingMessage,
+        }),
+      });
 
       let formattedDescription = "";
       if (selectedConsultationType === "individual") {

@@ -66,12 +66,12 @@ export default function LinkTree() {
       label: "Telegram",
     },
     {
-      href: "https://www.instagram.com/your_profile",
+      href: "https://www.instagram.com/alexandra_aleksiuk?igsh=MWY2b2Y4eTR6MmllOQ%3D%3D&utm_source=qr",
       icon: <FaInstagram className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "Instagram",
     },
     {
-      href: "https://www.tiktok.com/@your_profile",
+      href: "https://www.tiktok.com/@alexandraaleksiuk?_t=ZM-8xgvh42k9xe&_r=1",
       icon: <FaTiktok className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "TikTok",
     },
@@ -81,7 +81,7 @@ export default function LinkTree() {
       label: "LinkedIn",
     },
     {
-      href: "https://www.youtube.com/@your_profile",
+      href: "https://youtube.com/@psiholog.o.aleksiuk?si=6fosJ4s08PVEuWZj",
       icon: <FaYoutube className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "YouTube",
     },

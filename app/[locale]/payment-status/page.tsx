@@ -206,11 +206,14 @@ export default function PaymentStatusPage() {
     }
 
     console.log("Checking Telegram environment variables"); // Логування
-    if (!process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN) {
+    const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+    if (!botToken) {
       console.error("NEXT_PUBLIC_TELEGRAM_BOT_TOKEN is not defined");
       throw new Error("Telegram bot token is not configured");
     }
-    if (!process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID) {
+
+    const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+    if (!chatId) {
       console.error("NEXT_PUBLIC_TELEGRAM_CHAT_ID is not defined");
       throw new Error("Telegram chat ID is not configured");
     }
@@ -319,12 +322,12 @@ ${
 
     try {
       const response = await fetch(
-        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
+        `https://api.telegram.org/bot${botToken}/sendMessage`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
+            chat_id: chatId,
             text: message,
           }),
           signal: controller.signal,
