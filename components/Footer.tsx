@@ -7,7 +7,7 @@ import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import {
-  FaViber,
+  // FaViber,
   FaWhatsapp,
   FaTelegram,
   FaInstagram,
@@ -22,11 +22,11 @@ export default function Footer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const allSocialLinks = [
-    {
-      href: "/linktree",
-      icon: <FaViber className="w-6 h-6" />,
-      label: "Viber",
-    },
+    // {
+    //   href: "/linktree",
+    //   icon: <FaViber className="w-6 h-6" />,
+    //   label: "Viber",
+    // },
     {
       href: "/linktree",
       icon: <FaWhatsapp className="w-6 h-6" />,
@@ -90,13 +90,7 @@ export default function Footer() {
     currentLocale === "ru"
       ? allSocialLinks.filter(
           (link) =>
-            ![
-              "Telegram",
-              "Instagram",
-              "TikTok",
-              "LinkedIn",
-              "YouTube",
-            ].includes(link.label)
+            !["Instagram", "TikTok", "LinkedIn", "YouTube"].includes(link.label)
         )
       : allSocialLinks;
 

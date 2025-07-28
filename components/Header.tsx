@@ -10,7 +10,7 @@ import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 // import LanguageSwitcher from "./LanguageSwitcher";
 import {
-  FaViber,
+  // FaViber,
   FaWhatsapp,
   FaTelegram,
   FaInstagram,
@@ -57,11 +57,11 @@ const Header = () => {
   ];
 
   const allSocialLinks = [
-    {
-      href: "/linktree",
-      icon: <FaViber className="w-6 h-6" />,
-      label: "Viber",
-    },
+    // {
+    //   href: "/linktree",
+    //   icon: <FaViber className="w-6 h-6" />,
+    //   label: "Viber",
+    // },
     {
       href: "/linktree",
       icon: <FaWhatsapp className="w-6 h-6" />,
@@ -98,13 +98,7 @@ const Header = () => {
     currentLocale === "ru"
       ? allSocialLinks.filter(
           (link) =>
-            ![
-              "Telegram",
-              "Instagram",
-              "TikTok",
-              "LinkedIn",
-              "YouTube",
-            ].includes(link.label)
+            !["Instagram", "TikTok", "LinkedIn", "YouTube"].includes(link.label)
         )
       : allSocialLinks;
 
