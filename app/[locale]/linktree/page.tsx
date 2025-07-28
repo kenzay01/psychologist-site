@@ -106,7 +106,13 @@ export default function LinkTree() {
     currentLocale === "ru"
       ? allSocialLinks.filter(
           (link) =>
-            !["Instagram", "TikTok", "LinkedIn", "YouTube"].includes(link.label)
+            ![
+              "Telegram - Група",
+              "Instagram",
+              "TikTok",
+              "LinkedIn",
+              "YouTube",
+            ].includes(link.label)
         )
       : allSocialLinks;
 
@@ -168,7 +174,7 @@ export default function LinkTree() {
             </div>
 
             {/* Social Links (Horizontal on Mobile) */}
-            <div className="w-full flex flex-wrap justify-center gap-2 mt-24 md:mt-6">
+            <div className="w-full flex flex-wrap justify-center gap-1 mt-24 md:mt-6">
               <div className="text-white text-center flex flex-col items-center gap-2">
                 <h2 className="font-semibold text-base md:text-lg">
                   {dict?.linkTree?.subtitle || "Психолог та тренер"}
