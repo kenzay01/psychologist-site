@@ -1,7 +1,6 @@
 "use client";
 
 import homeBgMobile from "@/public/link-tree-mob.jpg";
-// import homeBgDesktop from "@/public/home-bg-desktop.jpg";
 import homeBgDesktop from "@/public/link-tree-desk.jpg";
 import Image from "next/image";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
@@ -20,7 +19,6 @@ import {
   FaLinkedin,
   FaYoutube,
 } from "react-icons/fa6";
-// import Link from "next/link";
 
 export default function LinkTree() {
   const currentLocale = useCurrentLanguage() as Locale;
@@ -49,7 +47,8 @@ export default function LinkTree() {
     }
   };
 
-  const socialLinks = [
+  // Базовий масив соціальних мереж
+  const allSocialLinks = [
     {
       href: "https://viber.com/your_profile",
       icon: <FaViber className="w-4 h-4 sm:w-5 sm:h-5" />,
@@ -87,20 +86,46 @@ export default function LinkTree() {
     },
   ];
 
+  // Фільтрація соціальних мереж для російської мови
+  const socialLinks =
+    currentLocale === "ru"
+      ? allSocialLinks.filter(
+          (link) =>
+            ![
+              "Telegram",
+              "Instagram",
+              "TikTok",
+              "LinkedIn",
+              "YouTube",
+            ].includes(link.label)
+        )
+      : allSocialLinks;
+
   return (
     <>
+      <style jsx>{`
+        .mobile-bg {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url(${homeBgMobile.src});
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          z-index: -1;
+        }
+        @media (min-width: 768px) {
+          .mobile-bg {
+            display: none;
+          }
+        }
+      `}</style>
+
       <section className="relative min-h-screen flex flex-col items-center justify-center font-semibold">
         {/* Mobile Background */}
-        <div className="absolute inset-0 md:hidden">
-          <Image
-            src={homeBgMobile}
-            alt="Background Mobile"
-            fill
-            className="object-cover"
-            priority
-            quality={85}
-          />
-        </div>
+        <div className="mobile-bg md:hidden" />
 
         {/* Desktop Background */}
         <div className="hidden md:block absolute inset-0">
@@ -144,7 +169,6 @@ export default function LinkTree() {
                   className="bg-transparent border-2 border-white text-red-500 md:px-3 md:py-2 py-1 px-1.5 rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-1 shadow-md md:hover:scale-105"
                 >
                   {link.icon}
-                  {/* {link.label} */}
                 </a>
               ))}
             </div>
@@ -160,14 +184,14 @@ export default function LinkTree() {
             {/* Social Links (Vertical with Labels) */}
             <div className="w-full flex flex-col gap-2">
               <button
-                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
                 onClick={() => router.push(`/${currentLocale}`)}
               >
                 {dict?.linkTree?.to_site || "Перейти на сайт"}
               </button>
               <button
                 onClick={handlePhoneClick}
-                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105"
               >
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                 {showPhone && !isMobile
@@ -189,7 +213,7 @@ export default function LinkTree() {
             </div>
 
             <button
-              className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base  transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
+              className="bg-transparent border-2 border-white text-red-500 px-4 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md mt-4 uppercase"
               onClick={() => setIsMenuOpen(true)}
             >
               {dict?.linkTree?.cta || "Зв'язатися"}

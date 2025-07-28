@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import LanguageSwitcher from "./LanguageSwitcher";
+// import LanguageSwitcher from "./LanguageSwitcher";
 import {
   FaViber,
   FaWhatsapp,
@@ -56,7 +56,7 @@ const Header = () => {
     { href: "/supervision", label: dict?.header.nav.servicesLinks.supervision },
   ];
 
-  const socialLinks = [
+  const allSocialLinks = [
     {
       href: "/linktree",
       icon: <FaViber className="w-6 h-6" />,
@@ -93,6 +93,20 @@ const Header = () => {
       label: "YouTube",
     },
   ];
+
+  const socialLinks =
+    currentLocale === "ru"
+      ? allSocialLinks.filter(
+          (link) =>
+            ![
+              "Telegram",
+              "Instagram",
+              "TikTok",
+              "LinkedIn",
+              "YouTube",
+            ].includes(link.label)
+        )
+      : allSocialLinks;
 
   return (
     <>
@@ -168,7 +182,7 @@ const Header = () => {
 
                 {/* CTA Button */}
                 <div className="hidden md:flex items-center justify-center space-x-4">
-                  <LanguageSwitcher currentLocale={currentLocale} />
+                  {/* <LanguageSwitcher currentLocale={currentLocale} /> */}
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md uppercase"
                     onClick={() => {
@@ -253,12 +267,12 @@ const Header = () => {
 
                 <div>
                   <div className="px-3 py-2 flex justify-between items-center">
-                    <LanguageSwitcher currentLocale={currentLocale} />
+                    {/* <LanguageSwitcher currentLocale={currentLocale} /> */}
                     <div className="flex space-x-1.5">
                       {socialLinks.map((social) => (
                         <a
                           key={social.label}
-                          href={social.href}
+                          href={`/${currentLocale}${social.href}`}
                           // target="_blank"
                           // rel="noopener noreferrer"
                           className="text-gray-600 hover:text-red-500"

@@ -21,7 +21,7 @@ export default function Footer() {
   const { dict } = useDictionary(currentLocale);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const socialLinks = [
+  const allSocialLinks = [
     {
       href: "/linktree",
       icon: <FaViber className="w-6 h-6" />,
@@ -85,6 +85,20 @@ export default function Footer() {
       label: dict?.header.nav.servicesLinks.supervision || "Супервізія",
     },
   ];
+
+  const socialLinks =
+    currentLocale === "ru"
+      ? allSocialLinks.filter(
+          (link) =>
+            ![
+              "Telegram",
+              "Instagram",
+              "TikTok",
+              "LinkedIn",
+              "YouTube",
+            ].includes(link.label)
+        )
+      : allSocialLinks;
 
   return (
     <>
@@ -198,7 +212,7 @@ export default function Footer() {
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
-                    href={social.href}
+                    href={`/${currentLocale}${social.href}`}
                     className="text-white hover:text-red-200 transition-colors"
                     aria-label={social.label}
                     // target="_blank"

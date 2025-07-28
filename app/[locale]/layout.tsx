@@ -16,7 +16,6 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords:
       "психологиня Олександра Алексюк, психологічна допомога, сексологиня, парна терапія, дитячий психолог, підлітковий психолог, психологічне консультування онлайн, сексуальні дисфункції, психосоматика, травматичний досвід, тривога, депресія, стрес, стосунки, психологічна підтримка, супервізія психологів, позитивна психотерапія, транзактний аналіз",
 
-    // Іконки
     icons: {
       icon: [
         { url: "/favicon.ico" },
@@ -26,7 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
     },
 
-    // Open Graph теги
     openGraph: {
       title: "Олександра Алексюк - Психологиня-сексологиня",
       description:
@@ -45,7 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
     },
 
-    // Twitter теги
     twitter: {
       card: "summary_large_image",
       title: "Олександра Алексюк - Психологиня-сексологиня",
@@ -54,7 +51,6 @@ export async function generateMetadata(): Promise<Metadata> {
       images: ["/twitter-image.jpg"],
     },
 
-    // SEO налаштування
     robots: {
       index: true,
       follow: true,
@@ -67,7 +63,6 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
 
-    // Canonical URL та мовні альтернативи
     alternates: {
       canonical: "https://alexandraaleksiuk.com/uk",
       languages: {
@@ -76,10 +71,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
 
-    // Базова URL
     metadataBase: new URL("https://alexandraaleksiuk.com/uk"),
 
-    // Додаткові SEO елементи
     authors: [
       {
         name: "Олександра Алексюк",
@@ -89,30 +82,25 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: "Олександра Алексюк",
     publisher: "Олександра Алексюк - Психологиня-сексологиня",
 
-    // Налаштування виявлення форматів
     formatDetection: {
       email: true,
       address: true,
       telephone: true,
     },
 
-    // Верифікація пошукових систем
     verification: {
       google: "your-google-verification-code",
       yandex: "your-yandex-verification-code",
     },
 
-    // Категоризація
     category: "healthcare",
     classification: "psychology and sexology services",
     applicationName: "Олександра Алексюк - Психологиня",
 
-    // PWA налаштування
     manifest: "/manifest.json",
-    themeColor: "red", // Приємний червоний для психологічних послуг
+    themeColor: "red",
     colorScheme: "light",
 
-    // Viewport налаштування
     viewport: {
       width: "device-width",
       initialScale: 1,
@@ -120,14 +108,12 @@ export async function generateMetadata(): Promise<Metadata> {
       userScalable: true,
     },
 
-    // Apple Web App налаштування
     appleWebApp: {
       capable: true,
       title: "Олександра Алексюк",
       statusBarStyle: "default",
     },
 
-    // Додаткові метатеги для кращої індексації
     other: {
       "revisit-after": "7 days",
       "content-language": "uk-UA",
@@ -140,10 +126,8 @@ export async function generateMetadata(): Promise<Metadata> {
       "dc.creator": "Олександра Алексюк",
       "dc.subject": "психологічна допомога, сексологія, парна терапія",
       "dc.type": "service",
-      // Структуровані дані для Google
       "article:author": "Олександра Алексюк",
       "article:section": "Психологічні послуги",
-      // Медичні метатеги
       "health-topics": "mental health, psychology, sexology, family therapy",
       "medical-disclaimer": "Консультації не замінюють медичну діагностику",
     },
@@ -205,18 +189,42 @@ export default function RootLayout({
           }}
         />
 
-        {/* Додаткові метатеги в head */}
+        {/* Додаткові метатеги */}
         <meta name="format-detection" content="telephone=yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-        {/* Для медичних сайтів */}
         <meta
           name="health-disclaimer"
           content="Інформація не замінює професійної медичної консультації"
         />
         <meta name="privacy-policy" content="/privacy-policy" />
+
+        {/* Meta Pixel Code */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '2459138231133802');
+              fbq('track', 'PageView');
+            `,
+          }}
+        />
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=2459138231133802&ev=PageView&noscript=1"
+          />
+        </noscript>
       </head>
       <body>
         <AppRootLayout>{children}</AppRootLayout>
