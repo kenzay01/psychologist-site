@@ -174,9 +174,9 @@ export default function LinkTree() {
             </div>
 
             {/* Social Links (Horizontal on Mobile) */}
-            <div className="w-full flex flex-wrap justify-center gap-1 mt-24 md:mt-6">
+            <div className="w-full flex flex-wrap justify-center flex-col gap-1 mt-24 md:mt-6">
               <div className="text-white text-center flex flex-col items-center gap-2">
-                <h2 className="font-semibold text-base md:text-lg">
+                <h2 className="font-semibold text-lg">
                   {dict?.linkTree?.subtitle || "Психолог та тренер"}
                 </h2>
                 <h3 className="font-semibold text-base md:text-lg">
@@ -184,17 +184,19 @@ export default function LinkTree() {
                     "Працюю з дорослими, парами, дітьми та підлітками"}
                 </h3>
               </div>
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-transparent border-2 border-white text-red-500 md:px-3 md:py-2 py-1 px-1.5 rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-1 shadow-md md:hover:scale-105"
-                >
-                  {link.icon}
-                </a>
-              ))}
+              <div className="flex flex-wrap justify-center gap-1 mt-4">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-transparent border-2 border-white text-red-500 md:px-3 md:py-2 py-1 px-1.5 rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-1 shadow-md md:hover:scale-105"
+                  >
+                    {link.icon}
+                  </a>
+                ))}
+              </div>
             </div>
 
             <div className="w-full flex items-center justify-center gap-2 my-2">
