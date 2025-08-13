@@ -279,24 +279,27 @@ const ConsultationContent = () => {
                   <span className="text-gray-700">{currentData.format}</span>
                 </div>
                 <div className="flex items-center space-x-3 ">
-                  <CreditCard className="w-5 h-5 text-red-500" />
+                  <CreditCard className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <span className="text-gray-700">
                     {dict?.consultation.priceLabel}: {currentData.price}{" "}
-                    {dict?.consultation.currency} {dict?.consultation.per_one}
+                    {dict?.consultation.currency} {dict?.consultation.per_one}{" "}
+                    {dict?.paymentStatus.labels.consultationLower}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3 ">
-                  <CreditCard className="w-5 h-5 text-red-500" />
+                  <CreditCard className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <span className="text-gray-700">
                     {dict?.consultation.priceLabel}: {currentData.price_5}{" "}
-                    {dict?.consultation.currency} {dict?.consultation.per_5}
+                    {dict?.consultation.currency} {dict?.consultation.per_5}{" "}
+                    {dict?.paymentStatus.labels.consultationsLower}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3 ">
-                  <CreditCard className="w-5 h-5 text-red-500" />
+                  <CreditCard className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <span className="text-gray-700">
                     {dict?.consultation.priceLabel}: {currentData.price_10}{" "}
-                    {dict?.consultation.currency} {dict?.consultation.per_10}
+                    {dict?.consultation.currency} {dict?.consultation.per_10}{" "}
+                    {dict?.paymentStatus.labels.consultationsLower}
                   </span>
                 </div>
               </div>

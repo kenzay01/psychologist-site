@@ -90,7 +90,7 @@ export default function LinkTree() {
       label: "TikTok",
     },
     {
-      href: "https://www.linkedin.com/in/your_profile",
+      href: "https://www.linkedin.com/in/%D0%BE%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%B0-%D0%B0%D0%BB%D0%B5%D0%BA%D1%81%D1%8E%D0%BA-89157136b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
       icon: <FaLinkedin className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "LinkedIn",
     },

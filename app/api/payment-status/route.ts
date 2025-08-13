@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     const result = await response.json();
 
-    console.log("Payment status response:", result);
+    // console.log("Payment status response:", result);
 
     if (response.ok) {
       return NextResponse.json({
