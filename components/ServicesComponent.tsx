@@ -80,7 +80,7 @@ export default function ServicesBlock() {
                   src={service.img}
                   alt={service.title ?? ""}
                   className="w-full h-full object-cover"
-                  quality={85}
+                  quality={60}
                   placeholder="blur"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />

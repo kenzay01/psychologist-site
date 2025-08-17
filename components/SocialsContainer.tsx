@@ -99,7 +99,7 @@ export default function SocialsContainer() {
                     layout="responsive"
                     objectFit="cover"
                     objectPosition="top"
-                    quality={85}
+                    quality={75}
                     placeholder="blur"
                     sizes="(max-width: 767px) 100vw, (max-width: 1199px) 33vw, 25vw"
                   />

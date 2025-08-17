@@ -150,6 +150,9 @@ export default function LinkTree() {
             fill
             className="object-cover"
             priority
+            quality={75}
+            sizes="100vw"
+            loading="eager"
           />
         </div>
 

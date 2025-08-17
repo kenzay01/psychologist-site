@@ -127,7 +127,7 @@ export default function BlogPost({
             src={blog.mainImage}
             alt={blog.title[currentLocale]}
             className="w-full h-64 md:h-96 object-cover"
-            quality={85}
+            quality={75}
             sizes="(max-width: 768px) 100vw, 800px"
             width={800}
             height={400}

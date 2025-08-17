@@ -191,6 +191,7 @@ const Header = () => {
           </nav>
 
           <button
+            aria-label="Toggle menu"
             onClick={toggleMenu}
             className={`md:hidden p-2 rounded-md ${
               isMenuOpen

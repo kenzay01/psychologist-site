@@ -96,7 +96,7 @@ export default function BlogsList() {
                     src={blog.mainImage}
                     alt={blog.title[currentLocale]}
                     className="w-full h-full object-cover"
-                    quality={85}
+                    quality={75}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     width={500}
                     height={300}

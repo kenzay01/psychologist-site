@@ -176,7 +176,7 @@ const ConsultationContent = () => {
                 src={currentData.img}
                 alt={"Consultation Image"}
                 className="w-full h-64 object-cover rounded-lg shadow-md mb-2"
-                quality={85}
+                quality={60}
                 placeholder="blur"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 loading="lazy"

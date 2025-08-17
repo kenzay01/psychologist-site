@@ -126,7 +126,7 @@ export default function AboutMe() {
                   alt="Олександра Алексюк - психологиня-сексологиня"
                   className="w-full h-106 object-cover rounded-3xl shadow-2xl"
                   placeholder="blur"
-                  quality={85}
+                  quality={75}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   loading="lazy"
                 />

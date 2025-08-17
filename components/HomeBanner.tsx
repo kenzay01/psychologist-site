@@ -26,7 +26,7 @@ export default function HomeBanner() {
             fill
             className="object-cover"
             priority
-            quality={85}
+            quality={70}
           />
         </div>
 

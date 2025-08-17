@@ -81,7 +81,7 @@ export default function BenefitsContainer() {
               src={benefitsImg}
               alt="Олександра Алексюк"
               className="w-full md:w-auto md:h-160 h-92 rounded-3xl shadow-2xl self-center object-cover"
-              quality={85}
+              quality={60}
               placeholder="blur"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               loading="lazy"
@@ -102,9 +102,9 @@ export default function BenefitsContainer() {
                         <IconComponent className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg md:text-xl font-semibold mb-2 text-black group-hover:text-red-600 transition-colors duration-300">
+                        <h1 className="text-lg md:text-xl font-semibold mb-2 text-black group-hover:text-red-600 transition-colors duration-300">
                           {benefit.title}
-                        </h3>
+                        </h1>
                         <p className="text-sm md:text-base leading-relaxed font-normal text-gray-700">
                           {benefit.description}
                         </p>

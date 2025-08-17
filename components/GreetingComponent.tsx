@@ -53,7 +53,7 @@ export default function GreetingComponent() {
               alt="Greeting Image"
               className="w-auto md:h-140 h-92 rounded-3xl object-cover shadow-2xl"
               placeholder="blur"
-              quality={85}
+              quality={75}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               loading="lazy"
             />

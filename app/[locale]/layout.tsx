@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
 import "../globals.css";
 import AppRootLayout from "@/app/[locale]/RootLayout";
+import Script from "next/script";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -144,6 +145,10 @@ export default function RootLayout({
       <head>
         {/* Структуровані дані JSON-LD */}
         <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17475095137"
+        ></script>
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -226,6 +231,14 @@ export default function RootLayout({
           />
         </noscript>
       </head>
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-17475095137');
+        `}
+      </Script>
       <body>
         <AppRootLayout>{children}</AppRootLayout>
       </body>
