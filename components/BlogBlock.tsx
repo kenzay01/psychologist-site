@@ -20,6 +20,8 @@ interface Blog {
   publishDate: string;
 }
 
+// Function to calculate reading time in minutes
+
 export default function BlogsBlock() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
@@ -67,6 +69,27 @@ export default function BlogsBlock() {
     fetchBlogs();
   }, [dict]);
 
+  const calculateReadingTime = (content: string): string => {
+    const wordsPerMinute = 200; // Average reading speed
+    const words = content.trim().split(/\s+/).length; // Count words
+    const minutes = Math.round(words / wordsPerMinute); // Round to nearest minute
+    return minutes === 0
+      ? currentLocale === "uk"
+        ? "менше 1 хв на читання"
+        : "меньше 1 мин на чтение"
+      : `${minutes} ${
+          currentLocale === "uk" ? "хв на читання" : "мин на чтение"
+        }`;
+  };
+
+  // Function to format publish date
+  const formatPublishDate = (date: string, locale: Locale): string => {
+    return new Date(date).toLocaleDateString(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
   // Filter published blogs and limit by displayCount
   const publishedBlogs = blogs
     .filter((blog) => blog.isPublished)
@@ -130,9 +153,18 @@ export default function BlogsBlock() {
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
                       {blog.title[currentLocale]}
                     </h3>
-                    <p className="text-gray-600 text-sm md:text-md mb-4 flex-1">
+                    <p className="text-gray-600 text-sm md:text-md mb-2 flex-1">
                       {blog.excerpt[currentLocale]}
                     </p>
+                    <div className="text-gray-500 text-sm mb-4">
+                      <span>
+                        {formatPublishDate(blog.publishDate, currentLocale)}
+                      </span>
+                      <span className="mx-2">•</span>
+                      <span>
+                        {calculateReadingTime(blog.content[currentLocale])}
+                      </span>
+                    </div>
                     <button
                       onClick={() =>
                         router.push(`/${currentLocale}/blogs/${blog.slug}`)

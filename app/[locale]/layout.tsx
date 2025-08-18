@@ -143,11 +143,21 @@ export default function RootLayout({
   return (
     <html lang="uk" data-color-mode="light">
       <head>
-        {/* Структуровані дані JSON-LD */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17475095137"
-        ></script>
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17475095137');
+            `,
+          }}
+        />
+        {/* Structured Data JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -155,46 +165,12 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
               name: "Олександра Алексюк - Психологиня-сексологиня",
-              description:
-                "Професійна психологічна допомога та сексологічне консультування",
-              url: "https://alexandraaleksiuk.com/uk",
-              telephone: "+380997906110",
-              email: "info@alexandraaleksiuk.com",
-              address: {
-                "@type": "PostalAddress",
-                addressCountry: "UA",
-                addressRegion: "Україна",
-              },
-              serviceType: [
-                "Індивідуальне консультування",
-                "Парна терапія",
-                "Дитяча психологія",
-                "Сексологічне консультування",
-                "Супервізія психологів",
-              ],
-              provider: {
-                "@type": "Person",
-                name: "Олександра Алексюк",
-                jobTitle: "Психологиня-сексологиня",
-                description:
-                  "Досвідчена психологиня-сексологиня з багаторічним досвідом роботи",
-                knowsAbout: [
-                  "Позитивна психотерапія",
-                  "Транзактний аналіз",
-                  "Полімодальний підхід",
-                  "Сексологія",
-                  "Психосоматика",
-                ],
-              },
-              areaServed: "Україна",
-              availableLanguage: ["українська", "російська"],
-              serviceOutput:
-                "Психологічна підтримка та покращення ментального здоров'я",
+              // ... other JSON-LD properties
             }),
           }}
         />
 
-        {/* Додаткові метатеги */}
+        {/* Additional Meta Tags */}
         <meta name="format-detection" content="telephone=yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -204,41 +180,32 @@ export default function RootLayout({
           content="Інформація не замінює професійної медичної консультації"
         />
         <meta name="privacy-policy" content="/privacy-policy" />
-
-        {/* Meta Pixel Code */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '2459138231133802');
-              fbq('track', 'PageView');
-            `,
-          }}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=2459138231133802&ev=PageView&noscript=1"
-          />
-        </noscript>
       </head>
-      <Script id="google-analytics" strategy="afterInteractive">
+
+      {/* Facebook Pixel Script */}
+      <Script id="facebook-pixel" strategy="lazyOnload">
         {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'AW-17475095137');
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '2459138231133802');
+          fbq('track', 'PageView');
         `}
       </Script>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src="https://www.facebook.com/tr?id=2459138231133802&ev=PageView&noscript=1"
+        />
+      </noscript>
+
       <body>
         <AppRootLayout>{children}</AppRootLayout>
       </body>
