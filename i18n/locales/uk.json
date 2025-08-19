@@ -700,5 +700,34 @@
       "confirmWithoutPayment": "Підтвердити без оплати",
       "updateStatus": "Оновити статус"
     }
+  },
+  "comments": {
+    "title": "Коментарі",
+    "addComment": "Додати коментар",
+    "noComments": "Поки що немає коментарів. Будьте першими!",
+    "name": "Ім'я",
+    "comment": "Коментар",
+    "namePlaceholder": "Ваше ім'я",
+    "commentPlaceholder": "Ваш коментар...",
+    "submit": "Додати коментар",
+    "submitting": "Додавання...",
+    "cancel": "Скасувати",
+    "delete": "Видалити коментар",
+    "error": {
+      "fetchFailed": "Не вдалося завантажити коментарі",
+      "saveFailed": "Не вдалося зберегти коментар",
+      "deleteFailed": "Не вдалося видалити коментар",
+      "emptyFields": "Будь ласка, заповніть всі поля",
+      "nameTooLong": "Ім'я занадто довге (максимум 50 символів)",
+      "commentTooLong": "Коментар занадто довгий (максимум 500 символів)"
+    },
+    "success": {
+      "commentAdded": "Коментар успішно додано!",
+      "commentDeleted": "Коментар успішно видалено!"
+    },
+    "pagination": {
+      "page": "Сторінка {current} з {total}"
+    },
+    "characters": "{current}/{max} символів"
   }
 }

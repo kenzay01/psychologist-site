@@ -7,6 +7,7 @@ import { Locale } from "@/i18n/config";
 import Image from "next/image";
 import MDEditor from "@uiw/react-md-editor";
 import { notFound } from "next/navigation";
+import Comments from "@/components/Comments"; // Імпортуй компонент коментарів
 
 interface Blog {
   id: string;
@@ -138,6 +139,9 @@ export default function BlogPost({
         <div className="prose max-w-none">
           <MDEditor.Markdown source={blog.content[currentLocale]} />
         </div>
+
+        {/* Comments Section */}
+        <Comments blogId={blog.id} />
       </div>
     </section>
   );

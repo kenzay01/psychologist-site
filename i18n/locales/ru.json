@@ -700,5 +700,34 @@
       "confirmWithoutPayment": "Подтвердить без оплаты",
       "updateStatus": "Обновить статус"
     }
+  },
+  "comments": {
+    "title": "Комментарии",
+    "addComment": "Добавить комментарий",
+    "noComments": "Пока нет комментариев. Будьте первыми!",
+    "name": "Имя",
+    "comment": "Комментарий",
+    "namePlaceholder": "Ваше имя",
+    "commentPlaceholder": "Ваш комментарий...",
+    "submit": "Добавить комментарий",
+    "submitting": "Добавление...",
+    "cancel": "Отменить",
+    "delete": "Удалить комментарий",
+    "error": {
+      "fetchFailed": "Не удалось загрузить комментарии",
+      "saveFailed": "Не удалось сохранить комментарий",
+      "deleteFailed": "Не удалось удалить комментарий",
+      "emptyFields": "Пожалуйста, заполните все поля",
+      "nameTooLong": "Имя слишком длинное (максимум 50 символов)",
+      "commentTooLong": "Комментарий слишком длинный (максимум 500 символов)"
+    },
+    "success": {
+      "commentAdded": "Комментарий успешно добавлен!",
+      "commentDeleted": "Комментарий успешно удален!"
+    },
+    "pagination": {
+      "page": "Страница {current} из {total}"
+    },
+    "characters": "{current}/{max} символов"
   }
 }
