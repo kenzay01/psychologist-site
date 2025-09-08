@@ -262,7 +262,9 @@ export default function Modal({
           }
         );
 
-        alert(dict?.modal.form.supervisionRequestSuccess);
+        // Перенаправляємо на сторінку подяки з параметрами для аналітики
+        const timestamp = Date.now();
+        window.location.href = `/${currentLocale}/thank-you/supervision?type=${selectedSupervisionType}&timestamp=${timestamp}`;
         onClose();
         setFormData({
           name: "",
@@ -506,7 +508,9 @@ export default function Modal({
         }),
       });
 
-      alert(dict?.modal.form.bookingSuccess);
+      // Перенаправляємо на сторінку подяки з параметрами для аналітики
+      const timestamp = Date.now();
+      window.location.href = `/${currentLocale}/thank-you/consultation?type=${selectedConsultationType}&timestamp=${timestamp}`;
       onClose();
       setCurrentStep("form");
       setFormData({

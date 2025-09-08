@@ -132,13 +132,11 @@ export default function Comments({ blogId }: CommentsProps) {
         throw new Error(errorData.error || dict?.comments.error.saveFailed);
       }
 
-      setSuccess(dict?.comments.success.commentAdded ?? "");
-      setTimeout(() => setSuccess(null), 3000);
+      // Перенаправляємо на сторінку подяки з параметрами для аналітики
+      const timestamp = Date.now();
+      window.location.href = `/${currentLocale}/thank-you/comment?blogId=${blogId}&timestamp=${timestamp}`;
       setFormData({ name: "", comment: "" });
       setIsModalOpen(false);
-
-      // Перезавантажуємо коментарі (повертаємося на першу сторінку)
-      fetchComments(1);
     } catch (err) {
       console.error("Error saving comment:", err);
       setError(dict?.comments.error.saveFailed ?? "");

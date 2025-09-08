@@ -143,9 +143,23 @@ export default function RootLayout({
   return (
     <html lang="uk" data-color-mode="light">
       <head>
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-MHP3DJMV');
+            `,
+          }}
+        />
+
+        {/* Google Analytics */}
         <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17475095137"
+          src="https://www.googletagmanager.com/gtag/js?id=G-X9154K7V57"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -153,10 +167,11 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'AW-17475095137');
+              gtag('config', 'G-X9154K7V57');
             `,
           }}
         />
+
         {/* Structured Data JSON-LD */}
         <script
           type="application/ld+json"
@@ -165,7 +180,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
               name: "Олександра Алексюк - Психологиня-сексологиня",
-              // ... other JSON-LD properties
+              // ... інші JSON-LD властивості
             }),
           }}
         />
@@ -181,6 +196,16 @@ export default function RootLayout({
         />
         <meta name="privacy-policy" content="/privacy-policy" />
       </head>
+
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-MHP3DJMV"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        ></iframe>
+      </noscript>
 
       {/* Facebook Pixel Script */}
       <Script id="facebook-pixel" strategy="lazyOnload">

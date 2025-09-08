@@ -110,7 +110,9 @@ export default function SimpleModal({
         }),
       });
 
-      alert(dict?.modal?.form?.requestSuccess || "Запит успішно відправлено!");
+      // Перенаправляємо на сторінку подяки з параметрами для аналітики
+      const timestamp = Date.now();
+      window.location.href = `/${currentLocale}/thank-you/contact?timestamp=${timestamp}`;
       setFormData({
         name: "",
         phone: "",
