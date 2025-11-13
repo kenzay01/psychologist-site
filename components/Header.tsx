@@ -54,6 +54,10 @@ const Header = () => {
       label: dict?.header.nav.servicesLinks.child,
     },
     { href: "/supervision", label: dict?.header.nav.servicesLinks.supervision },
+    {
+      href: "/therapy-group",
+      label: dict?.header.nav.servicesLinks.therapyGroup,
+    },
   ];
 
   const allSocialLinks = [

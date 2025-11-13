@@ -49,6 +49,14 @@ export default function ServicesBlock() {
       link: "/supervision",
       img: supervisionImg,
     },
+    {
+      id: 5,
+      title: dict?.services.items[4].title,
+      description: dict?.services.items[4].description,
+      icon: Users,
+      link: "/therapy-group",
+      img: supervisionImg,
+    },
   ];
 
   // if (loading) return null;

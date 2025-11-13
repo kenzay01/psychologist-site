@@ -60,7 +60,7 @@ export default function LinkTree() {
       label: "WhatsApp",
     },
     {
-      href: "https://t.me/olexandra_alexuk",
+      href: "https://t.me/aleksandra_psychologist",
       icon: (
         <div className="flex items-center gap-1">
           <FaTelegram className="w-4 h-4 sm:w-5 sm:h-5" />

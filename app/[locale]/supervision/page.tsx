@@ -282,7 +282,7 @@ const SupervisionContent = () => {
                 </button>
 
                 <a
-                  href="https://t.me/admin_username"
+                  href="https://t.me/aleksandra_psychologist"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors flex items-center justify-center space-x-2"

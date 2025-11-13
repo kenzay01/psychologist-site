@@ -84,6 +84,11 @@ export default function Footer() {
       href: "/supervision",
       label: dict?.header.nav.servicesLinks.supervision || "Супервізія",
     },
+    {
+      href: "/therapy-group",
+      label:
+        dict?.header.nav.servicesLinks.therapyGroup || "Терапевтична група",
+    },
   ];
 
   const socialLinks =
@@ -232,6 +237,17 @@ export default function Footer() {
             <p className="text-center text-red-100">
               {dict?.footer.copyright ||
                 "© 2025 Олександра Алексюк | Політика конфіденційності"}
+            </p>
+            <p className="text-center text-red-200 text-xs mt-2">
+              Created by{" "}
+              <a
+                href="https://telebots.site/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors underline"
+              >
+                TeleBots
+              </a>
             </p>
           </div>
         </div>
