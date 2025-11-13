@@ -1,17 +1,18 @@
+import TherapyGroupModalButton from "@/components/Modal/TherapyGroupModalButton";
 import { getDictionary } from "@/i18n";
 import { Locale } from "@/i18n/config";
-import TherapyGroupModalButton from "@/components/Modal/TherapyGroupModalButton";
 
 type TherapyGroupPageProps = {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 };
 
 export default async function TherapyGroupPage({
   params,
 }: TherapyGroupPageProps) {
-  const dictionary = await getDictionary(params.locale);
+  const { locale } = await params;
+  const dictionary = await getDictionary(locale);
   const content = dictionary?.therapyGroup;
 
   if (!content) {
