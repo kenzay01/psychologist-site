@@ -1,6 +1,7 @@
 import TherapyGroupModalButton from "@/components/Modal/TherapyGroupModalButton";
 import { getDictionary } from "@/i18n";
 import { Locale } from "@/i18n/config";
+import Image from "next/image";
 
 type TherapyGroupPageProps = {
   params: Promise<{
@@ -32,6 +33,35 @@ export default async function TherapyGroupPage({
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
               {content.hero.title}
             </h1>
+            
+            {/* Photo Gallery */}
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 justify-center items-center my-8 md:my-12">
+              <div className="relative w-[225px] md:w-[450px] h-[400px] md:h-[800px] rounded-3xl overflow-hidden shadow-2xl group transition-all duration-500 hover:scale-105 hover:shadow-red-500/20 hover:shadow-3xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10"></div>
+                <Image
+                  src="/IMG_7471.JPG"
+                  alt="Терапевтична група"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 768px) 225px, 450px"
+                  quality={95}
+                />
+                <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none"></div>
+              </div>
+              <div className="relative w-[225px] md:w-[450px] h-[400px] md:h-[800px] rounded-3xl overflow-hidden shadow-2xl group transition-all duration-500 hover:scale-105 hover:shadow-red-500/20 hover:shadow-3xl md:mt-12">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10"></div>
+                <Image
+                  src="/IMG_7483.JPG"
+                  alt="Терапевтична група"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 768px) 225px, 450px"
+                  quality={95}
+                />
+                <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none"></div>
+              </div>
+            </div>
+            
             <div className="flex flex-wrap gap-3 justify-center md:justify-start">
               {content.hero.badges.map((badge) => (
                 <span
