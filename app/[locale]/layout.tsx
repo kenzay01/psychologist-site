@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { locales } from "@/i18n/config";
 import "../globals.css";
 import AppRootLayout from "@/app/[locale]/RootLayout";
@@ -99,15 +99,6 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: "Олександра Алексюк - Психологиня",
 
     manifest: "/manifest.json",
-    themeColor: "red",
-    colorScheme: "light",
-
-    viewport: {
-      width: "device-width",
-      initialScale: 1,
-      maximumScale: 5,
-      userScalable: true,
-    },
 
     appleWebApp: {
       capable: true,
@@ -132,6 +123,17 @@ export async function generateMetadata(): Promise<Metadata> {
       "health-topics": "mental health, psychology, sexology, family therapy",
       "medical-disclaimer": "Консультації не замінюють медичну діагностику",
     },
+  };
+}
+
+export function generateViewport(): Viewport {
+  return {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    themeColor: "red",
+    colorScheme: "light",
   };
 }
 
