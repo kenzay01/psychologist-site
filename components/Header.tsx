@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 // import BookingModal from "./Modal/Modal";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
@@ -181,6 +181,17 @@ const Header = () => {
                 {/* CTA Button */}
                 <div className="hidden md:flex items-center justify-center space-x-4">
                   {/* <LanguageSwitcher currentLocale={currentLocale} /> */}
+                  {!isNotHomePage && (
+                    <a
+                      href="tel:+380997906110"
+                      className={`flex items-center space-x-2 ${
+                        isNotHomePage ? "text-black" : "text-white"
+                      } hover:text-red-500 font-semibold transition-colors`}
+                    >
+                      <Phone className="w-5 h-5" />
+                      <span>+380 99 790 61 10</span>
+                    </a>
+                  )}
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md uppercase"
                     onClick={() => {
