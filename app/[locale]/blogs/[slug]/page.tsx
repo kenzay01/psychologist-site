@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import Image from "next/image";
-import MDEditor from "@uiw/react-md-editor";
 import { notFound } from "next/navigation";
 import Comments from "@/components/Comments"; // Імпортуй компонент коментарів
+
+const MarkdownPreview = dynamic(
+  () =>
+    import("@uiw/react-md-editor").then((mod) => mod.default.Markdown),
+  { ssr: false }
+);
 
 interface Blog {
   id: string;
@@ -137,7 +143,7 @@ export default function BlogPost({
 
         {/* Blog Content */}
         <div className="prose max-w-none">
-          <MDEditor.Markdown source={blog.content[currentLocale]} />
+          <MarkdownPreview source={blog.content[currentLocale]} />
         </div>
 
         {/* Comments Section */}

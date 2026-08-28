@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import MDEditor from "@uiw/react-md-editor";
 import { dictionary } from "@/i18n/dictionary";
 import { useRouter } from "next/navigation";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
@@ -10,6 +9,12 @@ import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 const MDEditorDynamic = dynamic(() => import("@uiw/react-md-editor"), {
   ssr: false,
 });
+
+const MDEditorMarkdown = dynamic(
+  () =>
+    import("@uiw/react-md-editor").then((mod) => mod.default.Markdown),
+  { ssr: false }
+);
 
 interface BlogFormData {
   id: string;
@@ -468,7 +473,7 @@ const BlogEditor = ({
                 className="w-full h-64 object-cover rounded-md"
               />
             )}
-            <MDEditor.Markdown
+            <MDEditorMarkdown
               source={formData.content[currentLang]}
               style={{ whiteSpace: "pre-wrap" }}
             />

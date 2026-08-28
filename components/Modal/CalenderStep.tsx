@@ -1,9 +1,16 @@
 "use client";
 
-import GoogleCalendar from "../GoogleCalendar";
+import dynamic from "next/dynamic";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+
+const GoogleCalendar = dynamic(() => import("../GoogleCalendar"), {
+  ssr: false,
+  loading: () => (
+    <div className="py-8 text-center text-gray-500">Завантаження календаря...</div>
+  ),
+});
 
 interface CalendarStepProps {
   consultationType: "individual" | "couple" | "child";
