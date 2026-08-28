@@ -13,6 +13,7 @@ import moment from "moment";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { sendTelegramMessage as sendTelegramMessageRequest } from "@/lib/sendTelegramMessage";
 
 interface PaymentData {
   formData: {
@@ -206,17 +207,6 @@ export default function PaymentStatusPage() {
     }
 
     console.log("Checking Telegram environment variables"); // Логування
-    const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-    if (!botToken) {
-      console.error("NEXT_PUBLIC_TELEGRAM_BOT_TOKEN is not defined");
-      throw new Error("Telegram bot token is not configured");
-    }
-
-    const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
-    if (!chatId) {
-      console.error("NEXT_PUBLIC_TELEGRAM_CHAT_ID is not defined");
-      throw new Error("Telegram chat ID is not configured");
-    }
 
     const consultationTypes = dict?.paymentStatus?.consultationTypes || {
       individual: "Індивідуальна консультація",
@@ -316,29 +306,12 @@ ${
       }`;
     }
 
-    console.log("Sending Telegram message:", message); // Логування
+    console.log("Sending Telegram message"); // Логування
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
-      const response = await fetch(
-        `https://api.telegram.org/bot${botToken}/sendMessage`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: message,
-          }),
-          signal: controller.signal,
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Telegram API error:", errorData); // Логування
-        throw new Error(`Telegram API error: ${errorData.description}`);
-      }
+      await sendTelegramMessageRequest(message, { signal: controller.signal });
       console.log("Telegram message sent successfully"); // Логування
     } finally {
       clearTimeout(timeoutId);

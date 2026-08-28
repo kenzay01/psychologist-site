@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { sendTelegramMessage } from "@/lib/sendTelegramMessage";
 import { X } from "lucide-react";
 
 export default function SimpleModal({
@@ -90,25 +91,7 @@ export default function SimpleModal({
           formData.query || dict?.modal?.form?.noQuery || "Не вказано"
         );
 
-      // console.log("Sending message to Telegram:", message);
-      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-      if (!botToken) {
-        throw new Error("Telegram bot token is not defined");
-      }
-      const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
-      if (!chatId) {
-        throw new Error("Telegram chat ID is not defined");
-      }
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-        }),
-      });
+      await sendTelegramMessage(message);
 
       // Перенаправляємо на сторінку подяки з параметрами для аналітики
       const timestamp = Date.now();

@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { sendTelegramMessage } from "@/lib/sendTelegramMessage";
 
 type TherapyGroupModalProps = {
   isOpen: boolean;
@@ -80,13 +81,6 @@ export default function TherapyGroupModal({
 
     setIsSubmitting(true);
     try {
-      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-      const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
-
-      if (!botToken || !chatId) {
-        throw new Error("Telegram credentials are not configured.");
-      }
-
       const lines = [
         therapyDict?.telegramMessage?.newRequest ??
           "🧘‍♀️ Нова заявка на терапевтичну групу",
@@ -114,16 +108,7 @@ export default function TherapyGroupModal({
 
       const message = lines.join("\n");
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-        }),
-      });
+      await sendTelegramMessage(message);
 
       const redirectPath =
         therapyDict?.successRedirect ??

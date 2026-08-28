@@ -13,6 +13,7 @@ import moment from "moment";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { sendTelegramMessage } from "@/lib/sendTelegramMessage";
 import type { PaymentData } from "@/types/payment";
 
 export default function Modal({
@@ -248,19 +249,7 @@ export default function Modal({
             formData.supervisionGoals
           );
 
-        await fetch(
-          `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/sendMessage`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
-              text: message,
-            }),
-          }
-        );
+        await sendTelegramMessage(message);
 
         // Перенаправляємо на сторінку подяки з параметрами для аналітики
         const timestamp = Date.now();
@@ -400,25 +389,7 @@ export default function Modal({
           );
       }
 
-      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-      if (!botToken) {
-        throw new Error("Telegram bot token is not set");
-      }
-      const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
-      if (!chatId) {
-        throw new Error("Telegram chat ID is not set");
-      }
-
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: bookingMessage,
-        }),
-      });
+      await sendTelegramMessage(bookingMessage);
 
       let formattedDescription = "";
       if (selectedConsultationType === "individual") {
