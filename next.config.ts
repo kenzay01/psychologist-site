@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   poweredByHeader: false,
   compress: true,
+  trailingSlash: false,
   eslint: {
     ignoreDuringBuilds: true,
   },

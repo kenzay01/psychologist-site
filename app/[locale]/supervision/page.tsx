@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { MessageCircle, Star, User, Users } from "lucide-react";
 import Modal from "@/components/Modal/BookingModalLazy";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
@@ -13,22 +12,23 @@ import Image from "next/image";
 
 type SupervisionType = "individual" | "group";
 
-const SupervisionContent = () => {
+export default function SupervisionPage() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
-  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<SupervisionType>("individual");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSupervisionType, setSelectedSupervisionType] =
     useState<SupervisionType>("individual");
 
   useEffect(() => {
-    const type = searchParams.get("type") as SupervisionType;
+    const type = new URLSearchParams(window.location.search).get(
+      "type"
+    ) as SupervisionType | null;
     if (type && ["individual", "group"].includes(type)) {
       setActiveTab(type);
       setSelectedSupervisionType(type);
     }
-  }, [searchParams]);
+  }, []);
 
   const supervisionData = {
     individual: {
@@ -124,7 +124,14 @@ const SupervisionContent = () => {
               <div className="flex items-center space-x-3 mb-2 flex-col md:flex-row justify-center text-center md:text-left">
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
-                  {currentData.title}
+                  {currentData.title ||
+                    (activeTab === "group"
+                      ? currentLocale === "ru"
+                        ? "Групповая супервизия"
+                        : "Групова супервізія"
+                      : currentLocale === "ru"
+                        ? "Индивидуальная супервизия"
+                        : "Індивідуальна супервізія")}
                 </h1>
               </div>
               <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
@@ -303,15 +310,5 @@ const SupervisionContent = () => {
         supervisionType={selectedSupervisionType}
       />
     </div>
-  );
-};
-
-export default function SupervisionPage() {
-  const currentLocale = useCurrentLanguage() as Locale;
-  const { dict } = useDictionary(currentLocale);
-  return (
-    <Suspense fallback={<div>{dict?.supervision.loading}</div>}>
-      <SupervisionContent />
-    </Suspense>
   );
 }

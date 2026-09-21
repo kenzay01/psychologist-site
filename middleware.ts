@@ -4,19 +4,22 @@ import { defaultLocale, locales } from "./i18n/config";
 
 const CANONICAL_HOST = "alexandraaleksiuk.com";
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const host = request.headers.get("host")?.split(":")[0] ?? "";
+function absoluteUrl(pathname: string, search = ""): string {
+  // Never include internal Next/nginx upstream port (e.g. :3000)
+  return `https://${CANONICAL_HOST}${pathname}${search}`;
+}
 
-  // Canonical host: www → apex (single 301)
+export function middleware(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+  const hostHeader = request.headers.get("host") ?? "";
+  const host = hostHeader.split(":")[0].toLowerCase();
+
+  // Critical: www → apex without leaking upstream port
   if (host === `www.${CANONICAL_HOST}`) {
-    const url = request.nextUrl.clone();
-    url.host = CANONICAL_HOST;
-    url.protocol = "https:";
-    return NextResponse.redirect(url, 301);
+    return NextResponse.redirect(absoluteUrl(pathname, search), 301);
   }
 
-  // Skip locale handling for Next internals, API, and well-known SEO/static assets
+  // Skip locale handling for Next internals, API, and static/SEO assets
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
@@ -31,8 +34,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const savedLocale = request.cookies.get("preferredLocale")?.value;
+  // Collapse any trailing slash (except "/") to avoid 301→308 chains
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    return NextResponse.redirect(
+      absoluteUrl(pathname.replace(/\/+$/, "") || "/", search),
+      301
+    );
+  }
 
+  const savedLocale = request.cookies.get("preferredLocale")?.value;
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
@@ -43,11 +53,18 @@ export function middleware(request: NextRequest) {
         ? (savedLocale as (typeof locales)[number])
         : defaultLocale;
 
-    // Permanent redirect to locale (avoids 307 chain from temporary redirects)
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url), 301);
+    // pathname "/" → "/uk" (no trailing slash)
+    const suffix = pathname === "/" ? "" : pathname;
+    return NextResponse.redirect(absoluteUrl(`/${locale}${suffix}`, search), 301);
   }
 
-  return NextResponse.next();
+  // Pass pathname to generateMetadata for self-canonical
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
 
 export const config = {

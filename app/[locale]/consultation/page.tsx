@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import Modal from "@/components/Modal/BookingModalLazy";
 import {
   Calendar,
@@ -23,22 +22,23 @@ import child from "@/public/services/child.jpg";
 
 type ConsultationType = "individual" | "couple" | "child";
 
-const ConsultationContent = () => {
+export default function ConsultationPage() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
-  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<ConsultationType>("individual");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedConsultationType, setSelectedConsultationType] =
     useState<ConsultationType>("individual");
 
   useEffect(() => {
-    const type = searchParams.get("type") as ConsultationType;
+    const type = new URLSearchParams(window.location.search).get(
+      "type"
+    ) as ConsultationType | null;
     if (type && ["individual", "couple", "child"].includes(type)) {
       setActiveTab(type);
       setSelectedConsultationType(type);
     }
-  }, [searchParams]);
+  }, []);
 
   const consultationData = {
     individual: {
@@ -168,7 +168,18 @@ const ConsultationContent = () => {
               <div className="flex items-center space-x-3 mb-2 flex-col md:flex-row justify-center text-center md:text-left">
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
-                  {currentData.title}
+                  {currentData.title ||
+                    (activeTab === "couple"
+                      ? currentLocale === "ru"
+                        ? "Парная консультация"
+                        : "Парна консультація"
+                      : activeTab === "child"
+                        ? currentLocale === "ru"
+                          ? "Детская консультация"
+                          : "Дитяча консультація"
+                        : currentLocale === "ru"
+                          ? "Индивидуальная консультация"
+                          : "Індивідуальна консультація")}
                 </h1>
               </div>
               <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
@@ -378,15 +389,5 @@ const ConsultationContent = () => {
         consultationType={selectedConsultationType}
       />
     </div>
-  );
-};
-
-export default function ConsultationPage() {
-  const currentLocale = useCurrentLanguage() as Locale;
-  const { dict } = useDictionary(currentLocale);
-  return (
-    <Suspense fallback={<div>{dict?.consultation.loading}</div>}>
-      <ConsultationContent />
-    </Suspense>
   );
 }

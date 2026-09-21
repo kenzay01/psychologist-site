@@ -1,104 +1,25 @@
-import type { Metadata, Viewport } from "next";
-import { locales } from "@/i18n/config";
+import type { Viewport } from "next";
+import { locales, type Locale } from "@/i18n/config";
 import "../globals.css";
 import AppRootLayout from "@/app/[locale]/RootLayout";
 import Script from "next/script";
-
-const BASE_URL = "https://alexandraaleksiuk.com";
+import { buildPageMetadata, organizationJsonLd } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title:
-      "Олександра Алексюк - Психологиня-сексологиня | Психологічна допомога онлайн та офлайн",
-    description:
-      "Професійна психологічна допомога від досвідченої психологині-сексологині Олександри Алексюк. Індивідуальне консультування, парна терапія, робота з дітьми та підлітками. Спеціалізація: сексуальність, стосунки, психосоматика, травматичний досвід. Онлайн та офлайн консультації.",
-
-    icons: {
-      icon: [
-        { url: "/favicon.ico" },
-        { url: "/icon.png", type: "image/png", sizes: "32x32" },
-        { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-      ],
-      apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
-    },
-
-    openGraph: {
-      title: "Олександра Алексюк - Психологиня-сексологиня",
-      description:
-        "Професійна психологічна допомога та сексологічне консультування. Індивідуальна терапія, парне консультування, робота з дітьми та підлітками. Онлайн та офлайн.",
-      url: `${BASE_URL}/uk`,
-      siteName: "Олександра Алексюк - Психологиня",
-      images: [
-        {
-          url: "/og-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Олександра Алексюк - Психологиня-сексологиня. Професійна психологічна допомога",
-        },
-      ],
-      locale: "uk_UA",
-      type: "website",
-    },
-
-    twitter: {
-      card: "summary_large_image",
-      title: "Олександра Алексюк - Психологиня-сексологиня",
-      description:
-        "Професійна психологічна допомога. Індивідуальне консультування, парна терапія, робота з дітьми. Спеціалізація: сексуальність, стосунки, травми.",
-      images: ["/twitter-image.jpg"],
-    },
-
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-
-    alternates: {
-      canonical: `${BASE_URL}/uk`,
-      languages: {
-        "uk-UA": `${BASE_URL}/uk`,
-        "ru-RU": `${BASE_URL}/ru`,
-      },
-    },
-
-    metadataBase: new URL(BASE_URL),
-
-    authors: [
-      {
-        name: "Олександра Алексюк",
-        url: `${BASE_URL}/uk`,
-      },
-    ],
-    creator: "Олександра Алексюк",
-    publisher: "Олександра Алексюк - Психологиня-сексологиня",
-
-    formatDetection: {
-      email: true,
-      address: true,
-      telephone: true,
-    },
-
-    category: "healthcare",
-    applicationName: "Олександра Алексюк - Психологиня",
-    manifest: "/manifest.json",
-
-    appleWebApp: {
-      capable: true,
-      title: "Олександра Алексюк",
-      statusBarStyle: "default",
-    },
-  };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = (locales.includes(localeParam as Locale)
+    ? localeParam
+    : "uk") as Locale;
+  // Default for home; child route layouts override for their paths
+  return buildPageMetadata({ pathname: `/${locale}`, locale });
 }
 
 export function generateViewport(): Viewport {
@@ -112,41 +33,18 @@ export function generateViewport(): Viewport {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "Олександра Алексюк - Психологиня-сексологиня",
-    url: `${BASE_URL}/uk`,
-    image: `${BASE_URL}/og-image.jpg`,
-    telephone: "+380997906110",
-    email: "info@alexandraaleksiuk.com",
-    description:
-      "Професійна психологічна допомога та сексологічне консультування. Індивідуальна терапія, парне консультування, робота з дітьми та підлітками.",
-    availableLanguage: ["uk", "ru"],
-    areaServed: {
-      "@type": "Country",
-      name: "Ukraine",
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Київ",
-      addressCountry: "UA",
-    },
-    sameAs: [
-      "https://alexandraaleksiuk.com/uk/linktree",
-    ],
-    priceRange: "$$",
-  };
+  const { locale } = await params;
 
   return (
-    <html lang="uk" data-color-mode="light">
+    <html lang={locale === "ru" ? "ru" : "uk"} data-color-mode="light">
       <head>
-        {/* GTM only — GA4/Meta/TikTok should be configured inside GTM to avoid duplicate page_view */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -162,7 +60,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
+            __html: JSON.stringify(organizationJsonLd()),
           }}
         />
 
@@ -171,6 +69,8 @@ export default function RootLayout({
           name="health-disclaimer"
           content="Інформація не замінює професійної медичної консультації"
         />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
 
       <body>
@@ -184,7 +84,6 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* Marketing pixels: prefer GTM; Meta/TikTok lazy until consent/CMP is added */}
         <Script id="facebook-pixel" strategy="lazyOnload">
           {`
             !function(f,b,e,v,n,t,s)

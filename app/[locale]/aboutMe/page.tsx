@@ -111,7 +111,8 @@ export default function AboutMe() {
           {/* Header */}
           <div className="text-center mb-8 md:mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              {dict?.aboutMe.title}
+              {dict?.aboutMe.title ||
+                (currentLocale === "ru" ? "Обо мне" : "Про мене")}
             </h1>
             <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
           </div>
