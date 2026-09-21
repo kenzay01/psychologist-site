@@ -2,7 +2,7 @@
 import { User, Users, Baby, GraduationCap, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import supervisionImg from "@/public/services/supervision.png";
+import supervisionImg from "@/public/services/supervision.jpg";
 // import supervisionIndividualImg from "@/public/services/supervision_individual.jpg";
 import individualImg from "@/public/services/individual.jpg";
 import couple from "@/public/services/couple.jpg";

@@ -3,7 +3,6 @@
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
@@ -13,7 +12,6 @@ export default function DiplomasBlock() {
   const { dict } = useDictionary(currentLocale);
   const router = useRouter();
 
-  // Дипломи з підписами
   const diplomas = [
     {
       id: 1,
@@ -25,33 +23,6 @@ export default function DiplomasBlock() {
       image3: "/certificates/certificate_17.jpg",
     },
   ];
-
-  useEffect(() => {
-    const checkImages = async () => {
-      const validImagePaths: string[] = [];
-
-      // Перевіряємо зображення по одному
-      for (let i = 1; i <= 30; i++) {
-        const imagePath = `/certificates/certificate_${i}.jpg`;
-
-        try {
-          const response = await fetch(imagePath, { method: "HEAD" });
-          if (response.ok) {
-            validImagePaths.push(imagePath);
-          } else {
-            break;
-          }
-        } catch (error) {
-          console.error(`Error fetching image ${imagePath}:`, error);
-          break;
-        }
-      }
-
-      //   setValidImages(validImagePaths);
-    };
-
-    checkImages();
-  }, []);
 
   return (
     <section className="py-8 md:py-16 bg-white">

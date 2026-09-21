@@ -123,9 +123,9 @@ export default function ConfirmationStep({
             ? dict?.confirmationStep.loading
             : dict?.confirmationStep.confirmButton}
         </button>
-        <h1 className="text-center text-gray-500 text-sm">
+        <p className="text-center text-gray-500 text-sm">
           {dict?.confirmationStep.or}
-        </h1>
+        </p>
         <button
           onClick={handlePayment}
           disabled={isLoading !== null}

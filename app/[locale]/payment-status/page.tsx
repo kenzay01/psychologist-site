@@ -9,11 +9,11 @@ import {
   CreditCard,
   ArrowLeft,
 } from "lucide-react";
-import moment from "moment";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { sendTelegramMessage as sendTelegramMessageRequest } from "@/lib/sendTelegramMessage";
+import { addMinutes } from "@/lib/date";
 
 interface PaymentData {
   formData: {
@@ -412,11 +412,10 @@ ${dict?.paymentStatus?.labels?.status || "Статус"}: ${statusText}`;
           summary,
           description,
           start: `${paymentData.selectedDate}T${paymentData.selectedTime}:00`,
-          end: moment(
-            `${paymentData.selectedDate}T${paymentData.selectedTime}:00`
-          )
-            .add(paymentData.duration, "minutes")
-            .toISOString(),
+          end: addMinutes(
+            `${paymentData.selectedDate}T${paymentData.selectedTime}:00`,
+            paymentData.duration
+          ),
         }),
         signal: controller.signal,
       });

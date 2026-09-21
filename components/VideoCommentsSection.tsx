@@ -6,11 +6,16 @@ import { Locale } from "@/i18n/config";
 import { useState, useEffect, useRef } from "react";
 import { ArrowUp, ArrowDown, Play, X } from "lucide-react";
 
+const VIDEO_PATHS = [
+  "/video_comments/video_comment_1.mp4",
+  "/video_comments/video_comment_2.mp4",
+  "/video_comments/video_comment_3.mp4",
+  "/video_comments/video_comment_4.mp4",
+];
+
 const VideoCommentsSection = () => {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
-  const [validVideos, setValidVideos] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [displayCount, setDisplayCount] = useState(3);
   const [isDesktop, setIsDesktop] = useState(false);
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(
@@ -30,11 +35,9 @@ const VideoCommentsSection = () => {
       const currentWidth = window.innerWidth;
       const desktop = currentWidth >= 768;
 
-      // Перевіряємо чи реально змінився розмір екрану (не просто скрол)
       if (Math.abs(currentWidth - prevWidthRef.current) > 50) {
         const wasDesktop = prevWidthRef.current >= 768;
 
-        // Тільки якщо змінився тип пристрою (з мобільного на десктоп або навпаки)
         if (desktop !== wasDesktop) {
           setIsDesktop(desktop);
           setDisplayCount(
@@ -44,12 +47,10 @@ const VideoCommentsSection = () => {
 
         prevWidthRef.current = currentWidth;
       } else {
-        // Просто оновлюємо isDesktop без зміни displayCount
         setIsDesktop(desktop);
       }
     };
 
-    // Ініціалізація
     const initialWidth = window.innerWidth;
     const initialDesktop = initialWidth >= 768;
     prevWidthRef.current = initialWidth;
@@ -58,7 +59,6 @@ const VideoCommentsSection = () => {
       initialDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
     );
 
-    // Додаємо debounce для resize event
     let resizeTimeout: NodeJS.Timeout;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
@@ -72,34 +72,7 @@ const VideoCommentsSection = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const checkVideos = async () => {
-      setIsLoading(true);
-      const validVideoPaths: string[] = [];
-
-      for (let i = 1; i <= 30; i++) {
-        const videoPath = `/video_comments/video_comment_${i}.mp4`;
-        try {
-          const response = await fetch(videoPath, { method: "HEAD" });
-          if (response.ok) {
-            validVideoPaths.push(videoPath);
-          } else {
-            break;
-          }
-        } catch (error) {
-          console.error(`Error fetching video ${videoPath}:`, error);
-          break;
-        }
-      }
-
-      setValidVideos(validVideoPaths);
-      setIsLoading(false);
-    };
-
-    checkVideos();
-  }, []);
-
-  const displayedVideos = validVideos.slice(0, displayCount);
+  const displayedVideos = VIDEO_PATHS.slice(0, displayCount);
 
   const handleShowMore = () => {
     setDisplayCount(
@@ -164,7 +137,7 @@ const VideoCommentsSection = () => {
     };
   }, [isModalOpen]);
 
-  const canShowMore = validVideos.length > displayCount;
+  const canShowMore = VIDEO_PATHS.length > displayCount;
   const canShowLess =
     displayCount > (isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
 
@@ -180,66 +153,53 @@ const VideoCommentsSection = () => {
             "Думки наших клієнтів у відео форматі"}
         </p>
 
-        {isLoading ? (
-          <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
-          </div>
-        ) : validVideos.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-600 text-lg">
-              {dict?.testimonials?.noVideos || "Відео відгуки не знайдено"}
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
-              {displayedVideos.map((video, index) => (
-                <div
-                  key={video}
-                  className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 break-inside-avoid cursor-pointer"
-                  onClick={() => openVideoModal(index)}
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+          {displayedVideos.map((video, index) => (
+            <div
+              key={video}
+              className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 break-inside-avoid cursor-pointer"
+              onClick={() => openVideoModal(index)}
+            >
+              <div className="relative">
+                <video
+                  className="w-[400px] h-[280px] object-cover transform group-hover:scale-105 transition-transform duration-300"
+                  muted
+                  preload="none"
+                  playsInline
                 >
-                  <div className="relative">
-                    <video
-                      className="w-[400px] h-[280px] object-cover transform group-hover:scale-105 transition-transform duration-300"
-                      muted
-                      preload="metadata"
-                    >
-                      <source src={`${video}#t=1`} type="video/mp4" />
-                    </video>
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-all duration-300">
-                      <div className="bg-white bg-opacity-90 rounded-full p-4 transform group-hover:scale-110 transition-transform duration-300">
-                        <Play className="w-8 h-8 text-red-500 fill-current" />
-                      </div>
-                    </div>
+                  <source src={video} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-all duration-300">
+                  <div className="bg-white bg-opacity-90 rounded-full p-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <Play className="w-8 h-8 text-red-500 fill-current" />
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {(canShowMore || canShowLess) && (
-              <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {canShowMore && (
-                  <button
-                    onClick={handleShowMore}
-                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
-                  >
-                    {dict?.testimonials?.moreReviews || "Більше відгуків"}
-                    <ArrowDown className="w-4 h-4" />
-                  </button>
-                )}
-                {canShowLess && (
-                  <button
-                    onClick={handleShowLess}
-                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
-                  >
-                    {dict?.testimonials?.lessReviews || "Менше відгуків"}
-                    <ArrowUp className="w-4 h-4" />
-                  </button>
-                )}
               </div>
+            </div>
+          ))}
+        </div>
+
+        {(canShowMore || canShowLess) && (
+          <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {canShowMore && (
+              <button
+                onClick={handleShowMore}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+              >
+                {dict?.testimonials?.moreReviews || "Більше відгуків"}
+                <ArrowDown className="w-4 h-4" />
+              </button>
             )}
-          </>
+            {canShowLess && (
+              <button
+                onClick={handleShowLess}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold text-base inline-flex items-center gap-2 justify-center hover:scale-105 transition-all duration-300 shadow-md"
+              >
+                {dict?.testimonials?.lessReviews || "Менше відгуків"}
+                <ArrowUp className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -262,9 +222,10 @@ const VideoCommentsSection = () => {
                 controls
                 autoPlay
                 preload="metadata"
+                playsInline
               >
                 <source
-                  src={validVideos[selectedVideoIndex]}
+                  src={VIDEO_PATHS[selectedVideoIndex]}
                   type="video/mp4"
                 />
                 Ваш браузер не підтримує відео елемент.

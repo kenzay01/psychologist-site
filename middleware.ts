@@ -2,62 +2,54 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { defaultLocale, locales } from "./i18n/config";
 
+const CANONICAL_HOST = "alexandraaleksiuk.com";
+
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
+  const host = request.headers.get("host")?.split(":")[0] ?? "";
 
-  // Виключаємо static files (зображення, css, js тощо)
-  const staticFileExtensions = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".webp",
-    ".svg",
-    ".css",
-    ".js",
-    ".ico",
-    ".woff",
-    ".woff2",
-    ".ttf",
-    ".pdf",
-    ".zip",
-    ".json",
-    ".xml",
-    ".txt",
-    ".mp4",
-  ];
+  // Canonical host: www → apex (single 301)
+  if (host === `www.${CANONICAL_HOST}`) {
+    const url = request.nextUrl.clone();
+    url.host = CANONICAL_HOST;
+    url.protocol = "https:";
+    return NextResponse.redirect(url, 301);
+  }
 
-  const isStaticFile = staticFileExtensions.some((ext) =>
-    pathname.toLowerCase().endsWith(ext)
-  );
-
-  // Якщо це static file, пропускаємо middleware
-  if (isStaticFile) {
+  // Skip locale handling for Next internals, API, and well-known SEO/static assets
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/manifest.json" ||
+    pathname === "/og-image.jpg" ||
+    pathname === "/twitter-image.jpg" ||
+    /\.[a-zA-Z0-9]+$/.test(pathname)
+  ) {
     return NextResponse.next();
   }
 
-  // Отримуємо мову з cookies
   const savedLocale = request.cookies.get("preferredLocale")?.value;
 
-  // Перевіряємо, чи шлях вже містить локаль
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
 
-  // Якщо шлях не містить локаль
   if (pathnameIsMissingLocale) {
-    // Використовуємо збережену мову, якщо є, інакше дефолтну
     const locale =
       savedLocale && locales.includes(savedLocale as (typeof locales)[number])
         ? (savedLocale as (typeof locales)[number])
         : defaultLocale;
 
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
+    // Permanent redirect to locale (avoids 307 chain from temporary redirects)
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url), 301);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

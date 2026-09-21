@@ -2,25 +2,31 @@
 
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import { Clock } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import {
+  formatDmY,
+  formatYmd,
+  isSameDay,
+  parseLocalDateTime,
+  startOfDay,
+} from "@/lib/date";
 
 interface Props {
   onDateSelect: (date: string, time: string) => void;
   consultationType: "individual" | "couple" | "child";
-  duration: number; // тривалість консультації в хвилинах
-  minimumBookingHours?: number; // мінімальна кількість годин від поточного часу для бронювання
+  duration: number;
+  minimumBookingHours?: number;
 }
 
 const GoogleCalendar = ({
   onDateSelect,
   consultationType,
   duration,
-  minimumBookingHours = 5, // За замовчуванням 5 годин
+  minimumBookingHours = 5,
 }: Props) => {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
@@ -38,7 +44,6 @@ const GoogleCalendar = ({
   const calendarId = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
-  // Отримання подій з Google Calendar
   useEffect(() => {
     const fetchEvents = async () => {
       if (!calendarId || !apiKey) return;
@@ -63,8 +68,8 @@ const GoogleCalendar = ({
             type: item.description?.includes("individual")
               ? "individual"
               : item.description?.includes("couple")
-              ? "couple"
-              : "child",
+                ? "couple"
+                : "child",
           })
         );
 
@@ -86,40 +91,28 @@ const GoogleCalendar = ({
     "17:00",
   ];
 
-  // Генерація доступного часу з урахуванням обмеження
-  const generateAvailableTimes = (date: Date, duration: number) => {
-    const now = moment();
-    const selected = moment(date).startOf("day");
+  const generateAvailableTimes = (date: Date, slotDuration: number) => {
+    const now = new Date();
+    const selected = startOfDay(date);
+    const ymd = formatYmd(date);
 
-    // Відфільтровуємо події для вибраного дня
     const bookedIntervals = events
-      .filter((e) => {
-        const eventDate = moment(e.start);
-        return eventDate.isSame(selected, "day");
-      })
-      .map((e) => ({
-        start: moment(e.start),
-        end: moment(e.end),
-      }));
+      .filter((e) => isSameDay(e.start, selected))
+      .map((e) => ({ start: e.start, end: e.end }));
 
     const free = workingHours.filter((timeStr) => {
-      const slotStart = moment(
-        `${moment(date).format("YYYY-MM-DD")}T${timeStr}`
-      );
-      const slotEnd = slotStart.clone().add(duration, "minutes");
+      const slotStart = parseLocalDateTime(ymd, timeStr);
+      const slotEnd = new Date(slotStart.getTime() + slotDuration * 60_000);
 
-      // Перевірка, чи слот перетинається з заброньованими подіями
       const overlaps = bookedIntervals.some(
-        ({ start, end }) => slotStart.isBefore(end) && slotEnd.isAfter(start)
+        ({ start, end }) => slotStart < end && slotEnd > start
       );
 
-      // Перевірка обмеження для сьогоднішнього дня
-      const isToday = moment(date).isSame(now, "day");
-      if (isToday) {
-        const minimumBookingTime = now
-          .clone()
-          .add(minimumBookingHours, "hours");
-        return !overlaps && slotStart.isAfter(minimumBookingTime);
+      if (isSameDay(date, now)) {
+        const minimumBookingTime = new Date(
+          now.getTime() + minimumBookingHours * 60 * 60_000
+        );
+        return !overlaps && slotStart > minimumBookingTime;
       }
 
       return !overlaps;
@@ -128,17 +121,19 @@ const GoogleCalendar = ({
     setAvailableTimes(free);
   };
 
-  // Обмеження мінімальної дати
   const getMinDate = () => {
-    const now = moment();
-    const minBookingTime = now.clone().add(minimumBookingHours, "hours");
-    const lastWorkingHour = moment(`${now.format("YYYY-MM-DD")}T17:00`);
+    const now = new Date();
+    const minBookingTime = new Date(
+      now.getTime() + minimumBookingHours * 60 * 60_000
+    );
+    const lastWorkingHour = parseLocalDateTime(formatYmd(now), "17:00");
 
-    // Якщо після додавання minimumBookingHours виходить час після 17:00, мінімальна дата - завтра
-    if (minBookingTime.isAfter(lastWorkingHour)) {
-      return moment().add(1, "day").toDate();
+    if (minBookingTime > lastWorkingHour) {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return startOfDay(tomorrow);
     }
-    return new Date();
+    return startOfDay(now);
   };
 
   const handleDateChange = (
@@ -163,12 +158,9 @@ const GoogleCalendar = ({
 
   const handleSelectTime = (time: string) => {
     if (selectedDate) {
-      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-      onDateSelect(formattedDate, time);
+      onDateSelect(formatYmd(selectedDate), time);
     }
   };
-
-  // if (loading) return null;
 
   return (
     <div className="space-y-4 p-4 bg-white rounded-lg shadow-sm border-2 border-red-500">
@@ -189,8 +181,7 @@ const GoogleCalendar = ({
       {selectedDate && (
         <div>
           <h4 className="font-medium text-gray-800 mt-4 mb-2">
-            {dict?.calendar.availableTimeOn}{" "}
-            {moment(selectedDate).format("DD.MM.YYYY")}:
+            {dict?.calendar.availableTimeOn} {formatDmY(selectedDate)}:
           </h4>
           {availableTimes.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">

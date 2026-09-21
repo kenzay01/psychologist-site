@@ -1,0 +1,12 @@
+{
+  "name": "Олександра Алексюк — Психологиня",
+  "short_name": "Алексюк",
+  "start_url": "/uk",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ef4444",
+  "lang": "uk",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }
+  ]
+}

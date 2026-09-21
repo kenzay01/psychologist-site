@@ -2,7 +2,7 @@
 import Image from "next/image";
 import aboutMeImg from "@/public/about-me-img.jpg";
 import { useState } from "react";
-import BookingModal from "@/components/Modal/Modal";
+import BookingModal from "@/components/Modal/BookingModalLazy";
 import {
   MapPin,
   Monitor,

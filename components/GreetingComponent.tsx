@@ -20,9 +20,9 @@ export default function GreetingComponent() {
           {/* Left column - text content */}
           <div className="space-y-4 md:space-y-8 flex flex-col justify-center">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
                 {dict?.greeting.title}
-              </h1>
+              </h2>
               <p className="text-lg leading-relaxed opacity-95">
                 {dict?.greeting.description}
               </p>

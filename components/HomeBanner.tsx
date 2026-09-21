@@ -3,7 +3,7 @@ import homeBgMobile from "@/public/home-img.jpg";
 import homeBgDesktop from "@/public/home-bg-desktop.jpg";
 import Image from "next/image";
 import { Fragment, useState } from "react";
-import BookingModal from "./Modal/Modal";
+import BookingModal from "./Modal/BookingModalLazy";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
@@ -22,11 +22,12 @@ export default function HomeBanner() {
         <div className="absolute inset-0 md:hidden">
           <Image
             src={homeBgMobile}
-            alt="Background Mobile"
+            alt="Олександра Алексюк — психологічна допомога"
             fill
             className="object-cover"
             priority
             quality={70}
+            sizes="100vw"
           />
         </div>
 
@@ -34,10 +35,12 @@ export default function HomeBanner() {
         <div className="hidden md:block absolute inset-0">
           <Image
             src={homeBgDesktop}
-            alt="Background Desktop"
+            alt="Олександра Алексюк — психологічна допомога"
             fill
             className="object-cover"
             priority
+            quality={75}
+            sizes="100vw"
           />
         </div>
 
@@ -47,16 +50,14 @@ export default function HomeBanner() {
           <div className="text-white md:text-start flex flex-col md:items-start md:justify-center items-center justify-end md:ml-48 ml-0 mb-8 mt-0 md:mt-24 md:mb-0">
             <div className="mb-8 md:mb-12">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4">
-                {dict?.homeBanner.title.split(" ").map((word) => (
-                  <Fragment key={word}>
-                    <span className="inline-block">{word}</span>
-                    <br />
-                  </Fragment>
-                )) || (
-                  <span className="inline-block">
-                    Олександра <br /> Алексюк
-                  </span>
-                )}
+                {(dict?.homeBanner.title || "Олександра Алексюк")
+                  .split(" ")
+                  .map((word, index, words) => (
+                    <Fragment key={`${word}-${index}`}>
+                      <span className="inline-block">{word}</span>
+                      {index < words.length - 1 ? <br /> : null}
+                    </Fragment>
+                  ))}
               </h1>
               <h2 className="font-semibold text-lg md:text-2xl lg:text-3xl mb-4">
                 {dict?.homeBanner.subtitle ||

@@ -1,20 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import ModalContainer from "./ModalContainer";
 import TypeSelector from "./TypeSelector";
-import ConsultationForm from "./ConsultationForm";
-import SupervisionForm from "./SupervisionForm";
-import CalendarStep from "./CalenderStep";
-import ConfirmationStep from "./ConfirmationStep";
 import { User, Users, Baby } from "lucide-react";
-import moment from "moment";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
 import { sendTelegramMessage } from "@/lib/sendTelegramMessage";
+import { addMinutes } from "@/lib/date";
 import type { PaymentData } from "@/types/payment";
+
+const ConsultationForm = dynamic(() => import("./ConsultationForm"));
+const SupervisionForm = dynamic(() => import("./SupervisionForm"));
+const CalendarStep = dynamic(() => import("./CalenderStep"), {
+  loading: () => (
+    <div className="py-8 text-center text-gray-500">Завантаження...</div>
+  ),
+});
+const ConfirmationStep = dynamic(() => import("./ConfirmationStep"));
 
 export default function Modal({
   isOpen,
@@ -473,9 +478,7 @@ export default function Modal({
           summary,
           description: formattedDescription,
           start: `${selectedDate}T${selectedTime}:00`,
-          end: moment(`${selectedDate}T${selectedTime}:00`)
-            .add(duration, "minutes")
-            .toISOString(),
+          end: addMinutes(`${selectedDate}T${selectedTime}:00`, duration),
         }),
       });
 

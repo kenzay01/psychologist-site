@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import Modal from "@/components/Modal/Modal";
+import Modal from "@/components/Modal/BookingModalLazy";
 import {
   Calendar,
   Clock,

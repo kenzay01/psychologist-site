@@ -64,9 +64,9 @@ export default function BenefitsContainer() {
       <div className="relative z-10 max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-semibold text-black mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold text-black mb-4">
             {dict?.benefits.title}
-          </h1>
+          </h2>
           <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
         </div>
 
@@ -74,9 +74,9 @@ export default function BenefitsContainer() {
         <div className="flex flex-col lg:flex-row items-start gap-12">
           {/* Image */}
           <div className="flex-1/3 flex flex-col gap-8 justify-center">
-            <h1 className="md:text-lg font-semibold text-black mb-4 text-center">
+            <p className="md:text-lg font-semibold text-black mb-4 text-center">
               {dict?.benefits.description}
-            </h1>
+            </p>
             <Image
               src={benefitsImg}
               alt="Олександра Алексюк"
@@ -102,9 +102,9 @@ export default function BenefitsContainer() {
                         <IconComponent className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h1 className="text-lg md:text-xl font-semibold mb-2 text-black group-hover:text-red-600 transition-colors duration-300">
+                        <h3 className="text-lg md:text-xl font-semibold mb-2 text-black group-hover:text-red-600 transition-colors duration-300">
                           {benefit.title}
-                        </h1>
+                        </h3>
                         <p className="text-sm md:text-base leading-relaxed font-normal text-gray-700">
                           {benefit.description}
                         </p>

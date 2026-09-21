@@ -2,7 +2,7 @@
 import { MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import Modal from "./Modal/Modal";
+import Modal from "./Modal/BookingModalLazy";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
@@ -121,9 +121,12 @@ export default function Footer() {
                 </a>
               </div>
               <div className="flex items-center space-x-2">
-                <span>
-                  {dict?.footer.contact.email || "email@psychologist.com"}
-                </span>
+                <a
+                  href={`mailto:${dict?.footer.contact.email || "info@alexandraaleksiuk.com"}`}
+                  className="hover:text-red-200 transition-colors"
+                >
+                  {dict?.footer.contact.email || "info@alexandraaleksiuk.com"}
+                </a>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import Modal from "@/components/Modal/Modal";
+import Modal from "@/components/Modal/BookingModalLazy";
 export default function ConsultationTeaserComponent() {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);

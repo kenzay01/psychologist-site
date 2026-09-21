@@ -3,11 +3,11 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { MessageCircle, Star, User, Users } from "lucide-react";
-import Modal from "@/components/Modal/Modal";
+import Modal from "@/components/Modal/BookingModalLazy";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import supervisionImg from "@/public/services/supervision.png";
+import supervisionImg from "@/public/services/supervision.jpg";
 import supervisionIndividualImg from "@/public/services/supervision_individual.jpg";
 import Image from "next/image";
 
