@@ -123,7 +123,7 @@ const Testimonials = () => {
         {images.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-600 text-lg">
-              {dict?.testimonials?.noReviews || "Відгуки не знайдено"}
+              {dict?.testimonials?.noImages || "Відгуки не знайдено"}
             </p>
           </div>
         ) : (
