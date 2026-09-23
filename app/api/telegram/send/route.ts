@@ -34,15 +34,29 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           chat_id: chatId,
           text,
+          disable_web_page_preview: true,
         }),
       }
     );
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error("Telegram API error:", errorData);
+    const payload = (await response.json().catch(() => ({}))) as {
+      ok?: boolean;
+      description?: string;
+      error_code?: number;
+    };
+
+    if (!response.ok || payload.ok === false) {
+      console.error("Telegram API error:", {
+        status: response.status,
+        error_code: payload.error_code,
+        description: payload.description,
+        chatIdPrefix: String(chatId).slice(0, 6),
+      });
       return NextResponse.json(
-        { error: "Failed to send message" },
+        {
+          error: "Failed to send message",
+          detail: payload.description || "Telegram request failed",
+        },
         { status: 502 }
       );
     }

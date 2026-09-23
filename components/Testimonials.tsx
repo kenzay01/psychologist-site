@@ -1,18 +1,20 @@
-// Testimonials.tsx
 "use client";
 
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { ArrowUp, ArrowDown } from "lucide-react";
+
+const COMMENT_COUNTS: Record<Locale, number> = {
+  uk: 27,
+  ru: 7,
+};
 
 const Testimonials = () => {
   const currentLocale = useCurrentLanguage() as Locale;
   const { dict } = useDictionary(currentLocale);
-  const [validImages, setValidImages] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [displayCount, setDisplayCount] = useState(3);
   const [isDesktop, setIsDesktop] = useState(false);
   const prevWidthRef = useRef<number>(0);
@@ -22,16 +24,23 @@ const Testimonials = () => {
   const INCREMENT_DESKTOP = 4;
   const INCREMENT_MOBILE = 3;
 
+  const images = useMemo(() => {
+    const count = COMMENT_COUNTS[currentLocale] || 0;
+    return Array.from(
+      { length: count },
+      (_, i) =>
+        `/comments/${currentLocale}/comment_${currentLocale}_${i + 1}.jpg`
+    );
+  }, [currentLocale]);
+
   useEffect(() => {
     const checkScreenSize = () => {
       const currentWidth = window.innerWidth;
       const desktop = currentWidth >= 768;
 
-      // Перевіряємо чи реально змінився розмір екрану (не просто скрол)
       if (Math.abs(currentWidth - prevWidthRef.current) > 50) {
         const wasDesktop = prevWidthRef.current >= 768;
 
-        // Тільки якщо змінився тип пристрою (з мобільного на десктоп або навпаки)
         if (desktop !== wasDesktop) {
           setIsDesktop(desktop);
           setDisplayCount(
@@ -41,12 +50,10 @@ const Testimonials = () => {
 
         prevWidthRef.current = currentWidth;
       } else {
-        // Просто оновлюємо isDesktop без зміни displayCount
         setIsDesktop(desktop);
       }
     };
 
-    // Ініціалізація
     const initialWidth = window.innerWidth;
     const initialDesktop = initialWidth >= 768;
     prevWidthRef.current = initialWidth;
@@ -55,7 +62,6 @@ const Testimonials = () => {
       initialDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT
     );
 
-    // Додаємо debounce для resize event
     let resizeTimeout: NodeJS.Timeout;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
@@ -70,33 +76,10 @@ const Testimonials = () => {
   }, []);
 
   useEffect(() => {
-    const checkImages = async () => {
-      setIsLoading(true);
-      const validImagePaths: string[] = [];
+    setDisplayCount(isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
+  }, [currentLocale, isDesktop]);
 
-      for (let i = 1; i <= 30; i++) {
-        const imagePath = `/comments/${currentLocale}/comment_${currentLocale}_${i}.jpg`;
-        try {
-          const response = await fetch(imagePath, { method: "HEAD" });
-          if (response.ok) {
-            validImagePaths.push(imagePath);
-          } else {
-            break;
-          }
-        } catch (error) {
-          console.error(`Error fetching image ${imagePath}:`, error);
-          break;
-        }
-      }
-
-      setValidImages(validImagePaths);
-      setIsLoading(false);
-    };
-
-    checkImages();
-  }, [currentLocale]);
-
-  const displayedImages = validImages.slice(0, displayCount);
+  const displayedImages = images.slice(0, displayCount);
 
   const handleShowMore = () => {
     setDisplayCount(
@@ -113,8 +96,7 @@ const Testimonials = () => {
         const rect = reviewsPosition.getBoundingClientRect();
         const scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
-        const targetY = rect.top + scrollTop;
-        window.scrollTo({ top: targetY, behavior: "smooth" });
+        window.scrollTo({ top: rect.top + scrollTop, behavior: "smooth" });
         console.error(error);
       }
     }
@@ -123,7 +105,7 @@ const Testimonials = () => {
     }, 300);
   };
 
-  const canShowMore = validImages.length > displayCount;
+  const canShowMore = images.length > displayCount;
   const canShowLess =
     displayCount > (isDesktop ? INITIAL_DESKTOP_COUNT : INITIAL_MOBILE_COUNT);
 
@@ -138,15 +120,10 @@ const Testimonials = () => {
           {dict?.testimonials?.description || "Думки наших клієнтів"}
         </p>
 
-        {isLoading ? (
-          <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto"></div>
-          </div>
-        ) : validImages.length === 0 ? (
+        {images.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-600 text-lg">
-              {dict?.testimonials?.noImages ||
-                "Зображення відгуків не знайдено"}
+              {dict?.testimonials?.noReviews || "Відгуки не знайдено"}
             </p>
           </div>
         ) : (
@@ -160,14 +137,13 @@ const Testimonials = () => {
                   <Image
                     src={image}
                     alt={`Відгук ${index + 1}`}
-                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-auto object-cover"
                     loading="lazy"
                     width={500}
-                    height={300}
+                    height={400}
                     quality={60}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
-                  <div className="absolute inset-0 group-hover:bg-opacity-20 transition-opacity duration-300"></div>
                 </div>
               ))}
             </div>

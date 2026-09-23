@@ -17,9 +17,10 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://www.googletagmanager.com https://analytics.tiktok.com https://connect.facebook.net https://www.facebook.com",
-      "frame-src 'self' https://www.googletagmanager.com https://www.facebook.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://www.googletagmanager.com https://analytics.tiktok.com https://*.tiktok.com https://connect.facebook.net https://www.facebook.com https://*.facebook.com https://graph.facebook.com",
+      "frame-src 'self' https://www.googletagmanager.com https://www.facebook.com https://*.facebook.com",
       "media-src 'self' blob:",
+      "worker-src 'self' blob:",
     ].join("; "),
   },
 ];
