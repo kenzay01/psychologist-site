@@ -13,8 +13,16 @@ export async function sendTelegramMessage(
     signal: options?.signal,
   });
 
+  const data = (await response.json().catch(() => ({}))) as {
+    error?: string;
+    detail?: string;
+  };
+
   if (!response.ok) {
-    const data = (await response.json().catch(() => ({}))) as { error?: string };
-    throw new Error(data.error || "Failed to send Telegram message");
+    throw new Error(
+      data.error ||
+        data.detail ||
+        "Не вдалося надіслати заявку. Спробуйте ще раз."
+    );
   }
 }

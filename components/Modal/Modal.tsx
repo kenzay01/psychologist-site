@@ -272,7 +272,7 @@ export default function Modal({
           supervisionGoals: "",
         });
       } catch (error) {
-        alert(error);
+        alert(error instanceof Error ? error.message : String(error));
       }
     }
   };
