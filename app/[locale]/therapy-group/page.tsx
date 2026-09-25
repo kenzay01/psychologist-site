@@ -25,40 +25,34 @@ export default async function TherapyGroupPage({
       <section className="bg-white shadow-sm">
         <div className="max-w-5xl mx-auto px-6 md:px-10 py-12 md:py-16">
           <div className="space-y-6 md:space-y-8 text-center md:text-left">
-            <div className="inline-flex items-center justify-center md:justify-start">
-              <span className="text-sm uppercase tracking-wide text-red-500 font-semibold">
-                {content.hero.subtitle}
-              </span>
-            </div>
+            <p className="text-lg md:text-xl text-red-600 font-medium italic">
+              {content.hero.subtitle}
+            </p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
               {content.hero.title}
             </h1>
-            
-            {/* Photo Gallery */}
-            <div className="flex flex-col md:flex-row gap-6 md:gap-8 justify-center items-center my-8 md:my-12">
-              <div className="relative w-[240px] md:w-[480px] h-[427px] md:h-[853px] rounded-3xl overflow-hidden shadow-2xl group transition-all duration-500 hover:scale-105 hover:shadow-red-500/20 hover:shadow-3xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10"></div>
+
+            <div className="flex flex-col sm:flex-row gap-6 md:gap-8 justify-center items-center my-8 md:my-12">
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/IMG_7471.JPG"
-                  alt="Терапевтична група"
+                  alt={content.hero.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 240px, 480px"
-                  quality={95}
+                  className="object-cover"
+                  sizes="(max-width: 640px) 280px, 320px"
+                  quality={75}
+                  priority
                 />
-                <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none"></div>
               </div>
-              <div className="hidden md:block relative w-[480px] h-[853px] rounded-3xl overflow-hidden shadow-2xl group transition-all duration-500 hover:scale-105 hover:shadow-red-500/20 hover:shadow-3xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10"></div>
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/IMG_7483.JPG"
-                  alt="Терапевтична група"
+                  alt={content.hero.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="480px"
-                  quality={95}
+                  className="object-cover"
+                  sizes="(max-width: 640px) 280px, 320px"
+                  quality={75}
                 />
-                <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none"></div>
               </div>
             </div>
             
@@ -150,7 +144,7 @@ export default async function TherapyGroupPage({
 
         <section className="bg-red-500 rounded-3xl shadow-lg p-6 md:p-10 text-center md:text-left text-white space-y-6">
           <div className="space-y-3">
-            <h2 className="text-3xl font-bold">{content.hero.title}</h2>
+            <h2 className="text-3xl font-bold">{content.join.title}</h2>
             <p className="text-lg md:text-xl font-medium">{content.cta.note}</p>
           </div>
           <div className="flex justify-center">

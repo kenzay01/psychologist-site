@@ -77,6 +77,18 @@ export default function SupervisionPage() {
     },
   };
 
+  const switchTab = (key: SupervisionType) => {
+    setActiveTab(key);
+    setSelectedSupervisionType(key);
+    const params = new URLSearchParams(window.location.search);
+    params.set("type", key);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${params.toString()}`
+    );
+  };
+
   const openModal = (type: keyof typeof supervisionData) => {
     setSelectedSupervisionType(type);
     setIsModalOpen(true);
@@ -94,15 +106,7 @@ export default function SupervisionPage() {
             {Object.entries(supervisionData).map(([key, data]) => (
               <button
                 key={key}
-                onClick={() => {
-                  const params = new URLSearchParams(window.location.search);
-                  params.set("type", key);
-                  window.history.replaceState(
-                    {},
-                    "",
-                    `${window.location.pathname}?${params.toString()}`
-                  );
-                }}
+                onClick={() => switchTab(key as SupervisionType)}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-colors ${
                   activeTab === key
                     ? "bg-white text-red-500 shadow-sm border-2 border-red-500"
@@ -270,7 +274,7 @@ export default function SupervisionPage() {
                     {dict?.supervision.formatLabel}:
                   </span>
                   <span className="font-medium">
-                    {selectedSupervisionType === "individual"
+                    {activeTab === "individual"
                       ? dict?.supervision.formatValueIndividual
                       : dict?.supervision.formatValueGroup}
                   </span>
