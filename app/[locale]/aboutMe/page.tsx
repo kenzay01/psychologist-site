@@ -17,6 +17,7 @@ import {
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { staticAboutMeTitle } from "@/lib/staticPageCopy";
 import Testimonials from "@/components/Testimonials";
 import SocialsContainer from "@/components/SocialsContainer";
 import VideoCommentsSection from "@/components/VideoCommentsSection";
@@ -111,8 +112,7 @@ export default function AboutMe() {
           {/* Header */}
           <div className="text-center mb-8 md:mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              {dict?.aboutMe.title ||
-                (currentLocale === "ru" ? "Обо мне" : "Про мене")}
+              {dict?.aboutMe.title || staticAboutMeTitle(currentLocale)}
             </h1>
             <div className="w-24 h-1 bg-red-500 mx-auto mb-8"></div>
           </div>

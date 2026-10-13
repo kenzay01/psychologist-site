@@ -10,6 +10,20 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=()",
   },
   {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://analytics.tiktok.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://www.googletagmanager.com https://analytics.tiktok.com https://*.tiktok.com https://connect.facebook.net https://www.facebook.com https://*.facebook.com https://graph.facebook.com",
+      "frame-src 'self' https://www.googletagmanager.com https://www.facebook.com https://*.facebook.com",
+      "media-src 'self' blob:",
+      "worker-src 'self' blob:",
+    ].join("; "),
+  },
+  {
     key: "Content-Security-Policy-Report-Only",
     value: [
       "default-src 'self'",

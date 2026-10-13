@@ -6,6 +6,7 @@ import Modal from "@/components/Modal/BookingModalLazy";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { staticSupervisionTitle } from "@/lib/staticPageCopy";
 import supervisionImg from "@/public/services/supervision.jpg";
 import supervisionIndividualImg from "@/public/services/supervision_individual.jpg";
 import Image from "next/image";
@@ -129,13 +130,7 @@ export default function SupervisionPage() {
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
                   {currentData.title ||
-                    (activeTab === "group"
-                      ? currentLocale === "ru"
-                        ? "Групповая супервизия"
-                        : "Групова супервізія"
-                      : currentLocale === "ru"
-                        ? "Индивидуальная супервизия"
-                        : "Індивідуальна супервізія")}
+                    staticSupervisionTitle(currentLocale, activeTab)}
                 </h1>
               </div>
               <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>

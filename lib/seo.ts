@@ -242,7 +242,12 @@ export function buildPageMetadata({
             "max-snippet": -1,
           },
         },
-    authors: [{ name: "Олександра Алексюк", url: `${BASE_URL}/uk` }],
+    authors: [
+      {
+        name: "Олександра Алексюк",
+        url: `${BASE_URL}/${locale}/aboutMe`,
+      },
+    ],
     creator: "Олександра Алексюк",
     publisher: SITE_NAME,
     category: "healthcare",

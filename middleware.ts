@@ -12,7 +12,14 @@ function absoluteUrl(pathname: string, search = ""): string {
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const hostHeader = request.headers.get("host") ?? "";
-  const host = hostHeader.split(":")[0].toLowerCase();
+  const forwardedHost =
+    request.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? "";
+  const host = (forwardedHost || hostHeader).split(":")[0].toLowerCase();
+
+  // Never expose internal upstream port in redirects (e.g. :3000)
+  if (hostHeader.includes(":3000") || forwardedHost.includes(":3000")) {
+    return NextResponse.redirect(absoluteUrl(pathname, search), 301);
+  }
 
   // Critical: www → apex without leaking upstream port
   if (host === `www.${CANONICAL_HOST}`) {

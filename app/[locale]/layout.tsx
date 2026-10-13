@@ -3,23 +3,10 @@ import { locales, type Locale } from "@/i18n/config";
 import "../globals.css";
 import AppRootLayout from "@/app/[locale]/RootLayout";
 import Script from "next/script";
-import { buildPageMetadata, organizationJsonLd } from "@/lib/seo";
+import { organizationJsonLd } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale: localeParam } = await params;
-  const locale = (locales.includes(localeParam as Locale)
-    ? localeParam
-    : "uk") as Locale;
-  // Default for home; child route layouts override for their paths
-  return buildPageMetadata({ pathname: `/${locale}`, locale });
 }
 
 export function generateViewport(): Viewport {

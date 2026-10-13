@@ -16,6 +16,7 @@ import Image from "next/image";
 import { useCurrentLanguage } from "@/hooks/getCurrentLanguage";
 import { useDictionary } from "@/hooks/getDictionary";
 import { Locale } from "@/i18n/config";
+import { staticConsultationTitle } from "@/lib/staticPageCopy";
 import individualImg from "@/public/services/individual.jpg";
 import couple from "@/public/services/couple.jpg";
 import child from "@/public/services/child.jpg";
@@ -173,17 +174,7 @@ export default function ConsultationPage() {
                 <div className="flex-1 md:flex-0">{currentData.icon}</div>
                 <h1 className="md:flex-1 text-3xl font-bold text-gray-800 ">
                   {currentData.title ||
-                    (activeTab === "couple"
-                      ? currentLocale === "ru"
-                        ? "Парная консультация"
-                        : "Парна консультація"
-                      : activeTab === "child"
-                        ? currentLocale === "ru"
-                          ? "Детская консультация"
-                          : "Дитяча консультація"
-                        : currentLocale === "ru"
-                          ? "Индивидуальная консультация"
-                          : "Індивідуальна консультація")}
+                    staticConsultationTitle(currentLocale, activeTab)}
                 </h1>
               </div>
               <div className="w-24 h-1 bg-red-500 mx-auto mb-8 block md:hidden"></div>
